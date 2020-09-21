@@ -25,7 +25,7 @@ ensemble_average.mdl_time_tbl <- function(object, type = c("mean", "median")) {
 
     ensemble_average <- structure(
         ensemble_average,
-        class = c("mdl_time_ensemble_avg", "mdl_time_ensemble", class(ensemble_average))
+        class = c("mdl_time_ensemble_avg", "mdl_time_ensemble")
     )
 
     return(ensemble_average)
