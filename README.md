@@ -11,9 +11,6 @@ The goal of modeltime.ensemble is to …
 
 ## Installation
 
-You can install the released version of modeltime.ensemble from
-[CRAN](https://CRAN.R-project.org) with:
-
 ``` r
-install.packages("modeltime.ensemble")
+devtools::install_github("business-science/modeltime.ensemble")
 ```
