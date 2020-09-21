@@ -9,11 +9,234 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+    # collapse = TRUE,
+    message = FALSE, 
+    warning = FALSE,
+    paged.print = FALSE,
+    comment = "#>",
+    fig.width = 8, 
+    fig.height = 4.5,
+    fig.align = 'center',
+    out.width='95%'
 )
 ```
 
+> Unlocks Time Series Ensemble Forecasting with Tidymodels
+
+A `modeltime` extension that that implements ___ensemble forecasting methods___ including model averaging, weighted averaging via penalized regression, and stacking. Let's go through a guided tour to kick the tires on `modeltime.ensemble`. 
+
+
+
+# Time Series Ensemble Forecasting Example
+
+We'll perform the simplest type of forecasting: __Using a simple average of the forecasted models.__
+
+Note that `modeltime.ensemble` has capabilities for more sophisticated model ensembling using:
+
+- __Weighted Averaging__ using penalized regression models 
+- __Stacking (Coming Soon)__ using a superlearner (metalearning)
+
+## Libraries
+
+Load libraries to complete this short tutorial.
+
 ```{r setup}
+# Time Series ML
+library(tidymodels)
+library(modeltime)
 library(modeltime.ensemble)
+
+# Core
+library(tidyverse)
+library(timetk)
+
+interactive <- TRUE
 ```
+
+## Collect the Data
+
+We'll use the `m750` dataset that comes with `modeltime.ensemble`. We can visualize the dataset. 
+
+```{r}
+m750 %>%
+    plot_time_series(date, value, .color_var = id, .interactive = interactive)
+```
+
+
+# Perform Train / Test Splitting
+
+We'll split into a training and testing set. 
+
+```{r}
+splits <- time_series_split(m750, assess = "2 years", cumulative = TRUE)
+
+splits %>%
+    tk_time_series_cv_plan() %>%
+    plot_time_series_cv_plan(date, value, .interactive = interactive)
+```
+
+# Modeling
+
+Once the data has been collected, we can move into modeling. 
+
+## Recipe 
+
+We'll create a Feature Engineering Recipe that can be applied to the data to create features that machine learning models can key in on. This will be most useful for the __Elastic Net (Model 3).__ 
+
+```{r}
+recipe_spec <- recipe(value ~ date, training(splits)) %>%
+    step_timeseries_signature(date) %>%
+    step_rm(matches("(.iso$)|(.xts$)")) %>%
+    step_normalize(matches("(index.num$)|(_year$)")) %>%
+    step_dummy(all_nominal()) %>%
+    step_fourier(date, K = 1, period = 12)
+
+recipe_spec %>% prep() %>% juice()
+```
+
+## Model 1 - Auto ARIMA
+
+First, we'll make an ARIMA model using Auto ARIMA. 
+
+```{r}
+model_spec_arima <- arima_reg() %>%
+    set_engine("auto_arima")
+
+wflw_fit_arima <- workflow() %>%
+    add_model(model_spec_arima) %>%
+    add_recipe(recipe_spec %>% step_rm(all_predictors(), -date)) %>%
+    fit(training(splits))
+```
+
+## Model 2 - Prophet
+
+Next, we'll make a Prophet Model. 
+
+```{r}
+model_spec_prophet <- prophet_reg() %>%
+    set_engine("prophet")
+
+wflw_fit_prophet <- workflow() %>%
+    add_model(model_spec_prophet) %>%
+    add_recipe(recipe_spec %>% step_rm(all_predictors(), -date)) %>%
+    fit(training(splits))
+```
+
+## Model 3 - Elastic Net
+
+Third, we'll make an Elastic Net (Penalized Regression) Model using `glmnet`. 
+
+```{r}
+model_spec_glmnet <- linear_reg(
+    mixture = 0.9,
+    penalty = 4.36e-6
+) %>%
+    set_engine("glmnet")
+
+wflw_fit_glmnet <- workflow() %>%
+    add_model(model_spec_glmnet) %>%
+    add_recipe(recipe_spec %>% step_rm(date)) %>%
+    fit(training(splits))
+```
+
+
+# Modeltime Workflow for Ensemble Forecasting
+
+With the models created, we can can create an __Ensemble Average Model using a simple Mean Average.__
+
+## Step 1 - Create a Modeltime Table
+
+Create a _Modeltime Table_ using the `modeltime` package. 
+
+```{r}
+m750_models <- modeltime_table(
+    wflw_fit_arima,
+    wflw_fit_prophet,
+    wflw_fit_glmnet
+)
+
+m750_models
+```
+
+## Step 2 - Make an Ensemble
+
+Then use `ensemble_average()` to turn that Modeltime Table into a ___Modeltime Ensemble.___ This is a _fitted ensemble specification_ containing the ingredients to forecast future data and be refitted on data sets using the 3 submodels. 
+
+```{r}
+ensemble_fit <- m750_models %>%
+    ensemble_average(type = "mean")
+
+ensemble_fit
+```
+
+## Step 3 - Forecast! (the Test Data)
+
+To forecast, just follow the [Modeltime Workflow](https://business-science.github.io/modeltime/articles/getting-started-with-modeltime.html). 
+
+```{r}
+# Calibration
+calibration_tbl <- modeltime_table(
+    ensemble_fit
+) %>%
+    modeltime_calibrate(testing(m750_splits))
+
+# Forecast vs Test Set
+calibration_tbl %>%
+    modeltime_forecast(
+        new_data    = testing(m750_splits),
+        actual_data = m750
+    ) %>%
+    plot_modeltime_forecast(.interactive = interactive)
+```
+
+## Step 4 - Refit on Full Data & Forecast Future
+
+Once satisfied with our ensemble model, we can `modeltime_refit()` on the full data set and forecast forward gaining the confidence intervals in the process. 
+
+```{r}
+refit_tbl <- calibration_tbl %>%
+    modeltime_refit(m750)
+
+refit_tbl %>%
+    modeltime_forecast(
+        h = "2 years",
+        actual_data = m750
+    ) %>%
+    plot_modeltime_forecast(.interactive = interactive)
+```
+
+This was a very short tutorial on the simplest type of forecasting, but there's a lot more to learn. 
+
+# Learning More
+
+_My Talk on High-Performance Time Series Forecasting_
+
+<p>
+	<iframe width="100%" height="450" src="https://www.youtube.com/embed/elQb4VzRINg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);"><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span>
+	</iframe>
+</p>
+
+
+
+Time series is changing. __Businesses now need 10,000+ time series forecasts every day.__ This is what I call a _High-Performance Time Series Forecasting System (HPTSF)_ - Accurate, Robust, and Scalable Forecasting. 
+
+ __High-Performance Forecasting Systems will save companies MILLIONS of dollars.__ Imagine what will happen to your career if you can provide your organization a "High-Performance Time Series Forecasting System" (HPTSF System).
+
+I teach how to build a HPTFS System in my __High-Performance Time Series Forecasting Course__. If interested in learning Scalable High-Performance Forecasting Strategies then [take my course](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting). You will learn:
+
+- Time Series Machine Learning (cutting-edge) with `Modeltime` - 30+ Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
+- NEW - Deep Learning with `GluonTS` (Competition Winners)
+- Time Series Preprocessing, Noise Reduction, & Anomaly Detection
+- Feature engineering using lagged variables & external regressors
+- Hyperparameter Tuning
+- Time series cross-validation
+- Ensembling Multiple Machine Learning & Univariate Modeling Techniques (Competition Winner)
+- Scalable Forecasting - Forecast 1000+ time series in parallel
+- and more.
+
+<p class="text-center" style="font-size:30px;">
+<a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Unlock the High-Performance Time Series Forecasting Course</a>
+</p>
+
+
+

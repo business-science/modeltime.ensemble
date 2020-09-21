@@ -32,7 +32,6 @@ library(modeltime.ensemble)
 # Core Packages
 library(tidyverse)
 library(timetk)
-library(lubridate)
 ```
 
 #### Step 1 - Create a Modeltime Table
