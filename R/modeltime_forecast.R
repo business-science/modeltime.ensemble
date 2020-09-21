@@ -7,7 +7,7 @@
 mdl_time_forecast.mdl_time_ensemble_avg <- function(object, calibration_data, new_data = NULL, h = NULL, actual_data = NULL, bind_actual = TRUE, ...) {
 
     model_tbl <- object$model_tbl
-    type      <- object$type
+    type      <- tolower(object$type)
 
     # Get the raw forecast results for each of the models
     modeltime_fcast <- modeltime::modeltime_forecast(
