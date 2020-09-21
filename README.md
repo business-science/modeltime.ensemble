@@ -7,8 +7,10 @@
 
 <!-- badges: end -->
 
-A `modeltime` extension that that implements ensemble forecasting
-methods including model averaging, weighted averaging via penalized
+> Unlocks Time Series Ensemble Forecasting with Tidymodels
+
+A `modeltime` extension that that implements ***ensemble forecasting
+methods*** including model averaging, weighted averaging via penalized
 regression, and stacking.
 
 ## Installation
@@ -27,6 +29,8 @@ library(modeltime)
 library(modeltime.ensemble)
 ```
 
+#### Step 1 - Create a Modeltime Table
+
 Create a *Modeltime Table* using the `modeltime` package.
 
 ``` r
@@ -39,6 +43,8 @@ m750_models
 #> 2         2 <workflow> PROPHET                
 #> 3         3 <workflow> GLMNET
 ```
+
+#### Step 2 - Make a Modeltime Ensemble
 
 Then turn that Modeltime Table into a ***Modeltime Ensemble.***
 
@@ -59,6 +65,8 @@ ensemble_fit
 #> 3         3 <workflow> GLMNET
 ```
 
+#### Step 3 - Forecast\!
+
 To forecast, just follow the [Modeltime
 Workflow](https://business-science.github.io/modeltime/articles/getting-started-with-modeltime.html).
 
@@ -78,7 +86,7 @@ calibration_tbl %>%
     plot_modeltime_forecast(.interactive = FALSE)
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 ## Getting Started
 

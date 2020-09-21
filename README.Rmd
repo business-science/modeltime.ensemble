@@ -12,7 +12,8 @@ knitr::opts_chunk$set(
   warning = F,
   paged.print = FALSE,
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  # out.width = "100%"
+  fig.align = 'center'
 )
 ```
 
@@ -21,7 +22,9 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-A `modeltime` extension that that implements ensemble forecasting methods including model averaging, weighted averaging via penalized regression, and stacking.
+> Unlocks Time Series Ensemble Forecasting with Tidymodels
+
+A `modeltime` extension that that implements ___ensemble forecasting methods___ including model averaging, weighted averaging via penalized regression, and stacking.
 
 ## Installation
 
@@ -39,11 +42,15 @@ library(modeltime)
 library(modeltime.ensemble)
 ```
 
+#### Step 1 - Create a Modeltime Table
+
 Create a _Modeltime Table_ using the `modeltime` package. 
 
 ```{r}
 m750_models
 ```
+
+#### Step 2 - Make a Modeltime Ensemble
 
 Then turn that Modeltime Table into a ___Modeltime Ensemble.___
 
@@ -53,6 +60,8 @@ ensemble_fit <- m750_models %>%
 
 ensemble_fit
 ```
+
+#### Step 3 - Forecast!
 
 To forecast, just follow the [Modeltime Workflow](https://business-science.github.io/modeltime/articles/getting-started-with-modeltime.html). 
 
