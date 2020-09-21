@@ -17,10 +17,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-# modeltime.ensemble
+# modeltime.ensemble <img src='man/figures/logo.png' align="right" height="138.5" />
 
 <!-- badges: start -->
 <!-- badges: end -->
+
 
 > Unlocks Time Series Ensemble Forecasting with Tidymodels
 
