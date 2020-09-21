@@ -22,6 +22,7 @@ devtools::install_github("business-science/modeltime.ensemble")
 Load the following libraries.
 
 ``` r
+library(tidymodels)
 library(modeltime)
 library(modeltime.ensemble)
 ```
@@ -39,13 +40,15 @@ m750_models
 #> 3         3 <workflow> GLMNET
 ```
 
-Make an ensemble.
+Then turn that Modeltime Table into a ***Modeltime Ensemble.***
 
 ``` r
-m750_models %>%
+ensemble_fit <- m750_models %>%
     ensemble_average(type = "mean")
+
+ensemble_fit
 #> ── Modeltime Ensemble ───────────────────────────────────────────
-#> Average of 3 Models
+#> Ensemble of 3 Models (MEAN)
 #> 
 #> # Modeltime Table
 #> # A tibble: 3 x 3
@@ -55,6 +58,26 @@ m750_models %>%
 #> 2         2 <workflow> PROPHET                
 #> 3         3 <workflow> GLMNET
 ```
+
+To forecast, just follow the [Modeltime Workflow]().
+
+``` r
+# Calibration
+calibration_tbl <- modeltime_table(
+    ensemble_fit
+) %>%
+    modeltime_calibrate(testing(m750_splits), quiet = FALSE)
+
+# Forecast vs Test Set
+calibration_tbl %>%
+    modeltime_forecast(
+        new_data    = testing(m750_splits),
+        actual_data = m750
+    ) %>%
+    plot_modeltime_forecast(.interactive = FALSE)
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 ## Getting Started
 

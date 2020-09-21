@@ -34,6 +34,7 @@ devtools::install_github("business-science/modeltime.ensemble")
 Load the following libraries.
 
 ```{r}
+library(tidymodels)
 library(modeltime)
 library(modeltime.ensemble)
 ```
@@ -44,11 +45,31 @@ Create a _Modeltime Table_ using the `modeltime` package.
 m750_models
 ```
 
-Make an ensemble. 
+Then turn that Modeltime Table into a ___Modeltime Ensemble.___
 
 ```{r}
-m750_models %>%
+ensemble_fit <- m750_models %>%
     ensemble_average(type = "mean")
+
+ensemble_fit
+```
+
+To forecast, just follow the [Modeltime Workflow](). 
+
+```{r}
+# Calibration
+calibration_tbl <- modeltime_table(
+    ensemble_fit
+) %>%
+    modeltime_calibrate(testing(m750_splits), quiet = FALSE)
+
+# Forecast vs Test Set
+calibration_tbl %>%
+    modeltime_forecast(
+        new_data    = testing(m750_splits),
+        actual_data = m750
+    ) %>%
+    plot_modeltime_forecast(.interactive = FALSE)
 ```
 
 
