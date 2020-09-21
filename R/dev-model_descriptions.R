@@ -1,6 +1,7 @@
 
 
 #' @export
+#' @importFrom modeltime get_model_description
 get_model_description.mdl_time_ensemble_avg <- function(object, indicate_training = FALSE, upper_case = TRUE) {
 
     type     <- object$type

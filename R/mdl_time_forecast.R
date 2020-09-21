@@ -1,44 +1,9 @@
-#' Modeltime Forecast Helpers
-#'
-#' Used for low-level forecasting of modeltime, parnsip and workflow models.
-#' These functions are not intended for user use.
-#'
-#' @inheritParams modeltime::modeltime_forecast
-#' @param calibration_data Data that has been calibrated from a testing set
-#' @param bind_actual Logical. Whether or not to skip rowwise binding of `actual_data``
-#'
-#' @return A tibble with forecast features
-#'
-#' @keywords internal
-#'
+
+# ENSEMBLE AVERAGE ----
+
 #' @export
-mdl_time_forecast.mdl_time_ensemble <- function(object, calibration_data, new_data = NULL, h = NULL, actual_data = NULL, bind_actual = TRUE, ...) {
-
-
-    if (inherits(object, "mdl_time_ensemble_avg")) {
-
-        return(
-
-            mdl_time_forecast_ensemble_avg(
-                object = object,
-                calibration_data = calibration_data,
-                new_data = new_data,
-                h = h,
-                actual_data = actual_data,
-                bind_actual = bind_actual,
-                ...
-            )
-
-        )
-
-    } else if (inherits(object, "mdl_time_ensemble_stack")) {
-
-    } else {
-        rlang::abort("No method for this modeltime ensemble class.")
-    }
-}
-
-mdl_time_forecast_ensemble_avg <- function(object, calibration_data, new_data = NULL, h = NULL, actual_data = NULL, bind_actual = TRUE, ...) {
+#' @importFrom modeltime mdl_time_forecast
+mdl_time_forecast.mdl_time_ensemble_avg <- function(object, calibration_data, new_data = NULL, h = NULL, actual_data = NULL, bind_actual = TRUE, ...) {
 
     model_tbl <- object$model_tbl
     type      <- object$type
@@ -68,7 +33,7 @@ mdl_time_forecast_ensemble_avg <- function(object, calibration_data, new_data = 
     if (type == "mean") {
         summary_fun <- mean
     } else {
-        summary_fun <- median
+        summary_fun <- stats::median
     }
 
     modeltime_fcast <- modeltime_fcast %>%
@@ -89,7 +54,7 @@ mdl_time_forecast_ensemble_avg <- function(object, calibration_data, new_data = 
         dplyr::arrange(.key, .index)
 
     return(ret)
-
 }
+
 
 
