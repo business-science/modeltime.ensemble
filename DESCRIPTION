@@ -7,13 +7,15 @@ Authors@R: c(
     person("Business Science", role = "cph")
     )
 Description: 
-    Use four spaces when indenting paragraphs within the Description.
+    Modeltime extension that implements ensemble forecasting methods including model averaging, 
+    weighted averaging, and stacking. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
     modeltime
 Imports: 
+    tune,
     tibble,
     glue,
     stringr,
@@ -22,8 +24,19 @@ Imports:
     crayon,
     dplyr,
     utils,
-    magrittr
-RoxygenNote: 7.1.1
+    magrittr,
+    glmnet
 Suggests: 
     roxygen2,
-    testthat
+    testthat,
+    tidymodels,
+    tidyverse,
+    timetk,
+    rsample,
+    parsnip,
+    recipes,
+    workflows,
+    dials, 
+    yardstick
+RoxygenNote: 7.1.1
+
