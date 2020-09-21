@@ -17,7 +17,7 @@ regression, and stacking.
 devtools::install_github("business-science/modeltime.ensemble")
 ```
 
-## Basic Usage
+## Make Your First Ensemble in Minutes
 
 Load the following libraries.
 
@@ -59,7 +59,8 @@ ensemble_fit
 #> 3         3 <workflow> GLMNET
 ```
 
-To forecast, just follow the [Modeltime Workflow]().
+To forecast, just follow the [Modeltime
+Workflow](https://business-science.github.io/modeltime/articles/getting-started-with-modeltime.html).
 
 ``` r
 # Calibration

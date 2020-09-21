@@ -1,0 +1,36 @@
+template:
+  params:
+    bootswatch: flatly
+    ganalytics: UA-76139189-2
+
+navbar:
+  title: "modeltime.ensemble"
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: "Getting Started"
+      href: articles/getting-started-with-modeltime-ensemble.html
+    - text: "Key Functions"
+      href: reference/index.html
+    - text: "News"
+      href: news/index.html
+
+  right:
+    - icon: fa-github
+      href: https://github.com/business-science/modeltime
+
+reference:
+  - title: Modeltime Ensembles
+    desc: The functions for creating Modeltime Ensembles.
+    contents:
+    - starts_with("ensemble")
+  - title: Data
+    contents:
+    - starts_with("m750")
+
+
+repo:
+  url:
+    home: https://github.com/business-science/modeltime.ensemble
+    source: https://github.com/business-science/modeltime.ensemble/blob/master/
+    issue: https://github.com/business-science/modeltime.ensemble/issues/

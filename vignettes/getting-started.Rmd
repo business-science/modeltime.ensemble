@@ -2,7 +2,7 @@
 title: "Getting Started with Modeltime Ensemble"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{getting-started}
+  %\VignetteIndexEntry{getting-started-with-modeltime-ensemble}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

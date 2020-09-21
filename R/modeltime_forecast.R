@@ -1,5 +1,6 @@
+# ENSEMBLE FORECAST DISPATCH ----
 
-# ENSEMBLE AVERAGE ----
+# 1.0 ENSEMBLE AVERAGE ----
 
 #' @export
 #' @importFrom modeltime mdl_time_forecast
@@ -29,13 +30,14 @@ mdl_time_forecast.mdl_time_ensemble_avg <- function(object, calibration_data, ne
             dplyr::filter(.key != "actual")
     }
 
-    # Calculate Ensemble
+    # Select correct summary function
     if (type == "mean") {
         summary_fun <- mean
     } else {
         summary_fun <- stats::median
     }
 
+    # Calculate Ensemble
     modeltime_fcast <- modeltime_fcast %>%
         dplyr::group_by(.index) %>%
         dplyr::summarise(.value = summary_fun(.value, na.rm = TRUE)) %>%
