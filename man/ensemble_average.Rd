@@ -2,7 +2,7 @@
 % Please edit documentation in R/ensemble_average.R
 \name{ensemble_average}
 \alias{ensemble_average}
-\title{Creates an Average Esemble Model}
+\title{Creates an Ensemble Model using Mean/Median Averaging}
 \usage{
 ensemble_average(object, type = c("mean", "median"))
 }
@@ -12,5 +12,46 @@ ensemble_average(object, type = c("mean", "median"))
 \item{type}{Specify the type of average ("mean" or "median")}
 }
 \description{
-Creates an Average Esemble Model
+Creates an Ensemble Model using Mean/Median Averaging
+}
+\details{
+The input to an \code{ensemble_average()} model is always a Modeltime Table,
+which contains the models that you will ensemble.
+
+\strong{Averaging Methods}
+
+The average method uses an un-weighted average using \code{type} of either:
+\itemize{
+\item \code{"mean"}: Performs averaging using \code{mean(x, na.rm = TRUE)} to aggregate each
+underlying models forecast at each timestamp
+\item \code{"median"}: Performs averaging using \code{stats::median(x, na.rm = TRUE)} to aggregate each
+underlying models forecast at each timestamp
+}
+}
+\examples{
+library(tidymodels)
+library(modeltime)
+library(modeltime.ensemble)
+library(tidyverse)
+library(timetk)
+
+# Make an ensemble from a Modeltime Table
+ensemble_fit <- m750_models \%>\%
+    ensemble_average(type = "mean")
+
+ensemble_fit
+
+# Forecast with the Ensemble
+modeltime_table(
+    ensemble_fit
+) \%>\%
+    modeltime_forecast(
+        new_data    = testing(m750_splits),
+        actual_data = m750
+    ) \%>\%
+    plot_modeltime_forecast(
+        .interactive = FALSE,
+        .conf_interval_show = FALSE
+    )
+
 }

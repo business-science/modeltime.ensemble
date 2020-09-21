@@ -1,7 +1,49 @@
-#' Creates an Average Esemble Model
+# ENSEMBLE AVERAGE ----
+
+#' Creates an Ensemble Model using Mean/Median Averaging
 #'
 #' @param object A Modeltime Table
 #' @param type Specify the type of average ("mean" or "median")
+#'
+#' @details
+#'
+#' The input to an `ensemble_average()` model is always a Modeltime Table,
+#' which contains the models that you will ensemble.
+#'
+#' __Averaging Methods__
+#'
+#' The average method uses an un-weighted average using `type` of either:
+#'
+#' - `"mean"`: Performs averaging using `mean(x, na.rm = TRUE)` to aggregate each
+#'   underlying models forecast at each timestamp
+#' - `"median"`: Performs averaging using `stats::median(x, na.rm = TRUE)` to aggregate each
+#'   underlying models forecast at each timestamp
+#'
+#' @examples
+#' library(tidymodels)
+#' library(modeltime)
+#' library(modeltime.ensemble)
+#' library(tidyverse)
+#' library(timetk)
+#'
+#' # Make an ensemble from a Modeltime Table
+#' ensemble_fit <- m750_models %>%
+#'     ensemble_average(type = "mean")
+#'
+#' ensemble_fit
+#'
+#' # Forecast with the Ensemble
+#' modeltime_table(
+#'     ensemble_fit
+#' ) %>%
+#'     modeltime_forecast(
+#'         new_data    = testing(m750_splits),
+#'         actual_data = m750
+#'     ) %>%
+#'     plot_modeltime_forecast(
+#'         .interactive = FALSE,
+#'         .conf_interval_show = FALSE
+#'     )
 #'
 #' @export
 ensemble_average <- function(object, type = c("mean", "median")) {

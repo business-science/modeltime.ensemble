@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Creates an Average Esemble Model — ensemble_average • modeltime.ensemble</title>
+<title>Creates an Ensemble Model using Mean/Median Averaging — ensemble_average • modeltime.ensemble</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Creates an Average Esemble Model — ensemble_average" />
-<meta property="og:description" content="Creates an Average Esemble Model" />
+<meta property="og:title" content="Creates an Ensemble Model using Mean/Median Averaging — ensemble_average" />
+<meta property="og:description" content="Creates an Ensemble Model using Mean/Median Averaging" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -132,13 +132,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Creates an Average Esemble Model</h1>
+    <h1>Creates an Ensemble Model using Mean/Median Averaging</h1>
     <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.ensemble/blob/master/R/ensemble_average.R'><code>R/ensemble_average.R</code></a></small>
     <div class="hidden name"><code>ensemble_average.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Creates an Average Esemble Model</p>
+    <p>Creates an Ensemble Model using Mean/Median Averaging</p>
     </div>
 
     <pre class="usage"><span class='fu'>ensemble_average</span>(<span class='no'>object</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mean"</span>, <span class='st'>"median"</span>))</pre>
@@ -156,7 +156,69 @@
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>The input to an <code>ensemble_average()</code> model is always a Modeltime Table,
+which contains the models that you will ensemble.</p>
+<p><strong>Averaging Methods</strong></p>
+<p>The average method uses an un-weighted average using <code>type</code> of either:</p><ul>
+<li><p><code>"mean"</code>: Performs averaging using <code><a href='https://rdrr.io/r/base/mean.html'>mean(x, na.rm = TRUE)</a></code> to aggregate each
+underlying models forecast at each timestamp</p></li>
+<li><p><code>"median"</code>: Performs averaging using <code><a href='https://rdrr.io/r/stats/median.html'>stats::median(x, na.rm = TRUE)</a></code> to aggregate each
+underlying models forecast at each timestamp</p></li>
+</ul>
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidymodels</span>)</div><div class='output co'>#&gt; <span class='message'>── <span style='font-weight: bold;'>Attaching packages</span><span> ──────────────────────────────────────────────────────────────────────────────── tidymodels 0.1.1 ──</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>broom    </span><span> 0.7.0           </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>recipes  </span><span> 0.1.13.</span><span style='color: #BB0000;'>9001</span><span></span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>dials    </span><span> 0.0.9.</span><span style='color: #BB0000;'>9000</span><span>      </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>rsample  </span><span> 0.0.7.</span><span style='color: #BB0000;'>9000</span><span> </span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>dplyr    </span><span> 1.0.2           </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>tibble   </span><span> 3.0.3      </span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>ggplot2  </span><span> 3.3.2           </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>tidyr    </span><span> 1.1.2      </span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>infer    </span><span> 0.5.3           </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>tune     </span><span> 0.1.1.</span><span style='color: #BB0000;'>9000</span><span> </span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>modeldata</span><span> 0.0.2           </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>workflows</span><span> 0.2.0.</span><span style='color: #BB0000;'>9000</span><span> </span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>parsnip  </span><span> 0.1.3           </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>yardstick</span><span> 0.0.7      </span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>purrr    </span><span> 0.3.4           </span></div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Conflicts</span><span> ─────────────────────────────────────────────────────────────────────────────────── tidymodels_conflicts() ──</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>purrr</span><span>::</span><span style='color: #00BB00;'>discard()</span><span> masks </span><span style='color: #0000BB;'>scales</span><span>::discard()</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>filter()</span><span>  masks </span><span style='color: #0000BB;'>stats</span><span>::filter()</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>lag()</span><span>     masks </span><span style='color: #0000BB;'>stats</span><span>::lag()</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>recipes</span><span>::</span><span style='color: #00BB00;'>step()</span><span>  masks </span><span style='color: #0000BB;'>stats</span><span>::step()</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>modeltime</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>modeltime.ensemble</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyverse</span>)</div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Attaching packages</span><span> ───────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>readr  </span><span> 1.3.1     </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>forcats</span><span> 0.5.0</span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>stringr</span><span> 1.4.0     </span></div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Conflicts</span><span> ──────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>readr</span><span>::</span><span style='color: #00BB00;'>col_factor()</span><span> masks </span><span style='color: #0000BB;'>scales</span><span>::col_factor()</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>purrr</span><span>::</span><span style='color: #00BB00;'>discard()</span><span>    masks </span><span style='color: #0000BB;'>scales</span><span>::discard()</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>filter()</span><span>     masks </span><span style='color: #0000BB;'>stats</span><span>::filter()</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>stringr</span><span>::</span><span style='color: #00BB00;'>fixed()</span><span>    masks </span><span style='color: #0000BB;'>recipes</span><span>::fixed()</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>lag()</span><span>        masks </span><span style='color: #0000BB;'>stats</span><span>::lag()</span>
+#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>readr</span><span>::</span><span style='color: #00BB00;'>spec()</span><span>       masks </span><span style='color: #0000BB;'>yardstick</span><span>::spec()</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>timetk</span>)
+
+<span class='co'># Make an ensemble from a Modeltime Table</span>
+<span class='no'>ensemble_fit</span> <span class='kw'>&lt;-</span> <span class='no'>m750_models</span> <span class='kw'>%&gt;%</span>
+    <span class='fu'>ensemble_average</span>(<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mean"</span>)
+
+<span class='no'>ensemble_fit</span></div><div class='output co'>#&gt; ── Modeltime Ensemble ───────────────────────────────────────────
+#&gt; Ensemble of 3 Models (MEAN)
+#&gt; 
+#&gt; # Modeltime Table
+#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+#&gt;   .model_id .model     .model_desc            
+#&gt;       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                  
+#&gt; </span><span style='color: #555555;'>1</span><span>         1 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> ARIMA(0,1,1)(0,1,1)[12]
+#&gt; </span><span style='color: #555555;'>2</span><span>         2 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> PROPHET                
+#&gt; </span><span style='color: #555555;'>3</span><span>         3 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> GLMNET                 </div><div class='input'>
+<span class='co'># Forecast with the Ensemble</span>
+<span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/modeltime_table.html'>modeltime_table</a></span>(
+    <span class='no'>ensemble_fit</span>
+) <span class='kw'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/modeltime_forecast.html'>modeltime_forecast</a></span>(
+        <span class='kw'>new_data</span>    <span class='kw'>=</span> <span class='fu'>testing</span>(<span class='no'>m750_splits</span>),
+        <span class='kw'>actual_data</span> <span class='kw'>=</span> <span class='no'>m750</span>
+    ) <span class='kw'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/plot_modeltime_forecast.html'>plot_modeltime_forecast</a></span>(
+        <span class='kw'>.interactive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+        <span class='kw'>.conf_interval_show</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+    )</div><div class='img'><img src='ensemble_average-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

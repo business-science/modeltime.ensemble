@@ -24,9 +24,15 @@ devtools::install_github("business-science/modeltime.ensemble")
 Load the following libraries.
 
 ``` r
+# Machine Learning
 library(tidymodels)
 library(modeltime)
 library(modeltime.ensemble)
+
+# Core Packages
+library(tidyverse)
+library(timetk)
+library(lubridate)
 ```
 
 #### Step 1 - Create a Modeltime Table
@@ -90,8 +96,9 @@ calibration_tbl %>%
 
 ## Getting Started
 
-  - [Getting Started with Modeltime Ensemble](): Learn the basics of
-    forecasting with Modeltime ensemble models.
+  - [Getting Started with Modeltime
+    Ensemble](https://business-science.github.io/modeltime.ensemble/articles/getting-started-with-modeltime-ensemble.html):
+    Learn the basics of forecasting with Modeltime ensemble models.
   - [Getting Started with
     Modeltime](https://business-science.github.io/modeltime/articles/getting-started-with-modeltime.html):
     Learn the basics of forecasting with Modeltime.
