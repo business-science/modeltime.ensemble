@@ -1,5 +1,5 @@
 ---
-title: "getting-started"
+title: "Getting Started with Modeltime Ensemble"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{getting-started}

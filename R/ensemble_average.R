@@ -34,7 +34,7 @@ ensemble_average.mdl_time_tbl <- function(object, type = c("mean", "median")) {
 #' @export
 print.mdl_time_ensemble_avg <- function(x, ...) {
 
-    rlang::inform(cli::rule("Modeltime Ensemble", width = min(65, cli::console_width())))
+    print(cli::rule("Modeltime Ensemble", width = min(65, cli::console_width())))
 
     if (x$type == "mean") {
         msg <- glue::glue("Average of {x$n_models} Models")
@@ -42,9 +42,8 @@ print.mdl_time_ensemble_avg <- function(x, ...) {
         msg <- glue::glue("Median of {x$n_models} Models")
     }
 
-    cat(msg)
+    print(msg)
 
-    cli::cat_line()
     cli::cat_line()
 
     print(x$model_tbl)
