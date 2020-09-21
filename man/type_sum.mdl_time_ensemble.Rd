@@ -7,12 +7,12 @@
 \method{type_sum}{mdl_time_ensemble}(x)
 }
 \arguments{
-\item{x}{A `mdl_time_ensemble` object to summarise.}
+\item{x}{A \code{mdl_time_ensemble} object to summarise.}
 }
 \value{
 A character value.
 }
 \description{
-`type_sum` controls how objects are shown when inside tibble
- columns.
+\code{type_sum} controls how objects are shown when inside tibble
+columns.
 }

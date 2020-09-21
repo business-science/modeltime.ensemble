@@ -9,11 +9,14 @@ Authors@R: c(
 Description: 
     Modeltime extension that implements ensemble forecasting methods including model averaging, 
     weighted averaging via penalized regression, and stacking. 
+URL: https://github.com/business-science/modeltime.ensemble
+BugReports: https://github.com/business-science/modeltime.ensemble/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    modeltime
+    modeltime,
+    R (>= 3.5)
 Imports: 
     tune,
     tibble,
@@ -36,7 +39,10 @@ Suggests:
     parsnip,
     recipes,
     workflows,
-    dials, 
-    yardstick
+    dials,
+    yardstick,
+    knitr,
+    rmarkdown
 RoxygenNote: 7.1.1
-
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
