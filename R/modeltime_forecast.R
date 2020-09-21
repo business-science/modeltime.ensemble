@@ -38,7 +38,7 @@ mdl_time_forecast.mdl_time_ensemble_avg <- function(object, calibration_data, ne
 
     modeltime_fcast <- modeltime_fcast %>%
         dplyr::group_by(.index) %>%
-        dplyr::summarise(.value = summary_fun(.value)) %>%
+        dplyr::summarise(.value = summary_fun(.value, na.rm = TRUE)) %>%
         dplyr::ungroup() %>%
         tibble::add_column(.key = "prediction", .before = 1)
 
