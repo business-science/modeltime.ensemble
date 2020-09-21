@@ -8,7 +8,7 @@ Authors@R: c(
     )
 Description: 
     Modeltime extension that implements ensemble forecasting methods including model averaging, 
-    weighted averaging, and stacking. 
+    weighted averaging via penalized regression, and stacking. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

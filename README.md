@@ -7,7 +7,9 @@
 
 <!-- badges: end -->
 
-The goal of modeltime.ensemble is to …
+A `modeltime` extension that that implements ensemble forecasting
+methods including model averaging, weighted averaging via penalized
+regression, and stacking.
 
 ## Installation
 
