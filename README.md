@@ -15,7 +15,7 @@ status](https://travis-ci.com/business-science/modeltime.ensemble.svg?branch=mas
 
 > Unlocks Time Series Ensemble Forecasting with Tidymodels
 
-A `modeltime` extension that that implements ***ensemble forecasting
+A `modeltime` extension that implements ***ensemble forecasting
 methods*** including model averaging, weighted averaging via penalized
 regression, and stacking.
 
