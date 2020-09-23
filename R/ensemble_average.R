@@ -52,7 +52,7 @@ ensemble_average <- function(object, type = c("mean", "median")) {
     if (rlang::is_missing(object)) rlang::abort("'object' is missing. Please provide a Modeltime Table with multiple models.")
     if (!inherits(object, "mdl_time_tbl")) rlang::abort("object must be a Modeltime Table.")
     if (nrow(object) < 2) rlang::abort("An average ensemble requires two or more models in the Modeltime Table.")
-    if (!type[[1]] %in% c("mean", "median")) rlang::abort("An average ensemble requires type to be either 'mean' or 'median'.")
+    if (!tolower(type[[1]]) %in% c("mean", "median")) rlang::abort("An average ensemble requires type to be either 'mean' or 'median'.")
 
     UseMethod("ensemble_average", object)
 }
@@ -71,6 +71,8 @@ ensemble_average.mdl_time_tbl <- function(object, type = c("mean", "median")) {
         ensemble_average,
         class = c("mdl_time_ensemble_avg", "mdl_time_ensemble")
     )
+
+    ensemble_average$desc <- get_model_description(ensemble_average)
 
     return(ensemble_average)
 }

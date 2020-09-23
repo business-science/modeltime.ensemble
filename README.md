@@ -30,12 +30,9 @@ devtools::install_github("business-science/modeltime.ensemble")
 Load the following libraries.
 
 ``` r
-# Machine Learning
 library(tidymodels)
 library(modeltime)
 library(modeltime.ensemble)
-
-# Core Packages
 library(tidyverse)
 library(timetk)
 ```
