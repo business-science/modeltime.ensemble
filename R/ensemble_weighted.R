@@ -27,7 +27,7 @@
 #'
 #' # Make an ensemble from a Modeltime Table
 #' ensemble_fit <- m750_models %>%
-#'     ensemble_weighted(type = "mean")
+#'     ensemble_weighted(loadings = c(3, 3, 1))
 #'
 #' ensemble_fit
 #'
@@ -52,14 +52,16 @@ ensemble_weighted <- function(object, loadings = "auto", resamples = NULL) {
     if (!inherits(object, "mdl_time_tbl")) rlang::abort("'object' must be a Modeltime Table.")
     if (nrow(object) < 2) rlang::abort("An average ensemble requires two or more models in the Modeltime Table.")
     if (is.numeric(loadings)) {
+        # Numeric Loadings Provided
         if (nrow(object) != length(loadings)) rlang::abort("The length of 'loadings' must must match the number of rows in 'object'.")
     } else {
+        # Auto-calculate loadings
         if (tolower(loadings) != 'auto') {
             rlang::warn("'loadings' is invalid. Setting to loadings = 'auto'.")
             loadings <- "auto"
         }
+        if (tolower(loadings) == "auto" && is.null(resamples)) rlang::abort("'resamples' must be provided to use the loadings = 'auto'.")
     }
-    if (tolower(loadings) == "auto" && is.null(resamples)) rlang::abort("'resamples' must be provided to use the loadings = 'auto'.")
 
 
     UseMethod("ensemble_weighted", object)

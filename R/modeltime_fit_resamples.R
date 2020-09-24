@@ -70,12 +70,13 @@ mdl_time_fit_resamples <- function(object, resamples) {
 
 
 #' @export
+#' @importFrom yardstick rmse
 mdl_time_fit_resamples.workflow <- function(object, resamples) {
 
     tune::fit_resamples(
         object    = object,
         resamples = resamples,
-        metrics   = metric_set(rmse, rsq),
+        metrics   = yardstick::metric_set(rmse),
         control   = tune::control_resamples(
             verbose       = FALSE,
             allow_par     = TRUE,
@@ -89,25 +90,26 @@ mdl_time_fit_resamples.workflow <- function(object, resamples) {
 }
 
 #' @export
+#' @importFrom yardstick rmse
 mdl_time_fit_resamples.model_fit <- function(object, resamples) {
 
+    # Get Model Spec & Parsnip Preprocessor
     model_spec  <- object$spec
+    form <- object %>% modeltime::pull_parsnip_preprocessor()
+    data <- resamples %>%
+        dplyr::slice(1) %>%
+        purrr::pluck(1, 1) %>%
+        rsample::training()
+    recipe_spec <- recipes::recipe(form, data = data)
 
-    formula     <- object %>% pull_parsnip_preprocessor()
-    data        <- resamples %>%
-        slice(1) %>%
-        pluck(1, 1) %>%
-        training()
-    recipe_spec <- recipe(formula, data = data)
-
-    wflw <- workflow() %>%
-        add_model(model_spec) %>%
-        add_recipe(recipe_spec)
+    wflw <- workflows::workflow() %>%
+        workflows::add_model(model_spec) %>%
+        workflows::add_recipe(recipe_spec)
 
     ret <- tune::fit_resamples(
         object       = wflw,
         resamples    = resamples,
-        metrics      = metric_set(rmse, rsq),
+        metrics      = yardstick::metric_set(rmse),
         control      = tune::control_resamples(
             verbose       = FALSE,
             allow_par     = TRUE,
