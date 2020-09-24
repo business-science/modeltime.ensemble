@@ -4,7 +4,7 @@
 \alias{ensemble_weighted}
 \title{Creates a Weighted Ensemble Model}
 \usage{
-ensemble_weighted(object, loadings = "auto")
+ensemble_weighted(object, loadings = "auto", resamples = NULL)
 }
 \arguments{
 \item{object}{A Modeltime Table}

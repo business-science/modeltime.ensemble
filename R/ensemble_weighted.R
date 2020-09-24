@@ -45,7 +45,7 @@
 #'     )
 #'
 #' @export
-ensemble_weighted <- function(object, loadings = "auto") {
+ensemble_weighted <- function(object, loadings = "auto", resamples = NULL) {
 
     # Checks
     if (rlang::is_missing(object)) rlang::abort("'object' is missing. Please provide a Modeltime Table with multiple models.")
@@ -54,15 +54,19 @@ ensemble_weighted <- function(object, loadings = "auto") {
     if (is.numeric(loadings)) {
         if (nrow(object) != length(loadings)) rlang::abort("The length of 'loadings' must must match the number of rows in 'object'.")
     } else {
-        if (tolower(loadings) != 'auto') rlang::warn("'loadings' is invalid. Setting to loadings = 'auto'.")
+        if (tolower(loadings) != 'auto') {
+            rlang::warn("'loadings' is invalid. Setting to loadings = 'auto'.")
+            loadings <- "auto"
+        }
     }
+    if (tolower(loadings) == "auto" && is.null(resamples)) rlang::abort("'resamples' must be provided to use the loadings = 'auto'.")
 
 
     UseMethod("ensemble_weighted", object)
 }
 
 #' @export
-ensemble_weighted.mdl_time_tbl <- function(object, loadings = "auto") {
+ensemble_weighted.mdl_time_tbl <- function(object, loadings = "auto", resamples = NULL) {
 
     # Calculate the loadings
     if (is.numeric(loadings)) {
@@ -71,7 +75,12 @@ ensemble_weighted.mdl_time_tbl <- function(object, loadings = "auto") {
     } else {
         # Placeholder for 'auto' using glmnet
         message("Calculating weights using 'auto'.")
-        loadings_scaled <- rep(1, nrow(object)) / nrow(object)
+
+        stop("Not ready yet...")
+
+        # loadings_scaled <- calculate_loadings_from_resamples(object, resamples)
+
+        # loadings_scaled <- rep(1, nrow(object)) / nrow(object)
     }
 
     # Create loadings table
@@ -114,3 +123,8 @@ print.mdl_time_ensemble_wt <- function(x, ...) {
 
     invisible(x)
 }
+
+
+
+
+

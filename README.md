@@ -25,6 +25,15 @@ regression, and stacking.
 devtools::install_github("business-science/modeltime.ensemble")
 ```
 
+## Getting Started
+
+1.  [Getting Started with
+    Modeltime](https://business-science.github.io/modeltime/articles/getting-started-with-modeltime.html):
+    Learn the basics of forecasting with Modeltime.
+2.  [Getting Started with Modeltime
+    Ensemble](https://business-science.github.io/modeltime.ensemble/articles/getting-started-with-modeltime-ensemble.html):
+    Learn the basics of forecasting with Modeltime ensemble models.
+
 ## Make Your First Ensemble in Minutes
 
 Load the following libraries.
@@ -95,15 +104,6 @@ calibration_tbl %>%
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
-
-## Getting Started
-
-  - [Getting Started with Modeltime
-    Ensemble](https://business-science.github.io/modeltime.ensemble/articles/getting-started-with-modeltime-ensemble.html):
-    Learn the basics of forecasting with Modeltime ensemble models.
-  - [Getting Started with
-    Modeltime](https://business-science.github.io/modeltime/articles/getting-started-with-modeltime.html):
-    Learn the basics of forecasting with Modeltime.
 
 ## Learning More
 
