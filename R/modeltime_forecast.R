@@ -46,7 +46,7 @@ mdl_time_forecast.mdl_time_ensemble_avg <- function(object, calibration_data, ne
         tibble::add_column(.key = "prediction", .before = 1)
 
     # Recombine with actual
-    if (contains_actual) {
+    if (contains_actual && bind_actual) {
         modeltime_fcast <- actual_data %>%
             dplyr::bind_rows(modeltime_fcast)
     }
