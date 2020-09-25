@@ -1,7 +1,7 @@
 Package: modeltime.ensemble
 Type: Package
 Title: Ensemble algorithms for Modeltime Forecasting
-Version: 0.0.1
+Version: 0.0.0.9000
 Authors@R: c(
     person("Matt", "Dancho", email = "mdancho@business-science.io", role = c("aut", "cre")),
     person("Business Science", role = "cph")
@@ -15,7 +15,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    modeltime,
+    modeltime (>= 0.1.0.9000),
     R (>= 3.5)
 Imports: 
     tune,
@@ -25,7 +25,7 @@ Imports:
     parsnip,
     recipes,
     dials,
-    timetk,
+    timetk (>= 2.2.1.9000),
     tibble,
     dplyr,
     tidyr,
@@ -53,3 +53,7 @@ Suggests:
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
+Remotes:
+    business-science/timetk
+    business-science/modeltime
+    
