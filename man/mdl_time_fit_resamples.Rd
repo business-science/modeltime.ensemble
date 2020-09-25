@@ -4,13 +4,16 @@
 \alias{mdl_time_fit_resamples}
 \title{Modeltime Fit Resample Helpers}
 \usage{
-mdl_time_fit_resamples(object, resamples)
+mdl_time_fit_resamples(object, resamples, control = control_resamples())
 }
 \arguments{
 \item{object}{A Modeltime Table}
 
 \item{resamples}{NULL. Required to use the automated functionality.
 See \code{\link[timetk:time_series_cv]{timetk::time_series_cv()}} for making time series resamples.}
+
+\item{control}{A \code{\link[tune:control_grid]{tune::control_resamples()}} object to provide
+control over the resampling process.}
 }
 \value{
 A tibble with forecast features

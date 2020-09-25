@@ -3,18 +3,23 @@
 #' Fits Models in a Modeltime Table to Resamples
 #'
 #' @param object A Modeltime Table
-#' @param resamples Resamples
+#' @param resamples A resample `rset` created from a function like [timetk::time_series_cv()].
+#' @param control A [tune::control_resamples()] object to provide
+#'  control over the resampling process.
 #'
 #' @export
-modeltime_fit_resamples <- function(object, resamples) {
+modeltime_fit_resamples <- function(object, resamples, control = control_resamples()) {
 
     # Check resamples
+    if (!inherits(resamples, "rset")) rlang::abort("'resamples' must be an rset object. Try using `timetk::time_series_cv()` to create an rset.")
+
+    # Check Control
 
     UseMethod("modeltime_fit_resamples", object)
 }
 
 #' @export
-modeltime_fit_resamples.mdl_time_tbl <- function(object, resamples) {
+modeltime_fit_resamples.mdl_time_tbl <- function(object, resamples, control = control_resamples()) {
 
     data <- object # object is a Modeltime Table
 
@@ -30,17 +35,21 @@ modeltime_fit_resamples.mdl_time_tbl <- function(object, resamples) {
 
     ret <- data %>%
         dplyr::ungroup() %>%
-        dplyr::mutate(.resample_results = purrr::map2(
-            .x         = .model,
-            .y         = .model_id,
-            .f         = function(obj, id) {
+        dplyr::mutate(.resample_results = purrr::pmap(
+            .l         = list(.model, .model_id, .model_desc),
+            .f         = function(obj, id, desc) {
 
                 p(stringr::str_glue("Model ID = {id} / {max(data$.model_id)}"))
 
-                ret <- safe_mdl_time_fit_resamples(
-                    obj,
-                    resamples
-                )
+                if (control$verbose) cli::cli_li(str_glue("Model ID: {cli::col_blue(id)} {cli::col_blue(desc)}"))
+
+                suppressMessages({
+                    ret <- safe_mdl_time_fit_resamples(
+                        object    = obj,
+                        resamples = resamples,
+                        control   = control
+                    )
+                })
 
                 ret <- ret %>% purrr::pluck("result")
 
@@ -64,34 +73,26 @@ modeltime_fit_resamples.mdl_time_tbl <- function(object, resamples) {
 #' @keywords internal
 #'
 #' @export
-mdl_time_fit_resamples <- function(object, resamples) {
+mdl_time_fit_resamples <- function(object, resamples, control = control_resamples()) {
     UseMethod("mdl_time_fit_resamples", object)
 }
 
 
 #' @export
 #' @importFrom yardstick rmse
-mdl_time_fit_resamples.workflow <- function(object, resamples) {
+mdl_time_fit_resamples.workflow <- function(object, resamples, control = control_resamples()) {
 
     tune::fit_resamples(
         object    = object,
         resamples = resamples,
         metrics   = yardstick::metric_set(rmse),
-        control   = tune::control_resamples(
-            verbose       = FALSE,
-            allow_par     = TRUE,
-            extract       = NULL,
-            save_pred     = TRUE,
-            pkgs          = NULL,
-            save_workflow = FALSE
-        )
+        control   = control
     )
 
 }
 
 #' @export
-#' @importFrom yardstick rmse
-mdl_time_fit_resamples.model_fit <- function(object, resamples) {
+mdl_time_fit_resamples.model_fit <- function(object, resamples, control = control_resamples()) {
 
     # Get Model Spec & Parsnip Preprocessor
     model_spec  <- object$spec
@@ -110,14 +111,7 @@ mdl_time_fit_resamples.model_fit <- function(object, resamples) {
         object       = wflw,
         resamples    = resamples,
         metrics      = yardstick::metric_set(rmse),
-        control      = tune::control_resamples(
-            verbose       = FALSE,
-            allow_par     = TRUE,
-            extract       = NULL,
-            save_pred     = TRUE,
-            pkgs          = NULL,
-            save_workflow = FALSE
-        )
+        control      = control
     )
 
     return(ret)

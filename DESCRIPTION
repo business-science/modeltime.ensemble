@@ -39,7 +39,8 @@ Imports:
     generics,
     magrittr,
     glmnet,
-    progressr
+    progressr,
+    tictoc
 Suggests: 
     roxygen2,
     testthat,

@@ -4,12 +4,15 @@
 \alias{modeltime_fit_resamples}
 \title{Fits Models in a Modeltime Table to Resamples}
 \usage{
-modeltime_fit_resamples(object, resamples)
+modeltime_fit_resamples(object, resamples, control = control_resamples())
 }
 \arguments{
 \item{object}{A Modeltime Table}
 
-\item{resamples}{Resamples}
+\item{resamples}{A resample \code{rset} created from a function like \code{\link[timetk:time_series_cv]{timetk::time_series_cv()}}.}
+
+\item{control}{A \code{\link[tune:control_grid]{tune::control_resamples()}} object to provide
+control over the resampling process.}
 }
 \description{
 Fits Models in a Modeltime Table to Resamples

@@ -4,7 +4,12 @@
 \alias{ensemble_weighted}
 \title{Creates a Weighted Ensemble Model}
 \usage{
-ensemble_weighted(object, loadings = "auto", resamples = NULL)
+ensemble_weighted(
+  object,
+  loadings = "auto",
+  resamples = NULL,
+  control = control_resamples()
+)
 }
 \arguments{
 \item{object}{A Modeltime Table}
@@ -13,6 +18,9 @@ ensemble_weighted(object, loadings = "auto", resamples = NULL)
 
 \item{resamples}{NULL. Required to use the automated functionality.
 See \code{\link[timetk:time_series_cv]{timetk::time_series_cv()}} for making time series resamples.}
+
+\item{control}{A \code{\link[tune:control_grid]{tune::control_resamples()}} object to provide
+control over the resampling process.}
 }
 \description{
 Creates a Weighted Ensemble Model

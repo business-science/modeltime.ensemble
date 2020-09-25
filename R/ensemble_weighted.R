@@ -2,6 +2,7 @@
 
 #' Creates a Weighted Ensemble Model
 #'
+#' @inheritParams modeltime_fit_resamples
 #' @param object A Modeltime Table
 #' @param loadings Either "auto" or a vector of weights corresponding to the loadings
 #' @param resamples NULL. Required to use the automated functionality.
@@ -62,7 +63,7 @@
 #'     )
 #'
 #' @export
-ensemble_weighted <- function(object, loadings = "auto", resamples = NULL) {
+ensemble_weighted <- function(object, loadings = "auto", resamples = NULL, control = control_resamples()) {
 
     # Checks
     if (rlang::is_missing(object)) rlang::abort("'object' is missing. Please provide a Modeltime Table with multiple models.")
@@ -85,7 +86,7 @@ ensemble_weighted <- function(object, loadings = "auto", resamples = NULL) {
 }
 
 #' @export
-ensemble_weighted.mdl_time_tbl <- function(object, loadings = "auto", resamples = NULL) {
+ensemble_weighted.mdl_time_tbl <- function(object, loadings = "auto", resamples = NULL, control = control_resamples()) {
 
     # Calculate the loadings
     if (is.numeric(loadings)) {
@@ -97,7 +98,7 @@ ensemble_weighted.mdl_time_tbl <- function(object, loadings = "auto", resamples 
 
     } else {
 
-        loadings_tbl <- get_auto_loadings(object, resamples)
+        loadings_tbl <- get_auto_loadings(object, resamples, control)
 
     }
 
@@ -141,14 +142,33 @@ print.mdl_time_ensemble_wt <- function(x, ...) {
 
 # AUTO ----
 
-#' @importFrom yardstick rmse rsq
-get_auto_loadings <- function(object, resamples) {
+get_auto_loadings <- function(object, resamples, control = control_resamples()) {
 
     # 1. Fit Resamples ----
+
+    if (control$verbose) {
+        tictoc::tic()
+        print(cli::rule("Fitting Resamples", width = 65))
+        cli::cat_line()
+    }
+
+
     resamples_results_tbl <- object %>%
         modeltime_fit_resamples(
-            resamples = resamples
+            resamples = resamples,
+            control   = tune::control_resamples(
+                verbose       = control$verbose,
+                allow_par     = control$allow_par,
+                extract       = NULL,
+                save_pred     = TRUE,
+                pkgs          = control$pkgs,
+                save_workflow = FALSE
+            )
         )
+
+    if (control$verbose) {
+        cli::cat_line()
+    }
 
     # 2. Wrangle Predictions ----
     predictions_tbl <- resamples_results_tbl %>%
@@ -177,9 +197,15 @@ get_auto_loadings <- function(object, resamples) {
 
     # * Join Actuals & Predictions ----
     data_prepared_tbl <- actuals_by_rowid_tbl %>%
-        dplyr::left_join(predictions_by_rowid_tbl)
+        dplyr::left_join(predictions_by_rowid_tbl, by = ".row_id")
 
     # 3. Build GLMNET Model ----
+
+    if (control$verbose) {
+        print(cli::rule("Tuning Penalized Regression Model", width = 65))
+        cli::cat_line()
+    }
+
     model_spec <- parsnip::linear_reg(
         mixture = tune::tune(),
         penalty = tune::tune()
@@ -204,11 +230,23 @@ get_auto_loadings <- function(object, resamples) {
         grid       = 6,
         metrics    = yardstick::metric_set(rmse, rsq),
         control    = tune::control_grid(
-            verbose = TRUE
+            verbose       = control$verbose,
+            allow_par     = control$allow_par,
+            extract       = NULL,
+            save_pred     = FALSE,
+            pkgs          = control$pkgs,
+            save_workflow = FALSE
         )
     )
 
+    if (control$verbose) {
+        cli::cli_alert_success(str_glue("Finished tuning Penalized Regression Model."))
+        cli::cat_line()
+    }
+
     # 5. Fit Best Model ----
+
+    if (control$verbose) print(cli::rule("Selecting Loadings", width = 65))
 
     metric <- "rmse"
 
@@ -232,6 +270,14 @@ get_auto_loadings <- function(object, resamples) {
         dplyr::slice(-1) %>%
         dplyr::mutate(.model_id = stringr::str_replace(.model_id, "^.model_id_", "")) %>%
         dplyr::mutate(.model_id = as.integer(.model_id))
+
+    if (control$verbose) {
+        cli::cat_line()
+        print(loadings_tbl)
+        cli::cat_line()
+        tictoc::toc()
+    }
+
 
     return(loadings_tbl)
 
