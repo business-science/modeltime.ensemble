@@ -9,7 +9,8 @@ mdl_time_fit_resamples(object, resamples)
 \arguments{
 \item{object}{A Modeltime Table}
 
-\item{resamples}{NULL.}
+\item{resamples}{NULL. Required to use the automated functionality.
+See \code{\link[timetk:time_series_cv]{timetk::time_series_cv()}} for making time series resamples.}
 }
 \value{
 A tibble with forecast features

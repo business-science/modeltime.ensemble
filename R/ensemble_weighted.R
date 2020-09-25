@@ -4,7 +4,8 @@
 #'
 #' @param object A Modeltime Table
 #' @param loadings Either "auto" or a vector of weights corresponding to the loadings
-#' @param resamples NULL.
+#' @param resamples NULL. Required to use the automated functionality.
+#'   See [timetk::time_series_cv()] for making time series resamples.
 #'
 #' @details
 #'
@@ -13,10 +14,26 @@
 #'
 #' __Weighting Methods__
 #'
-#' The average method uses an un-weighted average using `loadings` of either:
+#' The weighted method uses uses `loadings` of either:
 #'
-#' - `"auto"`: Performs weighting using Penalized Regression (using and Elastic Net via `glmnet`)
-#' - `<vector>`:
+#' - `"auto"`: Performs weighting using Penalized Regression (using and Elastic Net via `glmnet`).
+#'   This method requires `resamples`. See discussion below.
+#' - `<numeric>`: A vector of weights corresponding to the weighting to apply to each model.
+#'
+#' __Automatic Ensemble Process__
+#'
+#' The "auto" feature uses an ensembling process with the following basic steps:
+#'
+#' 1. __Make cross-validation predictions for each model.__
+#'   The user provides the cross validation as `resamples` (using a function like [timetk::time_series_cv()].
+#'
+#' 2. __Apply Penalized Regression.__ The out-of-sample cross validation predictions are then
+#'   Modeled using Penalized Regresstion (Elastic Net). This process uses tuning to find an
+#'   optimal `penalty` and `mixture`. The model is then fitted to the full data set.
+#'
+#' 3. __Use Coefficients as Loadings.__ The penalized regression is performed without an intercept
+#'   so the coefficients returned can be used to weight the models.
+#'
 #'
 #' @examples
 #' library(tidymodels)

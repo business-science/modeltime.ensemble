@@ -11,7 +11,8 @@ ensemble_weighted(object, loadings = "auto", resamples = NULL)
 
 \item{loadings}{Either "auto" or a vector of weights corresponding to the loadings}
 
-\item{resamples}{NULL.}
+\item{resamples}{NULL. Required to use the automated functionality.
+See \code{\link[timetk:time_series_cv]{timetk::time_series_cv()}} for making time series resamples.}
 }
 \description{
 Creates a Weighted Ensemble Model
@@ -22,10 +23,24 @@ which contains the models that you will ensemble.
 
 \strong{Weighting Methods}
 
-The average method uses an un-weighted average using \code{loadings} of either:
+The weighted method uses uses \code{loadings} of either:
 \itemize{
-\item \code{"auto"}: Performs weighting using Penalized Regression (using and Elastic Net via \code{glmnet})
-\item \verb{<vector>}:
+\item \code{"auto"}: Performs weighting using Penalized Regression (using and Elastic Net via \code{glmnet}).
+This method requires \code{resamples}. See discussion below.
+\item \verb{<numeric>}: A vector of weights corresponding to the weighting to apply to each model.
+}
+
+\strong{Automatic Ensemble Process}
+
+The "auto" feature uses an ensembling process with the following basic steps:
+\enumerate{
+\item \strong{Make cross-validation predictions for each model.}
+The user provides the cross validation as \code{resamples} (using a function like \code{\link[timetk:time_series_cv]{timetk::time_series_cv()}}.
+\item \strong{Apply Penalized Regression.} The out-of-sample cross validation predictions are then
+Modeled using Penalized Regresstion (Elastic Net). This process uses tuning to find an
+optimal \code{penalty} and \code{mixture}. The model is then fitted to the full data set.
+\item \strong{Use Coefficients as Loadings.} The penalized regression is performed without an intercept
+so the coefficients returned can be used to weight the models.
 }
 }
 \examples{
