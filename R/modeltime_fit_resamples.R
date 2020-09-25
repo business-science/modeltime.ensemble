@@ -41,7 +41,7 @@ modeltime_fit_resamples.mdl_time_tbl <- function(object, resamples, control = co
 
                 p(stringr::str_glue("Model ID = {id} / {max(data$.model_id)}"))
 
-                if (control$verbose) cli::cli_li(str_glue("Model ID: {cli::col_blue(id)} {cli::col_blue(desc)}"))
+                if (control$verbose) cli::cli_li(stringr::str_glue("Model ID: {cli::col_blue(id)} {cli::col_blue(desc)}"))
 
                 suppressMessages({
                     ret <- safe_mdl_time_fit_resamples(

@@ -240,7 +240,7 @@ get_auto_loadings <- function(object, resamples, control = control_resamples()) 
     )
 
     if (control$verbose) {
-        cli::cli_alert_success(str_glue("Finished tuning Penalized Regression Model."))
+        cli::cli_alert_success("Finished tuning Penalized Regression Model.")
         cli::cat_line()
     }
 
