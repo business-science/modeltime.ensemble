@@ -37,7 +37,7 @@ library(timetk)
 
 # Make an ensemble from a Modeltime Table
 ensemble_fit <- m750_models \%>\%
-    ensemble_weighted(loadings = c(3, 3, 1))
+    ensemble_weighted(loadings = c(3, 3, 1) / 7)
 
 ensemble_fit
 

@@ -22,9 +22,13 @@ Imports:
     rsample,
     yardstick, 
     workflows,
+    parsnip,
+    recipes,
+    dials,
     timetk,
     tibble,
     dplyr,
+    tidyr,
     purrr,
     glue,
     stringr,
@@ -32,6 +36,7 @@ Imports:
     cli,
     crayon,
     utils,
+    generics,
     magrittr,
     glmnet,
     progressr
@@ -41,11 +46,9 @@ Suggests:
     tidymodels,
     tidyverse,
     lubridate,
-    parsnip,
-    recipes,
-    dials,
     knitr,
-    rmarkdown
+    rmarkdown,
+    covr
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)

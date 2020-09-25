@@ -27,7 +27,7 @@
 #'
 #' # Make an ensemble from a Modeltime Table
 #' ensemble_fit <- m750_models %>%
-#'     ensemble_weighted(loadings = c(3, 3, 1))
+#'     ensemble_weighted(loadings = c(3, 3, 1) / 7)
 #'
 #' ensemble_fit
 #'
@@ -60,7 +60,7 @@ ensemble_weighted <- function(object, loadings = "auto", resamples = NULL) {
             rlang::warn("'loadings' is invalid. Setting to loadings = 'auto'.")
             loadings <- "auto"
         }
-        if (tolower(loadings) == "auto" && is.null(resamples)) rlang::abort("'resamples' must be provided to use the loadings = 'auto'.")
+        if (tolower(loadings) == "auto" && is.null(resamples)) rlang::abort("'resamples' must be provided to use the loadings = 'auto'. Try using timetk::time_series_cv().")
     }
 
 
@@ -72,23 +72,18 @@ ensemble_weighted.mdl_time_tbl <- function(object, loadings = "auto", resamples 
 
     # Calculate the loadings
     if (is.numeric(loadings)) {
-        loadings_scaled <- loadings / sum(loadings)
+
+        # Create loadings table
+        loadings_tbl <- object %>%
+            dplyr::select(.model_id) %>%
+            dplyr::mutate(.loadings = loadings)
 
     } else {
-        # Placeholder for 'auto' using glmnet
-        message("Calculating weights using 'auto'.")
 
-        stop("Not ready yet...")
+        loadings_tbl <- get_auto_loadings(object, resamples)
 
-        # loadings_scaled <- calculate_loadings_from_resamples(object, resamples)
-
-        # loadings_scaled <- rep(1, nrow(object)) / nrow(object)
     }
 
-    # Create loadings table
-    loadings_tbl <- object %>%
-        dplyr::select(.model_id) %>%
-        dplyr::mutate(.loadings = loadings_scaled)
 
     # Create Weighted Ensemble
     ensemble_weighted <- list(
@@ -124,6 +119,105 @@ print.mdl_time_ensemble_wt <- function(x, ...) {
     print(dplyr::left_join(x$model_tbl, x$loadings_info$loadings_tbl, by = ".model_id"))
 
     invisible(x)
+}
+
+
+# AUTO ----
+
+#' @importFrom yardstick rmse rsq
+get_auto_loadings <- function(object, resamples) {
+
+    # 1. Fit Resamples ----
+    resamples_results_tbl <- object %>%
+        modeltime_fit_resamples(
+            resamples = resamples
+        )
+
+    # 2. Wrangle Predictions ----
+    predictions_tbl <- resamples_results_tbl %>%
+        dplyr::select(-.model) %>%
+        tidyr::unnest(.resample_results) %>%
+        dplyr::select(.model_id, .model_desc, .predictions) %>%
+        tidyr::unnest(.predictions) %>%
+        dplyr::group_split(.model_id) %>%
+        purrr::map( tibble::rowid_to_column, var = ".row_id") %>%
+        dplyr::bind_rows() %>%
+        dplyr::select(.row_id, .model_id, .pred, value)
+
+    # * Actuals By Row ID ----
+    actuals_by_rowid_tbl <- predictions_tbl %>%
+        dplyr::filter(.model_id %in% unique(.model_id)[1]) %>%
+        dplyr::select(.row_id, value)
+
+    # * Get Predictions by Row ID ----
+    predictions_by_rowid_tbl <- predictions_tbl %>%
+        dplyr::select(.row_id, .model_id, .pred) %>%
+        dplyr::mutate(.model_id = stringr::str_c(".model_id_", .model_id)) %>%
+        tidyr::pivot_wider(
+            names_from = .model_id,
+            values_from = .pred
+        )
+
+    # * Join Actuals & Predictions ----
+    data_prepared_tbl <- actuals_by_rowid_tbl %>%
+        dplyr::left_join(predictions_by_rowid_tbl)
+
+    # 3. Build GLMNET Model ----
+    model_spec <- parsnip::linear_reg(
+        mixture = tune::tune(),
+        penalty = tune::tune()
+    ) %>%
+        parsnip::set_engine("glmnet", intercept = FALSE)
+
+    recipe_spec <- recipes::recipe(value ~ ., data = data_prepared_tbl) %>%
+        recipes::step_rm(.row_id)
+
+    wflw_spec <- workflows::workflow() %>%
+        workflows::add_model(model_spec) %>%
+        workflows::add_recipe(recipe_spec)
+
+    # 4. Tune Model ----
+    tune_results_tbl <- tune::tune_grid(
+        object     = wflw_spec,
+        resamples  = rsample::vfold_cv(data_prepared_tbl, v = 5),
+        param_info = dials::parameters(
+            dials::penalty(),
+            dials::mixture()
+        ),
+        grid       = 6,
+        metrics    = yardstick::metric_set(rmse, rsq),
+        control    = tune::control_grid(
+            verbose = TRUE
+        )
+    )
+
+    # 5. Fit Best Model ----
+
+    metric <- "rmse"
+
+    final_model <- wflw_spec %>%
+        tune::finalize_workflow(
+            tune_results_tbl %>% tune::select_best(metric)
+        ) %>%
+        generics::fit(data_prepared_tbl)
+
+    # 6. Get Coefficients ----
+    penalty <- final_model %>%
+        purrr::pluck("fit", "fit", "spec", "args", "penalty")
+
+    # 7. Produce Loading Table ----
+    loadings_tbl <- final_model %>%
+        purrr::pluck("fit", "fit", "fit") %>%
+        glmnet::coef.glmnet(s = penalty) %>%
+        as.matrix() %>%
+        tibble::as_tibble(rownames = ".model_id") %>%
+        purrr::set_names(c(".model_id", ".loadings")) %>%
+        dplyr::slice(-1) %>%
+        dplyr::mutate(.model_id = stringr::str_replace(.model_id, "^.model_id_", "")) %>%
+        dplyr::mutate(.model_id = as.integer(.model_id))
+
+    return(loadings_tbl)
+
 }
 
 

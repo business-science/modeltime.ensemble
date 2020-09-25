@@ -81,7 +81,7 @@ mdl_time_fit_resamples.workflow <- function(object, resamples) {
             verbose       = FALSE,
             allow_par     = TRUE,
             extract       = NULL,
-            save_pred     = FALSE,
+            save_pred     = TRUE,
             pkgs          = NULL,
             save_workflow = FALSE
         )
@@ -114,7 +114,7 @@ mdl_time_fit_resamples.model_fit <- function(object, resamples) {
             verbose       = FALSE,
             allow_par     = TRUE,
             extract       = NULL,
-            save_pred     = FALSE,
+            save_pred     = TRUE,
             pkgs          = NULL,
             save_workflow = FALSE
         )
