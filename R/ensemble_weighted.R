@@ -178,20 +178,26 @@ get_auto_loadings <- function(object, resamples, control = control_resamples()) 
         tidyr::unnest(.predictions) %>%
         dplyr::group_split(.model_id) %>%
         purrr::map( tibble::rowid_to_column, var = ".row_id") %>%
-        dplyr::bind_rows() %>%
-        dplyr::select(.row_id, .model_id, .pred, value)
+        dplyr::bind_rows()
+
+    # Target Variable is the name in the data
+    target_text <- names(predictions_tbl) %>% utils::tail(1)
+    target_var  <- rlang::sym(target_text)
+
+    predictions_tbl <- predictions_tbl %>%
+        dplyr::select(.row_id, .model_id, .pred, !! target_var)
 
     # * Actuals By Row ID ----
     actuals_by_rowid_tbl <- predictions_tbl %>%
         dplyr::filter(.model_id %in% unique(.model_id)[1]) %>%
-        dplyr::select(.row_id, value)
+        dplyr::select(.row_id, !! target_var)
 
     # * Get Predictions by Row ID ----
     predictions_by_rowid_tbl <- predictions_tbl %>%
         dplyr::select(.row_id, .model_id, .pred) %>%
         dplyr::mutate(.model_id = stringr::str_c(".model_id_", .model_id)) %>%
         tidyr::pivot_wider(
-            names_from = .model_id,
+            names_from  = .model_id,
             values_from = .pred
         )
 
@@ -212,7 +218,9 @@ get_auto_loadings <- function(object, resamples, control = control_resamples()) 
     ) %>%
         parsnip::set_engine("glmnet", intercept = FALSE)
 
-    recipe_spec <- recipes::recipe(value ~ ., data = data_prepared_tbl) %>%
+    form <- stats::formula(stringr::str_glue("{target_text} ~ ."))
+
+    recipe_spec <- recipes::recipe(form, data = data_prepared_tbl) %>%
         recipes::step_rm(.row_id)
 
     wflw_spec <- workflows::workflow() %>%
@@ -220,12 +228,14 @@ get_auto_loadings <- function(object, resamples, control = control_resamples()) 
         workflows::add_recipe(recipe_spec)
 
     # 4. Tune Model ----
+    metric <- "rmse"
+
     tune_results_tbl <- tune::tune_grid(
         object     = wflw_spec,
         resamples  = rsample::vfold_cv(data_prepared_tbl, v = 5),
         param_info = dials::parameters(
             dials::penalty(),
-            dials::mixture()
+            dials::mixture(range = c(0.05, 0.95))
         ),
         grid       = 6,
         metrics    = yardstick::metric_set(rmse, rsq),
@@ -242,13 +252,13 @@ get_auto_loadings <- function(object, resamples, control = control_resamples()) 
     if (control$verbose) {
         cli::cli_alert_success("Finished tuning Penalized Regression Model.")
         cli::cat_line()
+        print(tune_results_tbl %>% tune::show_best(metric, n = 1))
+        cli::cat_line()
     }
 
     # 5. Fit Best Model ----
 
     if (control$verbose) print(cli::rule("Selecting Loadings", width = 65))
-
-    metric <- "rmse"
 
     final_model <- wflw_spec %>%
         tune::finalize_workflow(
@@ -273,7 +283,7 @@ get_auto_loadings <- function(object, resamples, control = control_resamples()) 
 
     if (control$verbose) {
         cli::cat_line()
-        print(loadings_tbl)
+        print(object %>% dplyr::left_join(loadings_tbl, by = ".model_id"))
         cli::cat_line()
         tictoc::toc()
     }
