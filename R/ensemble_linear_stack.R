@@ -91,7 +91,7 @@ ensemble_linear_stack <- function(object,
     if (rlang::is_missing(resamples)) rlang::abort("'resamples' must be provided. Try creating samples using 'timetk::time_series_cv()'.")
     if (!inherits(resamples, "rset")) rlang::abort("'resamples' must be an `rset` object. Trying creating samples using 'timetk::time_series_cv()'")
 
-    if (nrow(object) < 2) rlang::abort("An average ensemble requires two or more models in the Modeltime Table.")
+    if (nrow(object) < 2) rlang::abort("An ensemble requires two or more models in the Modeltime Table.")
 
 
     UseMethod("ensemble_linear_stack", object)
@@ -178,19 +178,20 @@ calculate_stacking_coefficients <- function(object,
         cli::cat_line()
     }
 
-
-    resamples_results_tbl <- object %>%
-        modeltime_fit_resamples(
-            resamples = resamples,
-            control   = tune::control_resamples(
-                verbose       = control$verbose,
-                allow_par     = control$allow_par,
-                extract       = NULL,
-                save_pred     = TRUE,
-                pkgs          = control$pkgs,
-                save_workflow = FALSE
+    suppressWarnings({
+        resamples_results_tbl <- object %>%
+            modeltime_fit_resamples(
+                resamples = resamples,
+                control   = tune::control_resamples(
+                    verbose       = control$verbose,
+                    allow_par     = control$allow_par,
+                    extract       = NULL,
+                    save_pred     = TRUE,
+                    pkgs          = control$pkgs,
+                    save_workflow = FALSE
+                )
             )
-        )
+    })
 
     if (control$verbose) {
         cli::cat_line()

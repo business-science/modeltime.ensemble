@@ -69,24 +69,29 @@ test_that("ensemble_weighted()", {
 
 
 # Checks/Errors ----
-test_that("Checks/Errors: ensemble_average()", {
+test_that("Checks/Errors: ensemble_weighted()", {
 
     # Object is Missing
-    expect_error(ensemble_average())
+    expect_error(ensemble_weighted())
 
     # Incorrect Object
-    expect_error(ensemble_average(1))
+    expect_error(ensemble_weighted(1))
 
-    # Incorrect Type
-    expect_error(ensemble_average(m750_models, type = "blah"))
+    # No loadings
+    expect_error(ensemble_weighted(m750_models))
 
-    # Needs more than 1 model
+    # Needs correct number of loadings
     expect_error({
         m750_models %>%
-            dplyr::slice(1) %>%
-            ensemble_average(type = "mean")
+            ensemble_weighted(loadings = 1)
     })
 
+    # Needs more than one model
+    expect_error({
+        m750_models %>%
+            slice(1) %>%
+            ensemble_weighted(loadings = 1:3)
+    })
 
 })
 

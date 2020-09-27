@@ -51,7 +51,7 @@ ensemble_average <- function(object, type = c("mean", "median")) {
     # Checks
     if (rlang::is_missing(object)) rlang::abort("'object' is missing. Please provide a Modeltime Table with multiple models.")
     if (!inherits(object, "mdl_time_tbl")) rlang::abort("object must be a Modeltime Table.")
-    if (nrow(object) < 2) rlang::abort("An average ensemble requires two or more models in the Modeltime Table.")
+    if (nrow(object) < 2) rlang::abort("An ensemble requires two or more models in the Modeltime Table.")
     if (!tolower(type[[1]]) %in% c("mean", "median")) rlang::abort("An average ensemble requires type to be either 'mean' or 'median'.")
 
     UseMethod("ensemble_average", object)

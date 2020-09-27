@@ -55,7 +55,7 @@ ensemble_weighted <- function(object, loadings, scale_loadings = TRUE) {
     # Checks
     if (rlang::is_missing(object)) rlang::abort("'object' is missing. Please provide a Modeltime Table with multiple models.")
     if (!inherits(object, "mdl_time_tbl")) rlang::abort("'object' must be a Modeltime Table.")
-    if (nrow(object) < 2) rlang::abort("An average ensemble requires two or more models in the Modeltime Table.")
+    if (nrow(object) < 2) rlang::abort("An ensemble requires two or more models in the Modeltime Table.")
     if (!is.numeric(loadings)) rlang::abort("Loadings must be numeric.")
     if (nrow(object) != length(loadings)) rlang::abort("The length of 'loadings' must must match the number of rows in 'object'.")
 
