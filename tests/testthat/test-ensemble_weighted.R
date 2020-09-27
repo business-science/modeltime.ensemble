@@ -1,33 +1,39 @@
-context("TEST: ensemble_average()")
+context("TEST: ensemble_weighted()")
 
 # TEST ENSEMBLE AVERAGE ----
 
 # Median ----
-test_that("ensemble_average(type = 'median')", {
+test_that("ensemble_weighted()", {
 
-    ensemble_fit_median <- m750_models %>%
-        ensemble_average(type = "median")
+    loadings <- c(3,3,1)
+
+    ensemble_fit_wt <- m750_models %>%
+        ensemble_weighted(loadings = loadings)
 
     # Structure
-    expect_s3_class(ensemble_fit_median, "mdl_time_ensemble")
-    expect_s3_class(ensemble_fit_median, "mdl_time_ensemble_avg")
+    expect_s3_class(ensemble_fit_wt, "mdl_time_ensemble")
+    expect_s3_class(ensemble_fit_wt, "mdl_time_ensemble_wt")
 
-    expect_s3_class(ensemble_fit_median$model_tbl, "mdl_time_tbl")
-    expect_equal(ensemble_fit_median$parameters$type, "median")
-    expect_equal(ensemble_fit_median$n_models, 3)
-    expect_equal(ensemble_fit_median$desc, "ENSEMBLE (MEDIAN): 3 MODELS")
+    expect_s3_class(ensemble_fit_wt$model_tbl, "mdl_time_tbl")
+    expect_equal(ensemble_fit_wt$parameters$loadings, loadings)
+    expect_true(ensemble_fit_wt$parameters$scale_loadings)
+
+    expect_equal(ensemble_fit_wt$loadings_tbl$.loadings, loadings / sum(loadings))
+
+    expect_equal(ensemble_fit_wt$n_models, 3)
+    expect_equal(ensemble_fit_wt$desc, "ENSEMBLE (WEIGHTED): 3 MODELS")
 
     # Print
-    expect_equal(print(ensemble_fit_median), ensemble_fit_median)
+    expect_equal(print(ensemble_fit_wt), ensemble_fit_wt)
 
     # Modeltime Table
     expect_equal(
-        modeltime_table(ensemble_fit_median) %>% pull(.model_desc),
-        "ENSEMBLE (MEDIAN): 3 MODELS"
+        modeltime_table(ensemble_fit_wt) %>% pull(.model_desc),
+        "ENSEMBLE (WEIGHTED): 3 MODELS"
     )
 
     # Calibration
-    calibration_tbl <- ensemble_fit_median %>%
+    calibration_tbl <- ensemble_fit_wt %>%
         modeltime_calibrate(testing(m750_splits))
 
     expect_false(is.na(calibration_tbl$.type))
@@ -60,23 +66,7 @@ test_that("ensemble_average(type = 'median')", {
 
 })
 
-# Mean ----
-test_that("ensemble_average(type = 'mean')", {
 
-    ensemble_fit_mean <- m750_models %>%
-        ensemble_average(type = "mean")
-
-    # Structure
-    expect_s3_class(ensemble_fit_mean, "mdl_time_ensemble")
-    expect_s3_class(ensemble_fit_mean, "mdl_time_ensemble_avg")
-
-    expect_s3_class(ensemble_fit_mean$model_tbl, "mdl_time_tbl")
-    expect_equal(ensemble_fit_mean$parameters$type, "mean")
-    expect_equal(ensemble_fit_mean$n_models, 3)
-    expect_equal(ensemble_fit_mean$desc, "ENSEMBLE (MEAN): 3 MODELS")
-
-
-})
 
 # Checks/Errors ----
 test_that("Checks/Errors: ensemble_average()", {
