@@ -1,7 +1,6 @@
 
 
 #' @export
-#' @importFrom modeltime mdl_time_refit
 mdl_time_refit.mdl_time_ensemble <- function(object, data, ..., control = NULL) {
 
     model_tbl <- object$model_tbl

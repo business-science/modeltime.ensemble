@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Creates a Weighted Ensemble Model — ensemble_weighted • modeltime.ensemble</title>
+<title>Creates a Linear Stacked Ensemble Model — ensemble_linear_stack • modeltime.ensemble</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,9 @@
 
 
 
-<meta property="og:title" content="Creates a Weighted Ensemble Model — ensemble_weighted" />
-<meta property="og:description" content="Makes an ensemble by applying loadings to weight sub-model predictions" />
+<meta property="og:title" content="Creates a Linear Stacked Ensemble Model — ensemble_linear_stack" />
+<meta property="og:description" content="Uses Penalized Regression (Elastic Net) to select optimal
+weights for stacking sub-models." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -132,42 +133,84 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Creates a Weighted Ensemble Model</h1>
-    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.ensemble/blob/master/R/ensemble_weighted.R'><code>R/ensemble_weighted.R</code></a></small>
-    <div class="hidden name"><code>ensemble_weighted.Rd</code></div>
+    <h1>Creates a Linear Stacked Ensemble Model</h1>
+    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.ensemble/blob/master/R/ensemble_linear_stack.R'><code>R/ensemble_linear_stack.R</code></a></small>
+    <div class="hidden name"><code>ensemble_linear_stack.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Makes an ensemble by applying <code>loadings</code> to weight sub-model predictions</p>
+    <p>Uses Penalized Regression (Elastic Net) to select optimal
+weights for stacking sub-models.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ensemble_weighted</span>(<span class='no'>object</span>, <span class='no'>loadings</span>, <span class='kw'>scale_loadings</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>ensemble_linear_stack</span>(
+  <span class='no'>object</span>,
+  <span class='no'>resamples</span>,
+  <span class='kw'>kfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>grid_size</span> <span class='kw'>=</span> <span class='fl'>6</span>,
+  <span class='kw'>penalty_range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>10</span>, <span class='fl'>0</span>),
+  <span class='kw'>mixture_range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>),
+  <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'>control_resamples</span>()
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>A Modeltime Table</p></td>
+      <td><p>A Modeltime Table. Used for ensemble sub-models.</p></td>
     </tr>
     <tr>
-      <th>loadings</th>
-      <td><p>A vector of weights corresponding to the loadings</p></td>
+      <th>resamples</th>
+      <td><p>An <code>rset</code> resample object.
+Used to generate sub-model predictions for the meta-learner.
+See <code><a href='https://rdrr.io/pkg/timetk/man/time_series_cv.html'>timetk::time_series_cv()</a></code> for making time series resamples.</p></td>
     </tr>
     <tr>
-      <th>scale_loadings</th>
-      <td><p>If TRUE, divides by the sum of the loadings
-to proportionally weight the submodels.</p></td>
+      <th>kfolds</th>
+      <td><p>Controls the number of folds used in the
+meta-learner's cross-validation.</p></td>
+    </tr>
+    <tr>
+      <th>grid_size</th>
+      <td><p>Controls the grid size for penalty and mixture
+used in the meta-learner's cross validation.</p></td>
+    </tr>
+    <tr>
+      <th>penalty_range</th>
+      <td><p>Controls the range of acceptable penalty values
+on a Log Base-10 Scale. Used in the meta-learner's cross validation.</p></td>
+    </tr>
+    <tr>
+      <th>mixture_range</th>
+      <td><p>Controls the range of acceptable mixtures.
+Used in the meta-learner's cross validation.</p></td>
+    </tr>
+    <tr>
+      <th>control</th>
+      <td><p>A <code><a href='https://tune.tidymodels.org/reference/control_grid.html'>tune::control_resamples()</a></code> object to provide
+control over the resampling process.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The input to an <code>ensemble_weighted()</code> model is always a Modeltime Table,
-which contains the models that you will ensemble.</p>
-<p><strong>Weighting Method</strong></p>
-<p>The weighted method uses uses <code>loadings</code> by applying a
-<em>loading x model prediction</em> for each submodel.</p>
+    <p>The input to an <code>ensemble_linear_stack()</code> model is always a Modeltime Table,
+which contains the sub-models that you will ensemble.</p>
+<p><strong>Ensemble Process</strong></p>
+<p>The "auto" feature uses an ensembling process with the following basic steps:</p><ol>
+<li><p><strong>Make cross-validation predictions for each sub-model.</strong>
+The user provides the cross validation as <code>resamples</code>
+(using a function like <code><a href='https://rdrr.io/pkg/timetk/man/time_series_cv.html'>timetk::time_series_cv()</a></code>.
+The sub-model predictions are needed to made as the input for the
+meta-learner.</p></li>
+<li><p><strong>Apply Penalized Regression (Meta-Learner).</strong> The sub-model out-of-sample cross validation predictions are then
+Modeled using Penalized Regresstion (Elastic Net). This process uses tuning to find an
+optimal <code>penalty</code> and <code>mixture</code>. The model is then fitted to the full data set.</p></li>
+<li><p><strong>Use Coefficients as Loadings.</strong> The penalized regression is performed without an intercept
+so the coefficients returned can be used to weight the models.</p></li>
+</ol>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidymodels</span>)
@@ -176,36 +219,21 @@ which contains the models that you will ensemble.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyverse</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>timetk</span>)
 
-<span class='co'># Make an ensemble from a Modeltime Table</span>
-<span class='no'>ensemble_fit</span> <span class='kw'>&lt;-</span> <span class='no'>m750_models</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'>ensemble_weighted</span>(
-        <span class='kw'>loadings</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>1</span>),
-        <span class='kw'>scale_loadings</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>resamples_tscv</span> <span class='kw'>&lt;-</span> <span class='fu'>training</span>(<span class='no'>m750_splits</span>) <span class='kw'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/timetk/man/time_series_cv.html'>time_series_cv</a></span>(
+        <span class='kw'>assess</span>  <span class='kw'>=</span> <span class='st'>"2 years"</span>,
+        <span class='kw'>initial</span> <span class='kw'>=</span> <span class='st'>"5 years"</span>,
+        <span class='kw'>skip</span>    <span class='kw'>=</span> <span class='st'>"2 years"</span>,
+        <span class='kw'>slice_limit</span> <span class='kw'>=</span> <span class='fl'>6</span>
     )
 
-<span class='no'>ensemble_fit</span></div><div class='output co'>#&gt; ── Modeltime Ensemble ───────────────────────────────────────────
-#&gt; Ensemble of 3 Models (WEIGHTED)
-#&gt; 
-#&gt; # Modeltime Table
-#&gt; <span style='color: #555555;'># A tibble: 3 x 4</span><span>
-#&gt;   .model_id .model     .model_desc             .loadings
-#&gt;       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>         1 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> ARIMA(0,1,1)(0,1,1)[12]     0.429
-#&gt; </span><span style='color: #555555;'>2</span><span>         2 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> PROPHET                     0.429
-#&gt; </span><span style='color: #555555;'>3</span><span>         3 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> GLMNET                      0.143</div><div class='input'>
-<span class='co'># Forecast with the Ensemble</span>
-<span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/modeltime_table.html'>modeltime_table</a></span>(
-    <span class='no'>ensemble_fit</span>
-) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/modeltime_forecast.html'>modeltime_forecast</a></span>(
-        <span class='kw'>new_data</span>    <span class='kw'>=</span> <span class='fu'>testing</span>(<span class='no'>m750_splits</span>),
-        <span class='kw'>actual_data</span> <span class='kw'>=</span> <span class='no'>m750</span>
-    ) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/plot_modeltime_forecast.html'>plot_modeltime_forecast</a></span>(
-        <span class='kw'>.interactive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-        <span class='kw'>.conf_interval_show</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-    )</div><div class='img'><img src='ensemble_weighted-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></span></pre>
+<span class='no'>ensemble_fit_ls</span> <span class='kw'>&lt;-</span> <span class='no'>m750_models</span> <span class='kw'>%&gt;%</span>
+    <span class='fu'>ensemble_linear_stack</span>(
+        <span class='kw'>resamples</span> <span class='kw'>=</span> <span class='no'>resamples_tscv</span>,
+        <span class='kw'>control</span>   <span class='kw'>=</span> <span class='fu'>control_resamples</span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    )
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

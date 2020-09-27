@@ -63,7 +63,6 @@ mdl_time_forecast.mdl_time_ensemble_avg <- function(object, calibration_data, ne
 # 2.0 WEIGHTED ENSEMBLE ----
 
 #' @export
-#' @importFrom modeltime mdl_time_forecast
 mdl_time_forecast.mdl_time_ensemble_wt <- function(object, calibration_data, new_data = NULL,
                                                    h = NULL, actual_data = NULL, bind_actual = TRUE, ...) {
 
@@ -118,6 +117,9 @@ mdl_time_forecast.mdl_time_ensemble_wt <- function(object, calibration_data, new
 }
 
 
+# 3.0 LINEAR STACK ----
 
+#' @export
+mdl_time_forecast.mdl_time_ensemble_linear_stack <- mdl_time_forecast.mdl_time_ensemble_wt
 
 

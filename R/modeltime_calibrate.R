@@ -1,7 +1,6 @@
 
 
 #' @export
-#' @importFrom modeltime modeltime_calibrate
 modeltime_calibrate.mdl_time_ensemble <- function(object, new_data, quiet = TRUE, ...) {
 
     ret <- modeltime_table(object) %>%

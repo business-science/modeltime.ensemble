@@ -4,52 +4,27 @@
 \alias{ensemble_weighted}
 \title{Creates a Weighted Ensemble Model}
 \usage{
-ensemble_weighted(
-  object,
-  loadings = "auto",
-  resamples = NULL,
-  control = control_resamples()
-)
+ensemble_weighted(object, loadings, scale_loadings = TRUE)
 }
 \arguments{
 \item{object}{A Modeltime Table}
 
-\item{loadings}{Either "auto" or a vector of weights corresponding to the loadings}
+\item{loadings}{A vector of weights corresponding to the loadings}
 
-\item{resamples}{NULL. Required to use the automated functionality.
-See \code{\link[timetk:time_series_cv]{timetk::time_series_cv()}} for making time series resamples.}
-
-\item{control}{A \code{\link[tune:control_grid]{tune::control_resamples()}} object to provide
-control over the resampling process.}
+\item{scale_loadings}{If TRUE, divides by the sum of the loadings
+to proportionally weight the submodels.}
 }
 \description{
-Creates a Weighted Ensemble Model
+Makes an ensemble by applying \code{loadings} to weight sub-model predictions
 }
 \details{
 The input to an \code{ensemble_weighted()} model is always a Modeltime Table,
 which contains the models that you will ensemble.
 
-\strong{Weighting Methods}
+\strong{Weighting Method}
 
-The weighted method uses uses \code{loadings} of either:
-\itemize{
-\item \code{"auto"}: Performs weighting using Penalized Regression (using and Elastic Net via \code{glmnet}).
-This method requires \code{resamples}. See discussion below.
-\item \verb{<numeric>}: A vector of weights corresponding to the weighting to apply to each model.
-}
-
-\strong{Automatic Ensemble Process}
-
-The "auto" feature uses an ensembling process with the following basic steps:
-\enumerate{
-\item \strong{Make cross-validation predictions for each model.}
-The user provides the cross validation as \code{resamples} (using a function like \code{\link[timetk:time_series_cv]{timetk::time_series_cv()}}.
-\item \strong{Apply Penalized Regression.} The out-of-sample cross validation predictions are then
-Modeled using Penalized Regresstion (Elastic Net). This process uses tuning to find an
-optimal \code{penalty} and \code{mixture}. The model is then fitted to the full data set.
-\item \strong{Use Coefficients as Loadings.} The penalized regression is performed without an intercept
-so the coefficients returned can be used to weight the models.
-}
+The weighted method uses uses \code{loadings} by applying a
+\emph{loading x model prediction} for each submodel.
 }
 \examples{
 library(tidymodels)
@@ -60,7 +35,10 @@ library(timetk)
 
 # Make an ensemble from a Modeltime Table
 ensemble_fit <- m750_models \%>\%
-    ensemble_weighted(loadings = c(3, 3, 1) / 7)
+    ensemble_weighted(
+        loadings = c(3, 3, 1),
+        scale_loadings = TRUE
+    )
 
 ensemble_fit
 

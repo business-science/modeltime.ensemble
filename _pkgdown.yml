@@ -24,10 +24,6 @@ reference:
     desc: The functions for creating Modeltime Ensembles.
     contents:
     - starts_with("ensemble")
-  - title: Modeltime Fitting & Tuning Extensions
-    desc: The functions for creating Modeltime Ensembles.
-    contents:
-    - starts_with("modeltime_fit")
 
 
 repo:
