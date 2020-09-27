@@ -63,7 +63,9 @@ ensemble_average.mdl_time_tbl <- function(object, type = c("mean", "median")) {
     # Create
     ensemble_average <- list(
         model_tbl = object,
-        type      = type[[1]],
+        parameters = list(
+            type      = tolower(type[[1]])
+        ),
         n_models  = nrow(object)
     )
 
@@ -82,7 +84,7 @@ print.mdl_time_ensemble_avg <- function(x, ...) {
 
     print(cli::rule("Modeltime Ensemble", width = min(65, cli::console_width())))
 
-    if (x$type == "mean") {
+    if (x$parameters$type == "mean") {
         msg <- glue::glue("Ensemble of {x$n_models} Models (MEAN)")
     } else {
         msg <- glue::glue("Ensemble of {x$n_models} Models (MEDIAN)")

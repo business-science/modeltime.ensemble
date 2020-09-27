@@ -121,17 +121,15 @@ ensemble_linear_stack.mdl_time_tbl <- function(object,
     # Create Weighted Ensemble
     ensemble_linear_stack <- list(
         model_tbl      = object,
-        loadings_info  = list(
-            parameters_user = list(
-                resamples     = resamples,
-                kfolds        = kfolds,
-                grid_size     = grid_size,
-                penalty_range = penalty_range,
-                mixture_range = mixture_range,
-                control       = control
-            ),
-            loadings_tbl  = loadings_tbl
+        parameters = list(
+            resamples     = resamples,
+            kfolds        = kfolds,
+            grid_size     = grid_size,
+            penalty_range = penalty_range,
+            mixture_range = mixture_range,
+            control       = control
         ),
+        loadings_tbl  = loadings_tbl,
         n_models       = nrow(object)
     )
 
@@ -156,13 +154,13 @@ print.mdl_time_ensemble_linear_stack <- function(x, ...) {
 
     cli::cat_line()
 
-    print(dplyr::left_join(x$model_tbl, x$loadings_info$loadings_tbl, by = ".model_id"))
+    print(dplyr::left_join(x$model_tbl, x$loadings_tbl, by = ".model_id"))
 
     invisible(x)
 }
 
 
-# AUTO ----
+# CALCULATE LOADINGS USING GLMNET ----
 
 calculate_stacking_coefficients <- function(object,
                                             resamples,
@@ -315,7 +313,6 @@ calculate_stacking_coefficients <- function(object,
         cli::cat_line()
         tictoc::toc()
     }
-
 
     return(loadings_tbl)
 

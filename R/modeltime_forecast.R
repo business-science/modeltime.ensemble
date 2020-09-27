@@ -8,7 +8,7 @@ mdl_time_forecast.mdl_time_ensemble_avg <- function(object, calibration_data, ne
                                                     h = NULL, actual_data = NULL, bind_actual = TRUE, ...) {
 
     model_tbl <- object$model_tbl
-    type      <- tolower(object$type)
+    type      <- object$parameters$type
 
     # Get the raw forecast results for each of the models
     modeltime_fcast <- modeltime::modeltime_forecast(
@@ -67,7 +67,7 @@ mdl_time_forecast.mdl_time_ensemble_wt <- function(object, calibration_data, new
                                                    h = NULL, actual_data = NULL, bind_actual = TRUE, ...) {
 
     model_tbl    <- object$model_tbl
-    loadings_tbl <- object$loadings_info$loadings_tbl
+    loadings_tbl <- object$loadings_tbl
 
     # Get the raw forecast results for each of the models
     modeltime_fcast <- modeltime::modeltime_forecast(

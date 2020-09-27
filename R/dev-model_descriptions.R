@@ -3,7 +3,7 @@
 #' @export
 get_model_description.mdl_time_ensemble_avg <- function(object, indicate_training = FALSE, upper_case = TRUE) {
 
-    type     <- object$type
+    type     <- object$parameters$type
     n_models <- object$n_models
 
     desc <- stringr::str_glue("Ensemble ({type}): {n_models} Models")

@@ -69,6 +69,8 @@ ensemble_weighted.mdl_time_tbl <- function(object,
                                            scale_loadings = TRUE) {
 
 
+    loadings_original <- loadings
+
     # Scale loadings
     if (scale_loadings) {
         loadings <- loadings / sum(loadings)
@@ -83,10 +85,11 @@ ensemble_weighted.mdl_time_tbl <- function(object,
     # Create Weighted Ensemble
     ensemble_weighted <- list(
         model_tbl      = object,
-        loadings_info  = list(
-            loadings_user = loadings,
-            loadings_tbl  = loadings_tbl
+        parameters     = list(
+            loadings       = loadings_original,
+            scale_loadings = scale_loadings
         ),
+        loadings_tbl  = loadings_tbl,
         n_models       = nrow(object)
     )
 
@@ -111,7 +114,7 @@ print.mdl_time_ensemble_wt <- function(x, ...) {
 
     cli::cat_line()
 
-    print(dplyr::left_join(x$model_tbl, x$loadings_info$loadings_tbl, by = ".model_id"))
+    print(dplyr::left_join(x$model_tbl, x$loadings_tbl, by = ".model_id"))
 
     invisible(x)
 }
