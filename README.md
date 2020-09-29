@@ -18,8 +18,7 @@ coverage](https://codecov.io/gh/business-science/modeltime.ensemble/branch/maste
 > Unlocks Time Series Ensemble Forecasting with Tidymodels
 
 A `modeltime` extension that implements ***ensemble forecasting
-methods*** including model averaging, weighted averaging via penalized
-regression, and stacking.
+methods*** including model averaging, weighted averaging, and stacking.
 
 ## Installation
 
@@ -72,7 +71,7 @@ ensemble_fit <- m750_models %>%
     ensemble_average(type = "mean")
 
 ensemble_fit
-#> -- Modeltime Ensemble -------------------------------------------
+#> ── Modeltime Ensemble ───────────────────────────────────────────
 #> Ensemble of 3 Models (MEAN)
 #> 
 #> # Modeltime Table

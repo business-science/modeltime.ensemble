@@ -91,7 +91,7 @@ weights for stacking sub-models." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.ensemble</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -115,7 +115,7 @@ weights for stacking sub-models." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/business-science/modeltime">
+  <a href="https://github.com/business-science/modeltime.ensemble">
     <span class="fa fa-github"></span>
      
   </a>
@@ -198,7 +198,7 @@ control over the resampling process.</p></td>
     <p>The input to an <code>ensemble_linear_stack()</code> model is always a Modeltime Table,
 which contains the sub-models that you will ensemble.</p>
 <p><strong>Ensemble Process</strong></p>
-<p>The "auto" feature uses an ensembling process with the following basic steps:</p><ol>
+<p>The Meta-Learner Ensembling Process uses the following basic steps:</p><ol>
 <li><p><strong>Make cross-validation predictions for each sub-model.</strong>
 The user provides the cross validation as <code>resamples</code>
 (using a function like <code><a href='https://rdrr.io/pkg/timetk/man/time_series_cv.html'>timetk::time_series_cv()</a></code>.
@@ -211,6 +211,13 @@ optimal <code>penalty</code> and <code>mixture</code>. The model is then fitted 
 so the coefficients returned can be used to weight the models.</p></li>
 </ol>
 
+<p><strong>Progress</strong></p>
+<p>The best way to follow the training process and watch progress is to use
+<code>control = control_resamples(verbose = TRUE)</code> to see progress.</p>
+<p><strong>Parallelize</strong></p>
+<p>Portions of the process can be parallelized. To parallelize, set
+up parallelization using <code>tune</code> via one of the backends such as
+<code>doFuture</code>. Then set <code>control = control_resamples(allow_par = TRUE)</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidymodels</span>)

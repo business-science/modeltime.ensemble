@@ -1,21 +1,23 @@
 Package: modeltime.ensemble
 Type: Package
-Title: Ensemble algorithms for Modeltime Forecasting
-Version: 0.0.0.9000
+Title: Ensemble Algorithms for Time Series Forecasting with Modeltime
+Version: 0.1.0
 Authors@R: c(
     person("Matt", "Dancho", email = "mdancho@business-science.io", role = c("aut", "cre")),
     person("Business Science", role = "cph")
     )
 Description: 
-    Modeltime extension that implements ensemble forecasting methods including model averaging, 
-    weighted averaging via penalized regression, and stacking. 
+    A 'modeltime' extension that implements time series ensemble forecasting methods including model averaging, 
+    weighted averaging, and linear stacking using penalized regression. These techniques are popular methods 
+    to improve forecast accuracy and stability. Refer to papers such as
+    Pavlyshenko, B.M. Machine-Learning Models for Sales Time Series Forecasting. Data 2019, 4, 15.
 URL: https://github.com/business-science/modeltime.ensemble
 BugReports: https://github.com/business-science/modeltime.ensemble/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    modeltime (>= 0.1.0.9000),
+    modeltime (>= 0.2.0),
     R (>= 3.5)
 Imports: 
     tune,
@@ -25,7 +27,7 @@ Imports:
     parsnip,
     recipes,
     dials,
-    timetk (>= 2.2.1.9000),
+    timetk (>= 2.3.0),
     tibble,
     dplyr,
     tidyr,
@@ -49,11 +51,8 @@ Suggests:
     lubridate,
     knitr,
     rmarkdown,
-    covr
+    covr, 
+    remotes
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-Remotes:
-    business-science/timetk,
-    business-science/modeltime
-    

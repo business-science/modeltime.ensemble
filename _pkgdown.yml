@@ -17,12 +17,15 @@ navbar:
 
   right:
     - icon: fa-github
-      href: https://github.com/business-science/modeltime
+      href: https://github.com/business-science/modeltime.ensemble
 
 reference:
   - title: Modeltime Ensembles
     desc: The functions for creating Modeltime Ensembles.
     contents:
+    - "ensemble_average"
+    - "ensemble_weighted"
+    - "ensemble_linear_stack"
     - starts_with("ensemble")
 
 

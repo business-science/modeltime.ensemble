@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 > Unlocks Time Series Ensemble Forecasting with Tidymodels
 
-A `modeltime` extension that that implements ___ensemble forecasting methods___ including model averaging, weighted averaging via penalized regression, and stacking. Let's go through a guided tour to kick the tires on `modeltime.ensemble`. 
+A `modeltime` extension that that implements ___ensemble forecasting methods___ including model averaging, weighted averaging, and stacking. Let's go through a guided tour to kick the tires on `modeltime.ensemble`. 
 
 
 
@@ -33,8 +33,8 @@ We'll perform the simplest type of forecasting: __Using a simple average of the 
 
 Note that `modeltime.ensemble` has capabilities for more sophisticated model ensembling using:
 
-- __Weighted Averaging__ using penalized regression models 
-- __Stacking (Coming Soon)__ using a superlearner (metalearning)
+- __Weighted Averaging__  
+- __Stacking__ using an Elastic Net regression model (metalearning)
 
 ## Libraries
 
@@ -124,7 +124,7 @@ wflw_fit_prophet <- workflow() %>%
 
 ## Model 3 - Elastic Net
 
-Third, we'll make an Elastic Net (Penalized Regression) Model using `glmnet`. 
+Third, we'll make an Elastic Net Model using `glmnet`. 
 
 ```{r}
 model_spec_glmnet <- linear_reg(

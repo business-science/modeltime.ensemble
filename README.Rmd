@@ -31,7 +31,7 @@ knitr::opts_chunk$set(
 
 > Unlocks Time Series Ensemble Forecasting with Tidymodels
 
-A `modeltime` extension that implements ___ensemble forecasting methods___ including model averaging, weighted averaging via penalized regression, and stacking.
+A `modeltime` extension that implements ___ensemble forecasting methods___ including model averaging, weighted averaging, and stacking.
 
 
 ## Installation
