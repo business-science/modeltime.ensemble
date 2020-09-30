@@ -89,7 +89,7 @@ ensemble_weighted.mdl_time_tbl <- function(object,
             loadings       = loadings_original,
             scale_loadings = scale_loadings
         ),
-        loadings_tbl  = loadings_tbl,
+        fit            = list(loadings_tbl  = loadings_tbl),
         n_models       = nrow(object)
     )
 
@@ -114,7 +114,7 @@ print.mdl_time_ensemble_wt <- function(x, ...) {
 
     cli::cat_line()
 
-    print(dplyr::left_join(x$model_tbl, x$loadings_tbl, by = ".model_id"))
+    print(dplyr::left_join(x$model_tbl, x$fit$loadings_tbl, by = ".model_id"))
 
     invisible(x)
 }

@@ -18,7 +18,7 @@ test_that("ensemble_weighted()", {
     expect_equal(ensemble_fit_wt$parameters$loadings, loadings)
     expect_true(ensemble_fit_wt$parameters$scale_loadings)
 
-    expect_equal(ensemble_fit_wt$loadings_tbl$.loadings, loadings / sum(loadings))
+    expect_equal(ensemble_fit_wt$fit$loadings_tbl$.loadings, loadings / sum(loadings))
 
     expect_equal(ensemble_fit_wt$n_models, 3)
     expect_equal(ensemble_fit_wt$desc, "ENSEMBLE (WEIGHTED): 3 MODELS")

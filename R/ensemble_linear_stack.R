@@ -129,7 +129,7 @@ ensemble_linear_stack.mdl_time_tbl <- function(object,
             mixture_range = mixture_range,
             control       = control
         ),
-        loadings_tbl   = stacking_results$loadings_tbl,
+        fit            = stacking_results,
         n_models       = nrow(object)
     )
 
@@ -154,7 +154,7 @@ print.mdl_time_ensemble_linear_stack <- function(x, ...) {
 
     cli::cat_line()
 
-    print(dplyr::left_join(x$model_tbl, x$loadings_tbl, by = ".model_id"))
+    print(dplyr::left_join(x$model_tbl, x$fit$loadings_tbl, by = ".model_id"))
 
     invisible(x)
 }
@@ -348,10 +348,10 @@ calculate_stacking_coefficients <- function(object,
     }
 
     ret <- list(
-        loadings_tbl = loadings_tbl,
         fit          = final_model,
         fit_params   = best_params_tbl,
-        cv_results   = cv_comparison_tbl
+        cv_results   = cv_comparison_tbl,
+        loadings_tbl = loadings_tbl
     )
 
     return(ret)
