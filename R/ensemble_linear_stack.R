@@ -107,7 +107,7 @@ ensemble_linear_stack.mdl_time_tbl <- function(object,
                                                control       = control_resamples()) {
 
     # Calculate the loadings
-    loadings_tbl <- calculate_stacking_coefficients(
+    stacking_results <- calculate_stacking_coefficients(
         object        = object,
         resamples     = resamples,
         kfolds        = kfolds,
@@ -129,7 +129,7 @@ ensemble_linear_stack.mdl_time_tbl <- function(object,
             mixture_range = mixture_range,
             control       = control
         ),
-        loadings_tbl  = loadings_tbl,
+        loadings_tbl   = stacking_results$loadings_tbl,
         n_models       = nrow(object)
     )
 
@@ -174,7 +174,7 @@ calculate_stacking_coefficients <- function(object,
 
     if (control$verbose) {
         tictoc::tic()
-        print(cli::rule("Fitting Resamples", width = 65))
+        print(cli::rule("Stage 1: Fitting Resamples", width = 65))
         cli::cat_line()
     }
 
@@ -235,7 +235,8 @@ calculate_stacking_coefficients <- function(object,
     # 3. Build GLMNET Model ----
 
     if (control$verbose) {
-        print(cli::rule("Tuning Penalized Regression Model", width = 65))
+        print(cli::rule("Stage 2: Tuning Penalized Regression Model", width = 65))
+        cli::cli_alert_info(stringr::str_glue("Performing {kfolds}-Fold Cross Validation."))
         cli::cat_line()
     }
 
@@ -276,20 +277,22 @@ calculate_stacking_coefficients <- function(object,
         )
     )
 
+    best_params_tbl <- tune_results_tbl %>% tune::show_best(metric, n = 1)
+
     if (control$verbose) {
         cli::cli_alert_success("Finished tuning Penalized Regression Model.")
         cli::cat_line()
-        print(tune_results_tbl %>% tune::show_best(metric, n = 1))
+        cli::cli_alert_info("GLMNET Model Parameters:")
+        print(best_params_tbl)
         cli::cat_line()
     }
 
     # 5. Fit Best Model ----
 
-    if (control$verbose) print(cli::rule("Selecting Loadings", width = 65))
 
     final_model <- wflw_spec %>%
         tune::finalize_workflow(
-            tune_results_tbl %>% tune::select_best(metric)
+            best_params_tbl
         ) %>%
         generics::fit(data_prepared_tbl)
 
@@ -308,14 +311,50 @@ calculate_stacking_coefficients <- function(object,
         dplyr::mutate(.model_id = stringr::str_replace(.model_id, "^.model_id_", "")) %>%
         dplyr::mutate(.model_id = as.integer(.model_id))
 
+    cv_comparison_tbl <- stats::predict(final_model, data_prepared_tbl) %>%
+        dplyr::bind_cols(data_prepared_tbl) %>%
+        dplyr::rename(.model_id_ensemble = 1) %>%
+        tidyr::pivot_longer(
+            cols = dplyr::starts_with(".model_id"),
+            names_to = ".model_id",
+            values_to = ".preds"
+        ) %>%
+        dplyr::group_by(.model_id) %>%
+        dplyr::summarise(rmse = yardstick::rmse_vec(!! target_var, .preds), .groups = "drop") %>%
+        dplyr::mutate(.model_id = stringr::str_remove(.model_id, ".model_id_")) %>%
+        dplyr::left_join(
+            object %>%
+                dplyr::select(-.model) %>%
+                dplyr::mutate(.model_id = as.character(.model_id)),
+            by = ".model_id"
+        ) %>%
+        dplyr::mutate(.model_desc = ifelse(is.na(.model_desc), "ENSEMBLE (LINEAR STACK)", .model_desc)) %>%
+        dplyr::select(.model_id, .model_desc, dplyr::everything())
+
     if (control$verbose) {
+        cli::cli_alert_info("Ensemble Cross Validation Error Comparison:")
+        print(cv_comparison_tbl)
+        cli::cat_line()
+    }
+
+    if (control$verbose) print(cli::rule("Stage 3: Selecting Loadings", width = 65))
+
+    if (control$verbose) {
+
         cli::cat_line()
         print(object %>% dplyr::left_join(loadings_tbl, by = ".model_id"))
         cli::cat_line()
         tictoc::toc()
     }
 
-    return(loadings_tbl)
+    ret <- list(
+        loadings_tbl = loadings_tbl,
+        fit          = final_model,
+        fit_params   = best_params_tbl,
+        cv_results   = cv_comparison_tbl
+    )
+
+    return(ret)
 
 }
 
