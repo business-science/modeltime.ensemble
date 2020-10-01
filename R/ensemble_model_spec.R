@@ -148,6 +148,11 @@ ensemble_model_spec <- function(object,
     if (rlang::is_missing(resamples)) rlang::abort("'resamples' must be provided. Try creating samples using 'timetk::time_series_cv()'.")
     if (!inherits(resamples, "rset")) rlang::abort("'resamples' must be an `rset` object. Trying creating samples using 'timetk::time_series_cv()'")
 
+    if (rlang::is_missing(model_spec)) rlang::abort("'model_spec' must be provided. Try creating a model_spec using parsnip or modeltime models.")
+    if (!inherits(model_spec, "model_spec")) rlang::abort("'model_spec' must be a `model_spec` object. Try creating a model_spec using parsnip or modeltime models.")
+    if (is.null(model_spec$engine)) rlang::abort("'model_spec' does not have an engine set. Try setting an engine using `parsnip::set_engine()`.")
+
+
     if (nrow(object) < 2) rlang::abort("An ensemble requires two or more models in the Modeltime Table.")
 
 
