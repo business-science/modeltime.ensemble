@@ -20,6 +20,8 @@ coverage](https://codecov.io/gh/business-science/modeltime.ensemble/branch/maste
 A `modeltime` extension that implements ***ensemble forecasting
 methods*** including model averaging, weighted averaging, and stacking.
 
+<img src="vignettes/stacking_multi_level.jpg" width="100%" style="display: block; margin: auto;" />
+
 ## Installation
 
 ``` r
@@ -104,7 +106,7 @@ calibration_tbl %>%
     plot_modeltime_forecast(.interactive = FALSE)
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
 ## Learning More
 
