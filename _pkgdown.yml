@@ -25,7 +25,7 @@ reference:
     contents:
     - "ensemble_average"
     - "ensemble_weighted"
-    - "ensemble_linear_stack"
+    - "ensemble_model_spec"
     - starts_with("ensemble")
 
 
