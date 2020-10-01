@@ -9,8 +9,8 @@ Authors@R: c(
 Description: 
     A 'modeltime' extension that implements time series ensemble forecasting methods including model averaging, 
     weighted averaging, and linear stacking using penalized regression. These techniques are popular methods 
-    to improve forecast accuracy and stability. Refer to papers such as
-    Pavlyshenko, B.M. Machine-Learning Models for Sales Time Series Forecasting. Data 2019, 4, 15.
+    to improve forecast accuracy and stability. Refer to papers such as 
+    "Machine-Learning Models for Sales Time Series Forecasting" Pavlyshenko, B.M. (2019) <doi:10.3390>
 URL: https://github.com/business-science/modeltime.ensemble
 BugReports: https://github.com/business-science/modeltime.ensemble/issues
 License: MIT + file LICENSE
