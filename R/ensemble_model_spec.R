@@ -103,7 +103,7 @@
 #'         assess  = "2 years",
 #'         initial = "5 years",
 #'         skip    = "2 years",
-#'         slice_limit = 6
+#'         slice_limit = 1
 #'     )
 #'
 #' # No Metalearner Tuning ----
@@ -125,6 +125,7 @@
 #'                 mixture = tune()
 #'             ) %>%
 #'             set_engine("glmnet"),
+#'         grid       = 2,
 #'         control    = control_grid(verbose = TRUE)
 #'     )
 #'
