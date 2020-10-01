@@ -218,7 +218,7 @@ print.mdl_time_ensemble_model_spec <- function(x, ...) {
 }
 
 
-# CALCULATE LOADINGS USING GLMNET ----
+# STACKING RESULTS ----
 
 generate_stacking_results <- function(object,
                                       resamples,
