@@ -14,6 +14,9 @@ ensemble_weighted(object, loadings, scale_loadings = TRUE)
 \item{scale_loadings}{If TRUE, divides by the sum of the loadings
 to proportionally weight the submodels.}
 }
+\value{
+A \code{mdl_time_ensemble} object.
+}
 \description{
 Makes an ensemble by applying \code{loadings} to weight sub-model predictions
 }

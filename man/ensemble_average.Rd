@@ -11,6 +11,9 @@ ensemble_average(object, type = c("mean", "median"))
 
 \item{type}{Specify the type of average ("mean" or "median")}
 }
+\value{
+A \code{mdl_time_ensemble} object.
+}
 \description{
 Creates an Ensemble Model using Mean/Median Averaging
 }

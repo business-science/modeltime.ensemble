@@ -3,15 +3,12 @@
 #' Creates a Stacked Ensemble Model from a Model Spec
 #'
 #'
-#' A 3-stage stacking regressor that follows:
-#' 1. Stage 1: Sub-Model's are Trained & Predicted using `resamples`
-#' 2. Stage 2: A Meta-learner (`model_spec`) is trained on Out-of-Sample Sub-Model Predictions
-#' 3. Stage 3: The Best Meta-Learner Model is Selected (if tuning is used)
+#' A 2-stage stacking regressor that follows:
+#' 1. Stage 1: Sub-Model's are Trained & Predicted using `modeltime_fit_resamples()`
+#' 2. Stage 2: A Meta-learner (`model_spec`) is trained on Out-of-Sample Sub-Model
+#'   Predictions using `ensemble_model_spec()`
 #'
 #' @param object A Modeltime Table. Used for ensemble sub-models.
-#' @param resamples An `rset` resample object.
-#'   Used to generate sub-model predictions for the meta-learner.
-#'   See [timetk::time_series_cv()] or [rsample::vfold_cv()] for making resamples.
 #' @param model_spec A `model_spec` object defining the
 #'  meta-learner stacking model specification to be used.
 #'
@@ -32,35 +29,26 @@
 #'  Uses `tune::control_grid()` by default.
 #'  Use `control_grid(verbose = TRUE)` to follow the training process.
 #'
+#' @return A `mdl_time_ensemble` object.
 #'
 #' @details
 #'
-#' __Important Details:__
+#' __Stacked Ensemble Process__
 #'
-#' Results will vary considerably if poor sub-model candidates are used,
-#' a poor sub-model resampling strategy is selected,
-#' a poor meta-learner is selected, if the metalearner is not tuned.
+#' - Start with a _Modeltime Table_ to define your sub-models.
 #'
-#' - Use `object` (a Modeltime Table) to define your sub-models
+#' - Step 1: Use [modeltime_fit_resamples()] to perform the submodel resampling procedure.
 #'
-#' - Use `resamples` to define the submodel resampling procedure.
-#'   Results will vary considerably if a poor resampling strategy is selected.
+#' - Step 2: Use [ensemble_model_spec()] to define and train the meta-learner.
 #'
-#' - Use `model_spec` to define the meta-learner. Use `tune::tune()` to define
-#'   meta-learner parameters for tuning.
-#'
-#'
-#' __Ensemble Process__
+#' __What goes on inside the Meta Learner?__
 #'
 #' The Meta-Learner Ensembling Process uses the following basic steps:
 #'
-#' 1. __Make cross-validation predictions for each sub-model.__
-#'   The user provides the sub-models as a Modeltime Table (`object`) and
-#'   the cross validation set as `resamples`
-#'   (using a function like [timetk::time_series_cv()] or [rsample::vfold_cv()].
-#'   Each model in the Modeltime Table is trained & predicted on the `resamples`.
-#'   The out-of-sample sub-model predictions are used as the input to the
-#'   meta-learner.
+#' 1. __Make Cross-Validation Predictions.__
+#'   Cross validation predictions are made for each sub-model with [modeltime_fit_resamples()].
+#'   The out-of-sample sub-model predictions contained in `.resample_results`
+#'   are used as the input to the meta-learner.
 #'
 #' 2. __Train a Stacked Regressor (Meta-Learner).__
 #'   The sub-model out-of-sample cross validation predictions are then
@@ -73,7 +61,7 @@
 #'       then the meta-learner will not be hypeparameter tuned and will have the model
 #'       fitted to the sub-model predictions.
 #'
-#' 3. __Final Model Selection__
+#' 3. __Final Model Selection.__
 #'
 #'     - __If tuned__, the final model is selected based on RMSE, then
 #'       retrained on the full set of out of sample predictions.
@@ -98,6 +86,7 @@
 #' library(timetk)
 #'
 #' \donttest{
+#' # Step 1: Make resample predictions for submodels
 #' resamples_tscv <- training(m750_splits) %>%
 #'     time_series_cv(
 #'         assess  = "2 years",
@@ -106,24 +95,30 @@
 #'         slice_limit = 1
 #'     )
 #'
-#' # No Metalearner Tuning ----
-#' ensemble_fit_lm <- m750_models %>%
+#' submodel_predictions <- m750_models %>%
+#'     modeltime_fit_resamples(
+#'         resamples = resamples_tscv,
+#'         control   = control_resamples(verbose = TRUE)
+#'     )
+#'
+#' # Step 2: Metalearner ----
+#'
+#' # * No Metalearner Tuning
+#' ensemble_fit_lm <- submodel_predictions %>%
 #'     ensemble_model_spec(
-#'         resamples  = resamples_tscv,
 #'         model_spec = linear_reg() %>% set_engine("lm"),
 #'         control    = control_grid(verbose = TRUE)
 #'     )
 #'
 #' ensemble_fit_lm
 #'
-#' # With Metalearner Tuning ----
-#' ensemble_fit_glmnet <- m750_models %>%
+#' # * With Metalearner Tuning ----
+#' ensemble_fit_glmnet <- submodel_predictions %>%
 #'     ensemble_model_spec(
-#'         resamples  = resamples_tscv,
 #'         model_spec = linear_reg(
-#'                 penalty = tune(),
-#'                 mixture = tune()
-#'             ) %>%
+#'             penalty = tune(),
+#'             mixture = tune()
+#'         ) %>%
 #'             set_engine("glmnet"),
 #'         grid       = 2,
 #'         control    = control_grid(verbose = TRUE)
@@ -135,7 +130,6 @@
 #'
 #' @export
 ensemble_model_spec <- function(object,
-                                resamples,
                                 model_spec,
                                 kfolds        = 5,
                                 param_info    = NULL,
@@ -146,8 +140,9 @@ ensemble_model_spec <- function(object,
     if (rlang::is_missing(object)) rlang::abort("'object' is missing. Please provide a Modeltime Table with multiple models.")
     if (!inherits(object, "mdl_time_tbl")) rlang::abort("'object' must be a Modeltime Table.")
 
-    if (rlang::is_missing(resamples)) rlang::abort("'resamples' must be provided. Try creating samples using 'timetk::time_series_cv()'.")
-    if (!inherits(resamples, "rset")) rlang::abort("'resamples' must be an `rset` object. Trying creating samples using 'timetk::time_series_cv()'")
+    if (!".resample_results" %in% names(object)) {
+        rlang::abort("object does not contain '.resample_results'. Try adding resamples with `modeltime_fit_resamples()`.")
+    }
 
     if (rlang::is_missing(model_spec)) rlang::abort("'model_spec' must be provided. Try creating a model_spec using parsnip or modeltime models.")
     if (!inherits(model_spec, "model_spec")) rlang::abort("'model_spec' must be a `model_spec` object. Try creating a model_spec using parsnip or modeltime models.")
@@ -162,7 +157,6 @@ ensemble_model_spec <- function(object,
 
 #' @export
 ensemble_model_spec.mdl_time_tbl <- function(object,
-                                             resamples,
                                              model_spec,
                                              kfolds        = 5,
                                              param_info    = NULL,
@@ -172,7 +166,6 @@ ensemble_model_spec.mdl_time_tbl <- function(object,
     # Calculate the loadings
     stacking_results <- generate_stacking_results(
         object        = object,
-        resamples     = resamples,
         model_spec    = model_spec,
         kfolds        = kfolds,
         param_info    = param_info,
@@ -185,7 +178,6 @@ ensemble_model_spec.mdl_time_tbl <- function(object,
     ensemble_model_spec <- list(
         model_tbl      = object,
         parameters = list(
-            resamples     = resamples,
             model_spec    = model_spec,
             kfolds        = kfolds,
             param_info    = param_info,
@@ -227,7 +219,6 @@ print.mdl_time_ensemble_model_spec <- function(x, ...) {
 # STACKING RESULTS ----
 
 generate_stacking_results <- function(object,
-                                      resamples,
                                       model_spec,
                                       kfolds        = 5,
                                       param_info    = NULL,
@@ -235,34 +226,10 @@ generate_stacking_results <- function(object,
                                       control       = control_grid()) {
 
     # 1. Fit Resamples ----
-
-    if (control$verbose) {
-        tictoc::tic()
-        print(cli::rule("Stage 1: Fitting Resamples", width = 65))
-        cli::cat_line()
-    }
-
-    suppressWarnings({
-        resamples_results_tbl <- object %>%
-            modeltime_fit_resamples(
-                resamples = resamples,
-                control   = tune::control_resamples(
-                    verbose       = control$verbose,
-                    allow_par     = control$allow_par,
-                    extract       = NULL,
-                    save_pred     = TRUE,
-                    pkgs          = control$pkgs,
-                    save_workflow = FALSE
-                )
-            )
-    })
-
-    if (control$verbose) {
-        cli::cat_line()
-    }
+    # - This is now performed separately with modeltime_fit_resamples()
 
     # 2. Wrangle Predictions ----
-    predictions_tbl <- resamples_results_tbl %>%
+    predictions_tbl <- object %>%
         dplyr::select(-.model) %>%
         tidyr::unnest(.resample_results) %>%
         dplyr::select(.model_id, .model_desc, .predictions) %>%
@@ -318,7 +285,7 @@ generate_stacking_results <- function(object,
     if (tuning_required) {
 
         if (control$verbose) {
-            print(cli::rule("Stage 2: Tuning Model Specification", width = 65))
+            print(cli::rule("Tuning Model Specification", width = 65))
             cli::cli_alert_info(stringr::str_glue("Performing {kfolds}-Fold Cross Validation."))
             cli::cat_line()
         }
@@ -363,7 +330,7 @@ generate_stacking_results <- function(object,
     if (!tuning_required) {
 
         if (control$verbose) {
-            print(cli::rule("Stage 2: Non-Tunable Model Specification", width = 65))
+            print(cli::rule("Fitting Non-Tunable Model Specification", width = 65))
             cli::cli_alert_info(stringr::str_glue("Fitting model spec to submodel cross-validation predictions."))
             cli::cat_line()
         }
@@ -379,8 +346,12 @@ generate_stacking_results <- function(object,
 
     # 5. Fit Best Model ----
 
-    cv_comparison_tbl <- stats::predict(final_model, data_prepared_tbl) %>%
-        dplyr::bind_cols(data_prepared_tbl) %>%
+    pred_tbl <- data_prepared_tbl %>%
+        dplyr::bind_cols(
+            stats::predict(final_model, data_prepared_tbl)
+        )
+
+    cv_comparison_tbl <- pred_tbl %>%
         dplyr::rename(.model_id_ensemble = 1) %>%
         tidyr::pivot_longer(
             cols = dplyr::starts_with(".model_id"),
@@ -392,7 +363,7 @@ generate_stacking_results <- function(object,
         dplyr::mutate(.model_id = stringr::str_remove(.model_id, ".model_id_")) %>%
         dplyr::left_join(
             object %>%
-                dplyr::select(-.model) %>%
+                dplyr::select(-.model, -.resample_results) %>%
                 dplyr::mutate(.model_id = as.character(.model_id)),
             by = ".model_id"
         ) %>%
@@ -400,12 +371,12 @@ generate_stacking_results <- function(object,
         dplyr::select(.model_id, .model_desc, dplyr::everything())
 
     if (control$verbose) {
-        cli::cli_alert_info("Ensemble Cross Validation Error Comparison:")
+        cli::cli_alert_info("Prediction Error Comparison:")
         print(cv_comparison_tbl)
         cli::cat_line()
     }
 
-    if (control$verbose) print(cli::rule("Stage 3: Final Model", width = 65))
+    if (control$verbose) print(cli::rule("Final Model", width = 65))
 
     if (control$verbose) {
 
@@ -416,11 +387,12 @@ generate_stacking_results <- function(object,
         tictoc::toc()
     }
 
+    # Return ----
     ret <- list(
-        fit                   = final_model,
-        fit_params            = best_params_tbl,
-        submodel_predictions  = data_prepared_tbl,
-        cv_results            = cv_comparison_tbl
+        fit                  = final_model,
+        fit_params           = best_params_tbl,
+        prediciton_tbl       = pred_tbl,
+        prediction_error_tbl = cv_comparison_tbl
     )
 
     return(ret)

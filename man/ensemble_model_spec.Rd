@@ -6,7 +6,6 @@
 \usage{
 ensemble_model_spec(
   object,
-  resamples,
   model_spec,
   kfolds = 5,
   param_info = NULL,
@@ -16,10 +15,6 @@ ensemble_model_spec(
 }
 \arguments{
 \item{object}{A Modeltime Table. Used for ensemble sub-models.}
-
-\item{resamples}{An \code{rset} resample object.
-Used to generate sub-model predictions for the meta-learner.
-See \code{\link[timetk:time_series_cv]{timetk::time_series_cv()}} or \code{\link[rsample:vfold_cv]{rsample::vfold_cv()}} for making resamples.}
 
 \item{model_spec}{A \code{model_spec} object defining the
 meta-learner stacking model specification to be used.
@@ -46,39 +41,33 @@ Gets passed to \code{tune::tune_grid()}.}
 Uses \code{tune::control_grid()} by default.
 Use \code{control_grid(verbose = TRUE)} to follow the training process.}
 }
+\value{
+A \code{mdl_time_ensemble} object.
+}
 \description{
-A 3-stage stacking regressor that follows:
+A 2-stage stacking regressor that follows:
 \enumerate{
-\item Stage 1: Sub-Model's are Trained & Predicted using \code{resamples}
-\item Stage 2: A Meta-learner (\code{model_spec}) is trained on Out-of-Sample Sub-Model Predictions
-\item Stage 3: The Best Meta-Learner Model is Selected (if tuning is used)
+\item Stage 1: Sub-Model's are Trained & Predicted using \code{modeltime_fit_resamples()}
+\item Stage 2: A Meta-learner (\code{model_spec}) is trained on Out-of-Sample Sub-Model
+Predictions using \code{ensemble_model_spec()}
 }
 }
 \details{
-\strong{Important Details:}
-
-Results will vary considerably if poor sub-model candidates are used,
-a poor sub-model resampling strategy is selected,
-a poor meta-learner is selected, if the metalearner is not tuned.
+\strong{Stacked Ensemble Process}
 \itemize{
-\item Use \code{object} (a Modeltime Table) to define your sub-models
-\item Use \code{resamples} to define the submodel resampling procedure.
-Results will vary considerably if a poor resampling strategy is selected.
-\item Use \code{model_spec} to define the meta-learner. Use \code{tune::tune()} to define
-meta-learner parameters for tuning.
+\item Start with a \emph{Modeltime Table} to define your sub-models.
+\item Step 1: Use \code{\link[=modeltime_fit_resamples]{modeltime_fit_resamples()}} to perform the submodel resampling procedure.
+\item Step 2: Use \code{\link[=ensemble_model_spec]{ensemble_model_spec()}} to define and train the meta-learner.
 }
 
-\strong{Ensemble Process}
+\strong{What goes on inside the Meta Learner?}
 
 The Meta-Learner Ensembling Process uses the following basic steps:
 \enumerate{
-\item \strong{Make cross-validation predictions for each sub-model.}
-The user provides the sub-models as a Modeltime Table (\code{object}) and
-the cross validation set as \code{resamples}
-(using a function like \code{\link[timetk:time_series_cv]{timetk::time_series_cv()}} or \code{\link[rsample:vfold_cv]{rsample::vfold_cv()}}.
-Each model in the Modeltime Table is trained & predicted on the \code{resamples}.
-The out-of-sample sub-model predictions are used as the input to the
-meta-learner.
+\item \strong{Make Cross-Validation Predictions.}
+Cross validation predictions are made for each sub-model with \code{\link[=modeltime_fit_resamples]{modeltime_fit_resamples()}}.
+The out-of-sample sub-model predictions contained in \code{.resample_results}
+are used as the input to the meta-learner.
 \item \strong{Train a Stacked Regressor (Meta-Learner).}
 The sub-model out-of-sample cross validation predictions are then
 modeled using a \code{model_spec} with options:
@@ -90,7 +79,7 @@ parameters and grid can adjusted using \code{kfolds}, \code{grid}, and \code{par
 then the meta-learner will not be hypeparameter tuned and will have the model
 fitted to the sub-model predictions.
 }
-\item \strong{Final Model Selection}
+\item \strong{Final Model Selection.}
 \itemize{
 \item \strong{If tuned}, the final model is selected based on RMSE, then
 retrained on the full set of out of sample predictions.
@@ -117,6 +106,7 @@ library(tidyverse)
 library(timetk)
 
 \donttest{
+# Step 1: Make resample predictions for submodels
 resamples_tscv <- training(m750_splits) \%>\%
     time_series_cv(
         assess  = "2 years",
@@ -125,24 +115,30 @@ resamples_tscv <- training(m750_splits) \%>\%
         slice_limit = 1
     )
 
-# No Metalearner Tuning ----
-ensemble_fit_lm <- m750_models \%>\%
+submodel_predictions <- m750_models \%>\%
+    modeltime_fit_resamples(
+        resamples = resamples_tscv,
+        control   = control_resamples(verbose = TRUE)
+    )
+
+# Step 2: Metalearner ----
+
+# * No Metalearner Tuning
+ensemble_fit_lm <- submodel_predictions \%>\%
     ensemble_model_spec(
-        resamples  = resamples_tscv,
         model_spec = linear_reg() \%>\% set_engine("lm"),
         control    = control_grid(verbose = TRUE)
     )
 
 ensemble_fit_lm
 
-# With Metalearner Tuning ----
-ensemble_fit_glmnet <- m750_models \%>\%
+# * With Metalearner Tuning ----
+ensemble_fit_glmnet <- submodel_predictions \%>\%
     ensemble_model_spec(
-        resamples  = resamples_tscv,
         model_spec = linear_reg(
-                penalty = tune(),
-                mixture = tune()
-            ) \%>\%
+            penalty = tune(),
+            mixture = tune()
+        ) \%>\%
             set_engine("glmnet"),
         grid       = 2,
         control    = control_grid(verbose = TRUE)

@@ -5,6 +5,8 @@
 #' @param object A Modeltime Table
 #' @param type Specify the type of average ("mean" or "median")
 #'
+#' @return A `mdl_time_ensemble` object.
+#'
 #' @details
 #'
 #' The input to an `ensemble_average()` model is always a Modeltime Table,

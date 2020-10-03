@@ -3,15 +3,16 @@ context("TEST: ensemble_model_spec()")
 resamples_tscv <- training(m750_splits) %>%
     time_series_cv(assess = "2 years", initial = "5 years", skip = "2 years", slice_limit = 1)
 
+m750_models_resample <- m750_models %>%
+    modeltime_fit_resamples(resamples_tscv, control = control_resamples(verbose = F))
 
 # TEST ENSEMBLE AVERAGE ----
 
 # No Tuning ----
 test_that("ensemble_model_spec(): Linear Regression (No Tuning)", {
 
-   ensemble_fit_lm <- m750_models %>%
+   ensemble_fit_lm <- m750_models_resample %>%
         ensemble_model_spec(
-            resamples  = resamples_tscv,
             model_spec = linear_reg() %>% set_engine("lm"),
             grid       = 3,
             control    = control_grid(verbose = TRUE)
@@ -74,11 +75,10 @@ test_that("ensemble_model_spec(): Linear Regression (No Tuning)", {
 # Tuning ----
 test_that("ensemble_model_spec(): GLMNET (Tuning)", {
 
-
-    ensemble_fit_glmnet <- m750_models %>%
+    ensemble_fit_glmnet <- m750_models_resample %>%
         ensemble_model_spec(
-            resamples  = resamples_tscv,
-            model_spec = linear_reg(penalty = tune(), mixture = tune()) %>% set_engine("glmnet"),
+            model_spec = linear_reg(penalty = tune(), mixture = tune()) %>%
+                set_engine("glmnet"),
             grid       = 1,
             control    = control_grid(verbose = TRUE)
         )
@@ -173,37 +173,48 @@ test_that("Checks/Errors: ensemble_model_spec()", {
     # No resamples
     expect_error(ensemble_model_spec(m750_models))
 
-    # Needs 'rset'
-    expect_error({
-        m750_models %>%
-            ensemble_model_spec(resamples = 1)
-    })
-
     # Needs 'model_spec'
     expect_error({
-        m750_models %>%
-            ensemble_model_spec(
-                resamples = resamples_tscv
-            )
+        m750_models_resample %>%
+            ensemble_model_spec()
     })
 
     # Needs 'set_engine()'
     expect_error({
-        m750_models %>%
+        m750_models_resample %>%
             ensemble_model_spec(
-                resamples  = resamples_tscv,
                 model_spec = linear_reg()
             )
     })
 
     # Needs more than one model
     expect_error({
-        m750_models %>%
+        m750_models_resample %>%
             slice(1) %>%
-            ensemble_model_spec(m750_models, resamples = m750_training_resamples)
+            ensemble_model_spec(
+                model_spec = linear_reg() %>% set_engine("lm")
+            )
     })
 
 })
 
+# Checks/Errors ----
+test_that("Checks/Errors: modeltime_fit_resamples()", {
 
+    # Object is Missing
+    expect_error(modeltime_fit_resamples())
+
+    # Incorrect Object
+    expect_error(modeltime_fit_resamples(1))
+
+    # No resamples
+    expect_error(modeltime_fit_resamples(m750_models))
+
+    # Needs 'model_spec'
+    expect_error({
+        modeltime_fit_resamples(m750_models, 1)
+    })
+
+
+})
 

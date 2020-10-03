@@ -20,13 +20,18 @@ navbar:
       href: https://github.com/business-science/modeltime.ensemble
 
 reference:
-  - title: Modeltime Ensembles
-    desc: The functions for creating Modeltime Ensembles.
+  - title: Weighted Ensembles
+    desc: Functions used to create ensembles using loadings and averaging.
     contents:
     - "ensemble_average"
     - "ensemble_weighted"
+
+reference:
+  - title: Stacked Ensembles
+    desc: Functions used create ensmbles using meta-learners.
+    contents:
     - "ensemble_model_spec"
-    - starts_with("ensemble")
+    - "modeltime_fit_reamples"
 
 
 repo:

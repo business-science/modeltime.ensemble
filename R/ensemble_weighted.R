@@ -9,6 +9,8 @@
 #' @param scale_loadings If TRUE, divides by the sum of the loadings
 #'  to proportionally weight the submodels.
 #'
+#' @return A `mdl_time_ensemble` object.
+#'
 #' @details
 #'
 #' The input to an `ensemble_weighted()` model is always a Modeltime Table,
