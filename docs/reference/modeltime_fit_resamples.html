@@ -47,7 +47,9 @@
 
 
 <meta property="og:title" content="Fits Models in a Modeltime Table to Resamples — modeltime_fit_resamples" />
-<meta property="og:description" content="Fits Models in a Modeltime Table to Resamples" />
+<meta property="og:description" content="Resampled predictions are commonly needed as part of the Ensembling Process
+for Stacked Ensembles, which use meta-learners.
+Refer to ensemble_model_spec()." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -90,7 +92,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.ensemble</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -138,7 +140,9 @@
     </div>
 
     <div class="ref-description">
-    <p>Fits Models in a Modeltime Table to Resamples</p>
+    <p>Resampled predictions are commonly needed as part of the Ensembling Process
+for Stacked Ensembles, which use meta-learners.
+Refer to <code><a href='ensemble_model_spec.html'>ensemble_model_spec()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>modeltime_fit_resamples</span>(<span class='no'>object</span>, <span class='no'>resamples</span>, <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'>control_resamples</span>())</pre>
@@ -152,7 +156,9 @@
     </tr>
     <tr>
       <th>resamples</th>
-      <td><p>A resample <code>rset</code> created from a function like <code><a href='https://rdrr.io/pkg/timetk/man/time_series_cv.html'>timetk::time_series_cv()</a></code>.</p></td>
+      <td><p>An <code>rset</code> resample object.
+Used to generate sub-model predictions for the meta-learner.
+See <code><a href='https://rdrr.io/pkg/timetk/man/time_series_cv.html'>timetk::time_series_cv()</a></code> or <code><a href='https://rsample.tidymodels.org/reference/vfold_cv.html'>rsample::vfold_cv()</a></code> for making resamples.</p></td>
     </tr>
     <tr>
       <th>control</th>
@@ -161,7 +167,49 @@ control over the resampling process.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A Modeltime Table (<code>mdl_time_tbl</code>) object with a column containing
+resample results (<code>.resample_results</code>)</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The function uses <code><a href='https://tune.tidymodels.org/reference/fit_resamples.html'>tune::fit_resamples()</a></code> to iteratively train and predict models
+contained in a Modeltime Table on resample objects. This is useful in
+creating Stacked Ensembles using <code><a href='ensemble_model_spec.html'>ensemble_model_spec()</a></code> because the submodel
+cross-validation predictions are used as the input to the meta-learner model.</p>
+<p>One difference between <code><a href='https://tune.tidymodels.org/reference/fit_resamples.html'>tune::fit_resamples()</a></code> and <code>modeltime_fit_resamples()</code>
+is that predictions are always returned
+(i.e. <code>control = tune::control_resamples(save_pred = TRUE)</code>). This is needed for
+<code><a href='ensemble_model_spec.html'>ensemble_model_spec()</a></code>.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidymodels</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>modeltime</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>modeltime.ensemble</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>timetk</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyverse</span>)
+
+<span class='no'>resamples_tscv</span> <span class='kw'>&lt;-</span> <span class='fu'>training</span>(<span class='no'>m750_splits</span>) <span class='kw'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/timetk/man/time_series_cv.html'>time_series_cv</a></span>(
+        <span class='kw'>assess</span>      <span class='kw'>=</span> <span class='st'>"2 years"</span>,
+        <span class='kw'>initial</span>     <span class='kw'>=</span> <span class='st'>"5 years"</span>,
+        <span class='kw'>skip</span>        <span class='kw'>=</span> <span class='st'>"2 years"</span>,
+        <span class='kw'>slice_limit</span> <span class='kw'>=</span> <span class='fl'>1</span>
+    )</div><div class='output co'>#&gt; <span class='message'>Using date_var: date</span></div><div class='input'>
+<span class='no'>m750_models_resample</span> <span class='kw'>&lt;-</span> <span class='no'>m750_models</span> <span class='kw'>%&gt;%</span>
+    <span class='fu'>modeltime_fit_resamples</span>(
+        <span class='kw'>resamples</span> <span class='kw'>=</span> <span class='no'>resamples_tscv</span>,
+        <span class='kw'>control</span>   <span class='kw'>=</span> <span class='fu'>control_resamples</span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    )</div><div class='output co'>#&gt; ── Fitting Resamples ────────────────────────────────────────────
+#&gt; </div><div class='output co'>#&gt; <span class='message'>● Model ID: <span style='color: #0000BB;'>1</span><span> </span><span style='color: #0000BB;'>ARIMA(0,1,1)(0,1,1)[12]</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'>frequency = 12 observations per 1 year</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'>● Model ID: </span><span style='color: #0000BB;'>2</span><span> </span><span style='color: #0000BB;'>PROPHET</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'>Disabling weekly seasonality. Run prophet with weekly.seasonality=TRUE to override this.</span></div><div class='output co'>#&gt; <span class='message'>Disabling daily seasonality. Run prophet with daily.seasonality=TRUE to override this.</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'>● Model ID: </span><span style='color: #0000BB;'>3</span><span> </span><span style='color: #0000BB;'>GLMNET</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model (predictions)</span><span></span></div><div class='output co'>#&gt; </div><div class='input'>
+<span class='no'>m750_models_resample</span></div><div class='output co'>#&gt; # Modeltime Table
+#&gt; </span><span style='color: #555555;'># A tibble: 3 x 4</span><span>
+#&gt;   .model_id .model     .model_desc             .resample_results
+#&gt;       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                   </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>           
+#&gt; </span><span style='color: #555555;'>1</span><span>         1 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> ARIMA(0,1,1)(0,1,1)[12] </span><span style='color: #555555;'>&lt;tibble [1 × 5]&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>2</span><span>         2 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> PROPHET                 </span><span style='color: #555555;'>&lt;tibble [1 × 5]&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>3</span><span>         3 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> GLMNET                  </span><span style='color: #555555;'>&lt;tibble [1 × 5]&gt;</span><span> </div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

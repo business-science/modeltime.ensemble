@@ -21,17 +21,15 @@ navbar:
 
 reference:
   - title: Weighted Ensembles
-    desc: Functions used to create ensembles using loadings and averaging.
+    desc: Functions used to create ensembles using averaging and loadings.
     contents:
     - "ensemble_average"
     - "ensemble_weighted"
-
-reference:
   - title: Stacked Ensembles
-    desc: Functions used create ensmbles using meta-learners.
+    desc: Functions used create stacked ensembles using meta-learners.
     contents:
     - "ensemble_model_spec"
-    - "modeltime_fit_reamples"
+    - "modeltime_fit_resamples"
 
 
 repo:
