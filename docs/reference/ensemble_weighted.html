@@ -141,7 +141,7 @@
     <p>Makes an ensemble by applying <code>loadings</code> to weight sub-model predictions</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ensemble_weighted</span>(<span class='no'>object</span>, <span class='no'>loadings</span>, <span class='kw'>scale_loadings</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>ensemble_weighted</span>(<span class='kw'>object</span>, <span class='kw'>loadings</span>, scale_loadings = <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,20 +173,21 @@ which contains the models that you will ensemble.</p>
 <em>loading x model prediction</em> for each submodel.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidymodels</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>modeltime</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>modeltime.ensemble</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyverse</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>timetk</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://tidymodels.tidymodels.org'>tidymodels</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/business-science/modeltime'>modeltime</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/business-science/modeltime.ensemble'>modeltime.ensemble</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/business-science/timetk'>timetk</a></span>)
 
 <span class='co'># Make an ensemble from a Modeltime Table</span>
-<span class='no'>ensemble_fit</span> <span class='kw'>&lt;-</span> <span class='no'>m750_models</span> <span class='kw'>%&gt;%</span>
+<span class='kw'>ensemble_fit</span> <span class='op'>&lt;-</span> <span class='kw'>m750_models</span> <span class='op'>%&gt;%</span>
     <span class='fu'>ensemble_weighted</span>(
-        <span class='kw'>loadings</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>1</span>),
-        <span class='kw'>scale_loadings</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+        loadings = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>1</span>),
+        scale_loadings = <span class='fl'>TRUE</span>
     )
 
-<span class='no'>ensemble_fit</span></div><div class='output co'>#&gt; ── Modeltime Ensemble ───────────────────────────────────────────
+<span class='kw'>ensemble_fit</span>
+</div><div class='output co'>#&gt; -- Modeltime Ensemble -------------------------------------------
 #&gt; Ensemble of 3 Models (WEIGHTED)
 #&gt; 
 #&gt; # Modeltime Table
@@ -198,16 +199,17 @@ which contains the models that you will ensemble.</p>
 #&gt; </span><span style='color: #555555;'>3</span><span>         3 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> GLMNET                      0.143</div><div class='input'>
 <span class='co'># Forecast with the Ensemble</span>
 <span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/modeltime_table.html'>modeltime_table</a></span>(
-    <span class='no'>ensemble_fit</span>
-) <span class='kw'>%&gt;%</span>
+    <span class='kw'>ensemble_fit</span>
+) <span class='op'>%&gt;%</span>
     <span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/modeltime_forecast.html'>modeltime_forecast</a></span>(
-        <span class='kw'>new_data</span>    <span class='kw'>=</span> <span class='fu'>testing</span>(<span class='no'>m750_splits</span>),
-        <span class='kw'>actual_data</span> <span class='kw'>=</span> <span class='no'>m750</span>
-    ) <span class='kw'>%&gt;%</span>
+        new_data    = <span class='fu'>testing</span>(<span class='kw'>m750_splits</span>),
+        actual_data = <span class='kw'>m750</span>
+    ) <span class='op'>%&gt;%</span>
     <span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/plot_modeltime_forecast.html'>plot_modeltime_forecast</a></span>(
-        <span class='kw'>.interactive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-        <span class='kw'>.conf_interval_show</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-    )</div><div class='img'><img src='ensemble_weighted-1.png' alt='' width='700' height='433' /></div><div class='input'>
+        .interactive = <span class='fl'>FALSE</span>,
+        .conf_interval_show = <span class='fl'>FALSE</span>
+    )
+</div><div class='img'><img src='ensemble_weighted-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -224,7 +226,7 @@ which contains the models that you will ensemble.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

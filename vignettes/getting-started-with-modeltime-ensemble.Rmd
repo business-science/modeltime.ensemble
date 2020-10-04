@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 A `modeltime` extension that that implements ___ensemble forecasting methods___ including model averaging, weighted averaging, and stacking. Let's go through a guided tour to kick the tires on `modeltime.ensemble`. 
 
 ```{r, echo=F, out.width='100%', fig.align='center'}
-knitr::include_graphics("stacking_multi_level.jpg")
+knitr::include_graphics("stacking.jpg")
 ```
 
 # Time Series Ensemble Forecasting Example
