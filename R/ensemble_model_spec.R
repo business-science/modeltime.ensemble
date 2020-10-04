@@ -163,6 +163,10 @@ ensemble_model_spec.mdl_time_tbl <- function(object,
                                              grid          = 6,
                                              control       = control_grid()) {
 
+    if (control$verbose) {
+        tictoc::tic()
+    }
+
     # Calculate the loadings
     stacking_results <- generate_stacking_results(
         object        = object,
@@ -194,6 +198,11 @@ ensemble_model_spec.mdl_time_tbl <- function(object,
     )
 
     ensemble_model_spec$desc <- get_model_description(ensemble_model_spec)
+
+    if (control$verbose) {
+        tictoc::toc()
+        cli::cat_line()
+    }
 
     return(ensemble_model_spec)
 }
@@ -384,7 +393,6 @@ generate_stacking_results <- function(object,
         cli::cli_alert_info("Model Workflow:")
         print(final_model)
         cli::cat_line()
-        tictoc::toc()
     }
 
     # Return ----

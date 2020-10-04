@@ -89,8 +89,8 @@ modeltime_fit_resamples.mdl_time_tbl <- function(object, resamples, control = co
         })
     }
 
-
     if (control$verbose) {
+        tictoc::toc()
         cli::cat_line()
     }
 
