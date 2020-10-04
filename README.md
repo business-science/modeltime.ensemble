@@ -73,7 +73,7 @@ ensemble_fit <- m750_models %>%
     ensemble_average(type = "mean")
 
 ensemble_fit
-#> ── Modeltime Ensemble ───────────────────────────────────────────
+#> -- Modeltime Ensemble -------------------------------------------
 #> Ensemble of 3 Models (MEAN)
 #> 
 #> # Modeltime Table

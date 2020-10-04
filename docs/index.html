@@ -104,7 +104,9 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"business-science/modeltime.ensemble"</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="kw">devtools</span>::<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"business-science/modeltime.ensemble"</span>)
+</pre></div>
 </div>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
@@ -120,33 +122,38 @@
 <h2 class="hasAnchor">
 <a href="#make-your-first-ensemble-in-minutes" class="anchor"></a>Make Your First Ensemble in Minutes</h2>
 <p>Load the following libraries.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidymodels</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">modeltime</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">modeltime.ensemble</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyverse</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">timetk</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/business-science/modeltime">modeltime</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/business-science/modeltime.ensemble">modeltime.ensemble</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/business-science/timetk">timetk</a></span>)
+</pre></div>
 <div id="step-1---create-a-modeltime-table" class="section level4">
 <h4 class="hasAnchor">
 <a href="#step-1---create-a-modeltime-table" class="anchor"></a>Step 1 - Create a Modeltime Table</h4>
 <p>Create a <em>Modeltime Table</em> using the <code>modeltime</code> package.</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="no">m750_models</span>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw">m750_models</span>
 <span class="co">#&gt; # Modeltime Table</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt;   .model_id .model     .model_desc            </span>
 <span class="co">#&gt;       &lt;int&gt; &lt;list&gt;     &lt;chr&gt;                  </span>
 <span class="co">#&gt; 1         1 &lt;workflow&gt; ARIMA(0,1,1)(0,1,1)[12]</span>
 <span class="co">#&gt; 2         2 &lt;workflow&gt; PROPHET                </span>
-<span class="co">#&gt; 3         3 &lt;workflow&gt; GLMNET</span></pre></div>
+<span class="co">#&gt; 3         3 &lt;workflow&gt; GLMNET</span>
+</pre></div>
 </div>
 <div id="step-2---make-a-modeltime-ensemble" class="section level4">
 <h4 class="hasAnchor">
 <a href="#step-2---make-a-modeltime-ensemble" class="anchor"></a>Step 2 - Make a Modeltime Ensemble</h4>
 <p>Then turn that Modeltime Table into a <strong><em>Modeltime Ensemble.</em></strong></p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">ensemble_fit</span> <span class="kw">&lt;-</span> <span class="no">m750_models</span> <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="reference/ensemble_average.html">ensemble_average</a></span>(<span class="kw">type</span> <span class="kw">=</span> <span class="st">"mean"</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="kw">ensemble_fit</span> <span class="op">&lt;-</span> <span class="kw">m750_models</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="reference/ensemble_average.html">ensemble_average</a></span>(type = <span class="st">"mean"</span>)
 
-<span class="no">ensemble_fit</span>
-<span class="co">#&gt; ── Modeltime Ensemble ───────────────────────────────────────────</span>
+<span class="kw">ensemble_fit</span>
+<span class="co">#&gt; -- Modeltime Ensemble -------------------------------------------</span>
 <span class="co">#&gt; Ensemble of 3 Models (MEAN)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # Modeltime Table</span>
@@ -155,25 +162,28 @@
 <span class="co">#&gt;       &lt;int&gt; &lt;list&gt;     &lt;chr&gt;                  </span>
 <span class="co">#&gt; 1         1 &lt;workflow&gt; ARIMA(0,1,1)(0,1,1)[12]</span>
 <span class="co">#&gt; 2         2 &lt;workflow&gt; PROPHET                </span>
-<span class="co">#&gt; 3         3 &lt;workflow&gt; GLMNET</span></pre></div>
+<span class="co">#&gt; 3         3 &lt;workflow&gt; GLMNET</span>
+</pre></div>
 </div>
 <div id="step-3---forecast" class="section level4">
 <h4 class="hasAnchor">
 <a href="#step-3---forecast" class="anchor"></a>Step 3 - Forecast!</h4>
 <p>To forecast, just follow the <a href="https://business-science.github.io/modeltime/articles/getting-started-with-modeltime.html">Modeltime Workflow</a>.</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="co"># Calibration</span>
-<span class="no">calibration_tbl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_table.html">modeltime_table</a></span>(
-    <span class="no">ensemble_fit</span>
-) <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_calibrate.html">modeltime_calibrate</a></span>(<span class="fu">testing</span>(<span class="no">m750_splits</span>), <span class="kw">quiet</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="co"># Calibration</span>
+<span class="kw">calibration_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_table.html">modeltime_table</a></span>(
+    <span class="kw">ensemble_fit</span>
+) <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_calibrate.html">modeltime_calibrate</a></span>(<span class="fu">testing</span>(<span class="kw">m750_splits</span>), quiet = <span class="fl">FALSE</span>)
 
 <span class="co"># Forecast vs Test Set</span>
-<span class="no">calibration_tbl</span> <span class="kw">%&gt;%</span>
+<span class="kw">calibration_tbl</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_forecast.html">modeltime_forecast</a></span>(
-        <span class="kw">new_data</span>    <span class="kw">=</span> <span class="fu">testing</span>(<span class="no">m750_splits</span>),
-        <span class="kw">actual_data</span> <span class="kw">=</span> <span class="no">m750</span>
-    ) <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/plot_modeltime_forecast.html">plot_modeltime_forecast</a></span>(<span class="kw">.interactive</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></div>
+        new_data    = <span class="fu">testing</span>(<span class="kw">m750_splits</span>),
+        actual_data = <span class="kw">m750</span>
+    ) <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/plot_modeltime_forecast.html">plot_modeltime_forecast</a></span>(.interactive = <span class="fl">FALSE</span>)
+</pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-6-1.png" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -246,7 +256,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
