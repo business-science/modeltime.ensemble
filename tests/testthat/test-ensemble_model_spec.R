@@ -3,6 +3,9 @@ context("TEST: ensemble_model_spec()")
 resamples_tscv <- training(m750_splits) %>%
     time_series_cv(assess = "2 years", initial = "5 years", skip = "2 years", slice_limit = 1)
 
+full_resamples_tscv <- m750 %>%
+    time_series_cv(assess = "2 years", initial = "5 years", skip = "2 years", slice_limit = 1)
+
 m750_models_resample <- m750_models %>%
     modeltime_fit_resamples(resamples_tscv, control = control_resamples(verbose = F))
 
@@ -60,14 +63,29 @@ test_that("ensemble_model_spec(): Linear Regression (No Tuning)", {
     expect_equal(nrow(forecast_tbl), 24 + n_actual)
     expect_equal(ncol(forecast_tbl), 7)
 
-    # Refit
+    # Refit - NO RESAMPLE
+
+    expect_warning({
+        # Expect warning when resamples are not provided
+        refit_tbl <- calibration_tbl %>%
+            combine_modeltime_tables(m750_models) %>%
+            modeltime_refit(m750)
+    })
+
+
+
+    # Refit - WITH RESAMPLES
+
     refit_tbl <- calibration_tbl %>%
-        modeltime_refit(m750)
+        combine_modeltime_tables(m750_models) %>%
+        modeltime_refit(m750, resamples = full_resamples_tscv, control = control_resamples(verbose = TRUE))
 
-    training_results_tbl <- refit_tbl %>%
-        pluck(".model", 1, "model_tbl", ".model", 1, "fit", "fit", "fit", "data")
+    future_tbl <- refit_tbl %>% modeltime_forecast(h = "2 years", actual_data = m750)
 
-    expect_equal(nrow(training_results_tbl), nrow(m750))
+    expect_equal(nrow(m750) + 4*24, nrow(future_tbl) )
+
+
+
 
 })
 
