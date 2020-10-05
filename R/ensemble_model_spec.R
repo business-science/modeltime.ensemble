@@ -361,7 +361,7 @@ generate_stacking_results <- function(object,
         )
 
     cv_comparison_tbl <- pred_tbl %>%
-        dplyr::rename(.model_id_ensemble = 1) %>%
+        dplyr::rename(.model_id_ensemble = .pred) %>%
         tidyr::pivot_longer(
             cols = dplyr::starts_with(".model_id"),
             names_to  = ".model_id",
@@ -372,12 +372,11 @@ generate_stacking_results <- function(object,
         dplyr::mutate(.model_id = stringr::str_remove(.model_id, ".model_id_")) %>%
         dplyr::left_join(
             object %>%
-                dplyr::select(-.model, -.resample_results) %>%
+                dplyr::select(.model_id, .model_desc) %>%
                 dplyr::mutate(.model_id = as.character(.model_id)),
             by = ".model_id"
         ) %>%
-        dplyr::mutate(.model_desc = ifelse(is.na(.model_desc), "ENSEMBLE (MODEL SPEC)", .model_desc)) %>%
-        dplyr::select(.model_id, .model_desc, dplyr::everything())
+        dplyr::mutate(.model_desc = ifelse(is.na(.model_desc), "ENSEMBLE (MODEL SPEC)", .model_desc))
 
     if (control$verbose) {
         cli::cli_alert_info("Prediction Error Comparison:")
@@ -399,7 +398,7 @@ generate_stacking_results <- function(object,
     ret <- list(
         fit                  = final_model,
         fit_params           = best_params_tbl,
-        prediciton_tbl       = pred_tbl,
+        prediction_tbl       = pred_tbl,
         prediction_error_tbl = cv_comparison_tbl
     )
 
