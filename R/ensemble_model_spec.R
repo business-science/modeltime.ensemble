@@ -180,7 +180,7 @@ ensemble_model_spec.mdl_time_tbl <- function(object,
 
     # Create Weighted Ensemble
     ensemble_model_spec <- list(
-        model_tbl      = object,
+        model_tbl      = object %>% dplyr::select(-.resample_results),
         parameters = list(
             model_spec    = model_spec,
             kfolds        = kfolds,

@@ -161,7 +161,8 @@ test_that("ensemble_model_spec(): GLMNET (Tuning)", {
 
     multi_level_model_tbl <- modeltime_table(
         ensemble_fit_wt
-    )
+    ) %>%
+        combine_modeltime_tables(m750_models)
 
     accuracy_tbl <- multi_level_model_tbl %>%
         modeltime_accuracy(testing(m750_splits))
@@ -172,8 +173,8 @@ test_that("ensemble_model_spec(): GLMNET (Tuning)", {
     forecast_tbl <- refit_tbl %>%
         modeltime_forecast(h = "2 years", actual_data = m750)
 
-    expect_false(is.na(accuracy_tbl$mae))
-    expect_equal(nrow(forecast_tbl), 24 + n_actual)
+    expect_false(all(is.na(accuracy_tbl$mae)))
+    expect_equal(nrow(forecast_tbl), 24*4 + n_actual)
 
 })
 

@@ -45,17 +45,6 @@ mdl_time_refit.mdl_time_ensemble_model_spec <- function(object, data, ..., contr
     resamples <- dot_list$resamples
     resamples_provided <- !is.null(resamples)
 
-    # Control
-    if (is.null(control)) {
-        control <- object$parameters$control
-    } else {
-        if (is.null(control$verbose)) control$verbose <- FALSE
-        if (is.null(control$allow_par)) control$allow_par <- TRUE
-
-    }
-    control$extract       <- NULL
-    control$save_workflow <- FALSE
-
 
     # REFITTING ----
     if (!resamples_provided) {
@@ -80,6 +69,17 @@ mdl_time_refit.mdl_time_ensemble_model_spec <- function(object, data, ..., contr
 
         # Checks
         if (!inherits(resamples, "rset")) rlang::abort("'resamples' must be an rset object. Try using 'timetk::time_series_cv()' or 'rsample::vfold_cv()' to create an rset.")
+
+        # Control
+        if (is.null(control)) {
+            control <- object$parameters$control
+        } else {
+            if (is.null(control$verbose)) control$verbose <- FALSE
+            if (is.null(control$allow_par)) control$allow_par <- TRUE
+            if (is.null(control$pkgs)) control$pkgs <- NULL
+        }
+        control$extract       <- NULL
+        control$save_workflow <- FALSE
 
         # Fit the resamples
         control$save_pred <- TRUE
