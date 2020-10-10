@@ -95,7 +95,7 @@ Predictions using ensemble_model_spec()
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.ensemble</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
       </span>
     </div>
 
@@ -151,14 +151,14 @@ Predictions using <code>ensemble_model_spec()</code></p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>ensemble_model_spec</span>(
-  <span class='kw'>object</span>,
-  <span class='kw'>model_spec</span>,
-  kfolds = <span class='fl'>5</span>,
-  param_info = <span class='kw'>NULL</span>,
-  grid = <span class='fl'>6</span>,
-  control = <span class='fu'>control_grid</span>()
-)</pre>
+    <pre class="usage"><span class='fu'>ensemble_model_spec</span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  <span class='va'>model_spec</span>,
+  kfolds <span class='op'>=</span> <span class='fl'>5</span>,
+  param_info <span class='op'>=</span> <span class='cn'>NULL</span>,
+  grid <span class='op'>=</span> <span class='fl'>6</span>,
+  control <span class='op'>=</span> <span class='fu'>control_grid</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -245,69 +245,69 @@ up parallelization using <code>tune</code> via one of the backends such as
 <code>doFuture</code>. Then set <code>control = control_grid(allow_par = TRUE)</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://tidymodels.tidymodels.org'>tidymodels</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/business-science/modeltime'>modeltime</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/business-science/modeltime.ensemble'>modeltime.ensemble</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/business-science/timetk'>timetk</a></span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidymodels.tidymodels.org'>tidymodels</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/business-science/modeltime'>modeltime</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/business-science/modeltime.ensemble'>modeltime.ensemble</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/business-science/timetk'>timetk</a></span><span class='op'>)</span>
 
 <span class='co'># \donttest{</span>
 <span class='co'># Step 1: Make resample predictions for submodels</span>
-<span class='kw'>resamples_tscv</span> <span class='op'>&lt;-</span> <span class='fu'>training</span>(<span class='kw'>m750_splits</span>) <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/timetk/man/time_series_cv.html'>time_series_cv</a></span>(
-        assess  = <span class='st'>"2 years"</span>,
-        initial = <span class='st'>"5 years"</span>,
-        skip    = <span class='st'>"2 years"</span>,
-        slice_limit = <span class='fl'>1</span>
-    )
+<span class='va'>resamples_tscv</span> <span class='op'>&lt;-</span> <span class='fu'>training</span><span class='op'>(</span><span class='va'>m750_splits</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/timetk/man/time_series_cv.html'>time_series_cv</a></span><span class='op'>(</span>
+        assess  <span class='op'>=</span> <span class='st'>"2 years"</span>,
+        initial <span class='op'>=</span> <span class='st'>"5 years"</span>,
+        skip    <span class='op'>=</span> <span class='st'>"2 years"</span>,
+        slice_limit <span class='op'>=</span> <span class='fl'>1</span>
+    <span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Using date_var: date</span></div><div class='input'>
-<span class='kw'>submodel_predictions</span> <span class='op'>&lt;-</span> <span class='kw'>m750_models</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='modeltime_fit_resamples.html'>modeltime_fit_resamples</a></span>(
-        resamples = <span class='kw'>resamples_tscv</span>,
-        control   = <span class='fu'>control_resamples</span>(verbose = <span class='fl'>TRUE</span>)
-    )
-</div><div class='output co'>#&gt; -- Fitting Resamples --------------------------------------------
-#&gt; </div><div class='output co'>#&gt; <span class='message'>* Model ID: <span style='color: #0000BB;'>1</span><span> </span><span style='color: #0000BB;'>ARIMA(0,1,1)(0,1,1)[12]</span><span></span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: 'forecast'</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from 'package:yardstick':</span>
+<span class='va'>submodel_predictions</span> <span class='op'>&lt;-</span> <span class='va'>m750_models</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='modeltime_fit_resamples.html'>modeltime_fit_resamples</a></span><span class='op'>(</span>
+        resamples <span class='op'>=</span> <span class='va'>resamples_tscv</span>,
+        control   <span class='op'>=</span> <span class='fu'>control_resamples</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+    <span class='op'>)</span>
+</div><div class='output co'>#&gt; ── Fitting Resamples ────────────────────────────────────────────
+#&gt; </div><div class='output co'>#&gt; <span class='message'>● Model ID: <span style='color: #0000BB;'>1</span><span> </span><span style='color: #0000BB;'>ARIMA(0,1,1)(0,1,1)[12]</span><span></span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘forecast’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:yardstick’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    accuracy</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'>frequency = 12 observations per 1 year</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'>* Model ID: </span><span style='color: #0000BB;'>2</span><span> </span><span style='color: #0000BB;'>PROPHET</span><span></span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Rcpp</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: 'Rcpp'</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from 'package:rsample':</span>
+#&gt; <span class='message'>    accuracy</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'>frequency = 12 observations per 1 year</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'>● Model ID: </span><span style='color: #0000BB;'>2</span><span> </span><span style='color: #0000BB;'>PROPHET</span><span></span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Rcpp</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘Rcpp’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:rsample’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    populate</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: rlang</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: 'rlang'</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:purrr':</span>
+#&gt; <span class='message'>Attaching package: ‘rlang’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:purrr’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    %@%, as_function, flatten, flatten_chr, flatten_dbl, flatten_int,</span>
 #&gt; <span class='message'>    flatten_lgl, flatten_raw, invoke, list_along, modify, prepend,</span>
-#&gt; <span class='message'>    splice</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'>Disabling weekly seasonality. Run prophet with weekly.seasonality=TRUE to override this.</span></div><div class='output co'>#&gt; <span class='message'>Disabling daily seasonality. Run prophet with daily.seasonality=TRUE to override this.</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'>* Model ID: </span><span style='color: #0000BB;'>3</span><span> </span><span style='color: #0000BB;'>GLMNET</span><span></span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: 'Matrix'</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:tidyr':</span>
+#&gt; <span class='message'>    splice</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'>Disabling weekly seasonality. Run prophet with weekly.seasonality=TRUE to override this.</span></div><div class='output co'>#&gt; <span class='message'>Disabling daily seasonality. Run prophet with daily.seasonality=TRUE to override this.</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'>● Model ID: </span><span style='color: #0000BB;'>3</span><span> </span><span style='color: #0000BB;'>GLMNET</span><span></span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘Matrix’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:tidyr’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    expand, pack, unpack</span></div><div class='output co'>#&gt; <span class='message'>Loaded glmnet 4.0-2</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model (predictions)</span><span></span></div><div class='output co'>#&gt; 3.62 sec elapsed
+#&gt; <span class='message'>    expand, pack, unpack</span></div><div class='output co'>#&gt; <span class='message'>Loaded glmnet 4.0-2</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: model</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: model (predictions)</span><span></span></div><div class='output co'>#&gt; 3.781 sec elapsed
 #&gt; </div><div class='input'>
 <span class='co'># Step 2: Metalearner ----</span>
 
 <span class='co'># * No Metalearner Tuning</span>
-<span class='kw'>ensemble_fit_lm</span> <span class='op'>&lt;-</span> <span class='kw'>submodel_predictions</span> <span class='op'>%&gt;%</span>
-    <span class='fu'>ensemble_model_spec</span>(
-        model_spec = <span class='fu'>linear_reg</span>() <span class='op'>%&gt;%</span> <span class='fu'>set_engine</span>(<span class='st'>"lm"</span>),
-        control    = <span class='fu'>control_grid</span>(verbose = <span class='fl'>TRUE</span>)
-    )
-</div><div class='output co'>#&gt; -- Fitting Non-Tunable Model Specification ----------------------</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>i</span><span> Fitting model spec to submodel cross-validation predictions.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>i</span><span> Prediction Error Comparison:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
-#&gt;   .model_id .model_desc               rmse
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 1         ARIMA(0,1,1)(0,1,1)[12]   579.
-#&gt; </span><span style='color: #555555;'>2</span><span> 2         PROPHET                   381.
-#&gt; </span><span style='color: #555555;'>3</span><span> 3         GLMNET                    548.
-#&gt; </span><span style='color: #555555;'>4</span><span> ensemble  ENSEMBLE (MODEL SPEC)   </span><span style='text-decoration: underline;'>10</span><span>195.
+<span class='va'>ensemble_fit_lm</span> <span class='op'>&lt;-</span> <span class='va'>submodel_predictions</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>ensemble_model_spec</span><span class='op'>(</span>
+        model_spec <span class='op'>=</span> <span class='fu'>linear_reg</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>set_engine</span><span class='op'>(</span><span class='st'>"lm"</span><span class='op'>)</span>,
+        control    <span class='op'>=</span> <span class='fu'>control_grid</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+    <span class='op'>)</span>
+</div><div class='output co'>#&gt; ── Fitting Non-Tunable Model Specification ──────────────────────</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Fitting model spec to submodel cross-validation predictions.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Prediction Error Comparison:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
+#&gt;   .model_id  rmse .model_desc            
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                  
+#&gt; </span><span style='color: #555555;'>1</span><span> 1          579. ARIMA(0,1,1)(0,1,1)[12]
+#&gt; </span><span style='color: #555555;'>2</span><span> 2          381. PROPHET                
+#&gt; </span><span style='color: #555555;'>3</span><span> 3          548. GLMNET                 
+#&gt; </span><span style='color: #555555;'>4</span><span> ensemble   139. ENSEMBLE (MODEL SPEC)  
 #&gt; 
-#&gt; -- Final Model --------------------------------------------------
-#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>i</span><span> Model Workflow:</span></div><div class='output co'>#&gt; == Workflow [trained] ==============================================================================================
+#&gt; ── Final Model ──────────────────────────────────────────────────
+#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Model Workflow:</span></div><div class='output co'>#&gt; ══ Workflow [trained] ═════════════════════════════════════════════════════════════════════════════════════════════════════
 #&gt; </span><span style='font-style: italic;'>Preprocessor:</span><span> Recipe
 #&gt; </span><span style='font-style: italic;'>Model:</span><span> linear_reg()
 #&gt; 
-#&gt; -- Preprocessor ----------------------------------------------------------------------------------------------------
+#&gt; ── Preprocessor ───────────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt; 0 Recipe Steps
 #&gt; 
-#&gt; -- Model -----------------------------------------------------------------------------------------------------------
+#&gt; ── Model ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt; 
 #&gt; Call:
 #&gt; stats::lm(formula = ..y ~ ., data = data)
@@ -317,118 +317,118 @@ up parallelization using <code>tune</code> via one of the backends such as
 #&gt;  -2684.9718       0.4702      -0.0196       0.7962  
 #&gt; 
 #&gt; 
-#&gt; 0.33 sec elapsed
+#&gt; 0.377 sec elapsed
 #&gt; </div><div class='input'>
-<span class='kw'>ensemble_fit_lm</span>
-</div><div class='output co'>#&gt; -- Modeltime Ensemble -------------------------------------------
+<span class='va'>ensemble_fit_lm</span>
+</div><div class='output co'>#&gt; ── Modeltime Ensemble ───────────────────────────────────────────
 #&gt; Ensemble of 3 Models (LM STACK)
 #&gt; 
 #&gt; # Modeltime Table
-#&gt; </span><span style='color: #555555;'># A tibble: 3 x 4</span><span>
-#&gt;   .model_id .model     .model_desc             .resample_results
-#&gt;       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                   </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>           
-#&gt; </span><span style='color: #555555;'>1</span><span>         1 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> ARIMA(0,1,1)(0,1,1)[12] </span><span style='color: #555555;'>&lt;tibble [1 x 5]&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>2</span><span>         2 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> PROPHET                 </span><span style='color: #555555;'>&lt;tibble [1 x 5]&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>3</span><span>         3 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> GLMNET                  </span><span style='color: #555555;'>&lt;tibble [1 x 5]&gt;</span><span> </div><div class='input'>
+#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+#&gt;   .model_id .model     .model_desc            
+#&gt;       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                  
+#&gt; </span><span style='color: #555555;'>1</span><span>         1 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> ARIMA(0,1,1)(0,1,1)[12]
+#&gt; </span><span style='color: #555555;'>2</span><span>         2 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> PROPHET                
+#&gt; </span><span style='color: #555555;'>3</span><span>         3 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> GLMNET                 </div><div class='input'>
 <span class='co'># * With Metalearner Tuning ----</span>
-<span class='kw'>ensemble_fit_glmnet</span> <span class='op'>&lt;-</span> <span class='kw'>submodel_predictions</span> <span class='op'>%&gt;%</span>
-    <span class='fu'>ensemble_model_spec</span>(
-        model_spec = <span class='fu'>linear_reg</span>(
-            penalty = <span class='fu'>tune</span>(),
-            mixture = <span class='fu'>tune</span>()
-        ) <span class='op'>%&gt;%</span>
-            <span class='fu'>set_engine</span>(<span class='st'>"glmnet"</span>),
-        grid       = <span class='fl'>2</span>,
-        control    = <span class='fu'>control_grid</span>(verbose = <span class='fl'>TRUE</span>)
-    )
-</div><div class='output co'>#&gt; -- Tuning Model Specification -----------------------------------</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>i</span><span> Performing 5-Fold Cross Validation.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold1: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold1: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold1: model 1/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold1: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold1: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold1: model 2/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold2: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold2: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold2: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold2: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold2: model 1/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold2: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold2: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold2: model 2/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold3: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold3: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold3: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold3: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold3: model 1/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold3: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold3: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold3: model 2/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold4: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold4: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold4: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold4: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold4: model 1/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold4: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold4: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold4: model 2/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold5: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold5: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold5: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold5: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold5: model 1/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold5: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #000000;'>Fold5: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold5: model 2/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> Finished tuning Model Specification.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>i</span><span> Model Parameters:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 8</span><span>
-#&gt;   penalty mixture .metric .estimator  mean     n std_err .config
-#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #555555;'>1</span><span> 0.002</span><span style='text-decoration: underline;'>90</span><span>   0.508 rmse    standard    178.     5    48.8 Model1 
-#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>i</span><span> Prediction Error Comparison:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
-#&gt;   .model_id .model_desc               rmse
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 1         ARIMA(0,1,1)(0,1,1)[12]   579.
-#&gt; </span><span style='color: #555555;'>2</span><span> 2         PROPHET                   381.
-#&gt; </span><span style='color: #555555;'>3</span><span> 3         GLMNET                    548.
-#&gt; </span><span style='color: #555555;'>4</span><span> ensemble  ENSEMBLE (MODEL SPEC)   </span><span style='text-decoration: underline;'>10</span><span>195.
+<span class='va'>ensemble_fit_glmnet</span> <span class='op'>&lt;-</span> <span class='va'>submodel_predictions</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>ensemble_model_spec</span><span class='op'>(</span>
+        model_spec <span class='op'>=</span> <span class='fu'>linear_reg</span><span class='op'>(</span>
+            penalty <span class='op'>=</span> <span class='fu'>tune</span><span class='op'>(</span><span class='op'>)</span>,
+            mixture <span class='op'>=</span> <span class='fu'>tune</span><span class='op'>(</span><span class='op'>)</span>
+        <span class='op'>)</span> <span class='op'>%&gt;%</span>
+            <span class='fu'>set_engine</span><span class='op'>(</span><span class='st'>"glmnet"</span><span class='op'>)</span>,
+        grid       <span class='op'>=</span> <span class='fl'>2</span>,
+        control    <span class='op'>=</span> <span class='fu'>control_grid</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+    <span class='op'>)</span>
+</div><div class='output co'>#&gt; ── Tuning Model Specification ───────────────────────────────────</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Performing 5-Fold Cross Validation.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold1: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold1: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold1: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold1: model 1/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold1: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold1: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold1: model 2/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold2: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold2: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold2: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold2: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold2: model 1/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold2: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold2: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold2: model 2/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold3: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold3: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold3: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold3: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold3: model 1/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold3: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold3: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold3: model 2/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold4: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold4: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold4: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold4: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold4: model 1/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold4: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold4: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold4: model 2/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold5: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold5: recipe</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold5: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold5: model 1/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold5: model 1/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold5: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Fold5: model 2/2</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Fold5: model 2/2 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> Finished tuning Model Specification.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Model Parameters:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 8</span><span>
+#&gt;       penalty mixture .metric .estimator  mean     n std_err .config
+#&gt;         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>1</span><span> 0.000</span><span style='text-decoration: underline;'>000</span><span>242   0.853 rmse    standard    164.     5    22.6 Model2 
+#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Prediction Error Comparison:</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
+#&gt;   .model_id  rmse .model_desc            
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                  
+#&gt; </span><span style='color: #555555;'>1</span><span> 1          579. ARIMA(0,1,1)(0,1,1)[12]
+#&gt; </span><span style='color: #555555;'>2</span><span> 2          381. PROPHET                
+#&gt; </span><span style='color: #555555;'>3</span><span> 3          548. GLMNET                 
+#&gt; </span><span style='color: #555555;'>4</span><span> ensemble   139. ENSEMBLE (MODEL SPEC)  
 #&gt; 
-#&gt; -- Final Model --------------------------------------------------
-#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>i</span><span> Model Workflow:</span></div><div class='output co'>#&gt; == Workflow [trained] ==============================================================================================
+#&gt; ── Final Model ──────────────────────────────────────────────────
+#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Model Workflow:</span></div><div class='output co'>#&gt; ══ Workflow [trained] ═════════════════════════════════════════════════════════════════════════════════════════════════════
 #&gt; </span><span style='font-style: italic;'>Preprocessor:</span><span> Recipe
 #&gt; </span><span style='font-style: italic;'>Model:</span><span> linear_reg()
 #&gt; 
-#&gt; -- Preprocessor ----------------------------------------------------------------------------------------------------
+#&gt; ── Preprocessor ───────────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt; 0 Recipe Steps
 #&gt; 
-#&gt; -- Model -----------------------------------------------------------------------------------------------------------
+#&gt; ── Model ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt; 
-#&gt; Call:  glmnet::glmnet(x = as.matrix(x), y = y, family = "gaussian",      alpha = ~0.507502322620712) 
+#&gt; Call:  glmnet::glmnet(x = as.matrix(x), y = y, family = "gaussian",      alpha = ~0.852776161115617) 
 #&gt; 
-#&gt;    Df  %Dev  Lambda
-#&gt; 1   0  0.00 1087.00
-#&gt; 2   2  9.06  990.90
-#&gt; 3   3 19.53  902.80
-#&gt; 4   3 29.51  822.60
-#&gt; 5   3 38.29  749.50
-#&gt; 6   3 45.98  683.00
-#&gt; 7   3 52.70  622.30
-#&gt; 8   3 58.55  567.00
-#&gt; 9   3 63.63  516.60
-#&gt; 10  3 68.02  470.70
-#&gt; 11  3 71.81  428.90
-#&gt; 12  3 75.08  390.80
-#&gt; 13  3 77.89  356.10
-#&gt; 14  3 80.29  324.50
-#&gt; 15  3 82.35  295.60
-#&gt; 16  3 84.12  269.40
-#&gt; 17  3 85.62  245.40
-#&gt; 18  3 86.91  223.60
-#&gt; 19  3 88.00  203.80
-#&gt; 20  3 88.94  185.70
-#&gt; 21  3 89.73  169.20
-#&gt; 22  3 90.41  154.10
-#&gt; 23  3 90.99  140.50
-#&gt; 24  3 91.48  128.00
-#&gt; 25  3 91.89  116.60
-#&gt; 26  3 92.25  106.20
-#&gt; 27  3 92.55   96.81
-#&gt; 28  3 92.81   88.21
-#&gt; 29  3 93.03   80.37
-#&gt; 30  3 93.22   73.23
-#&gt; 31  3 93.38   66.73
-#&gt; 32  3 93.52   60.80
-#&gt; 33  3 93.64   55.40
-#&gt; 34  3 93.74   50.48
-#&gt; 35  3 93.83   45.99
-#&gt; 36  3 93.90   41.91
-#&gt; 37  3 93.97   38.18
-#&gt; 38  3 94.02   34.79
-#&gt; 39  3 94.07   31.70
-#&gt; 40  3 94.11   28.88
-#&gt; 41  3 94.15   26.32
-#&gt; 42  3 94.18   23.98
-#&gt; 43  3 94.20   21.85
-#&gt; 44  3 94.22   19.91
-#&gt; 45  3 94.24   18.14
-#&gt; 46  3 94.26   16.53
+#&gt;    Df  %Dev Lambda
+#&gt; 1   0  0.00 647.20
+#&gt; 2   1 13.17 589.70
+#&gt; 3   2 24.97 537.30
+#&gt; 4   2 35.77 489.60
+#&gt; 5   3 44.94 446.10
+#&gt; 6   3 52.92 406.40
+#&gt; 7   3 59.64 370.30
+#&gt; 8   3 65.28 337.40
+#&gt; 9   3 70.00 307.50
+#&gt; 10  3 73.97 280.10
+#&gt; 11  3 77.29 255.30
+#&gt; 12  3 80.08 232.60
+#&gt; 13  3 82.41 211.90
+#&gt; 14  3 84.37 193.10
+#&gt; 15  3 86.00 175.90
+#&gt; 16  3 87.37 160.30
+#&gt; 17  3 88.51 146.10
+#&gt; 18  3 89.47 133.10
+#&gt; 19  3 90.27 121.30
+#&gt; 20  3 90.94 110.50
+#&gt; 21  3 91.50 100.70
+#&gt; 22  3 91.97  91.73
+#&gt; 23  3 92.36  83.58
+#&gt; 24  3 92.69  76.16
+#&gt; 25  3 92.97  69.39
+#&gt; 26  3 93.19  63.23
+#&gt; 27  3 93.39  57.61
+#&gt; 28  3 93.54  52.49
+#&gt; 29  3 93.68  47.83
+#&gt; 30  3 93.79  43.58
+#&gt; 31  3 93.88  39.71
+#&gt; 32  3 93.96  36.18
+#&gt; 33  3 94.02  32.97
+#&gt; 34  3 94.08  30.04
+#&gt; 35  3 94.12  27.37
+#&gt; 36  3 94.16  24.94
+#&gt; 37  3 94.19  22.72
+#&gt; 38  3 94.22  20.70
+#&gt; 39  3 94.24  18.87
+#&gt; 40  3 94.26  17.19
+#&gt; 41  3 94.27  15.66
+#&gt; 42  3 94.29  14.27
+#&gt; 43  3 94.30  13.00
+#&gt; 44  3 94.31  11.85
+#&gt; 45  3 94.31  10.80
+#&gt; 46  3 94.32   9.84
 #&gt; 
 #&gt; ...
-#&gt; and 18 more lines.
+#&gt; and 10 more lines.
 #&gt; 
-#&gt; 4.25 sec elapsed
+#&gt; 4.579 sec elapsed
 #&gt; </div><div class='input'>
-<span class='kw'>ensemble_fit_glmnet</span>
-</div><div class='output co'>#&gt; -- Modeltime Ensemble -------------------------------------------
+<span class='va'>ensemble_fit_glmnet</span>
+</div><div class='output co'>#&gt; ── Modeltime Ensemble ───────────────────────────────────────────
 #&gt; Ensemble of 3 Models (GLMNET STACK)
 #&gt; 
 #&gt; # Modeltime Table
-#&gt; </span><span style='color: #555555;'># A tibble: 3 x 4</span><span>
-#&gt;   .model_id .model     .model_desc             .resample_results
-#&gt;       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                   </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>           
-#&gt; </span><span style='color: #555555;'>1</span><span>         1 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> ARIMA(0,1,1)(0,1,1)[12] </span><span style='color: #555555;'>&lt;tibble [1 x 5]&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>2</span><span>         2 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> PROPHET                 </span><span style='color: #555555;'>&lt;tibble [1 x 5]&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>3</span><span>         3 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> GLMNET                  </span><span style='color: #555555;'>&lt;tibble [1 x 5]&gt;</span><span> </div><div class='input'>
+#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+#&gt;   .model_id .model     .model_desc            
+#&gt;       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                  
+#&gt; </span><span style='color: #555555;'>1</span><span>         1 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> ARIMA(0,1,1)(0,1,1)[12]
+#&gt; </span><span style='color: #555555;'>2</span><span>         2 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> PROPHET                
+#&gt; </span><span style='color: #555555;'>3</span><span>         3 </span><span style='color: #555555;'>&lt;workflow&gt;</span><span> GLMNET                 </div><div class='input'>
 <span class='co'># }</span>
 
 </div></span></pre>

@@ -89,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.ensemble</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
       </span>
     </div>
 
@@ -137,17 +137,26 @@
 
     <div id="modeltimeensemble-development-version" class="section level1">
 <h1 class="page-header" data-toc-text="development version">
-<a href="#modeltimeensemble-development-version" class="anchor"></a>modeltime.ensemble (development version)</h1>
-<p><strong>Stacked Ensembles</strong></p>
+<a href="#modeltimeensemble-development-version" class="anchor"></a>modeltime.ensemble (development version)<small> Unreleased </small>
+</h1>
+</div>
+    <div id="modeltimeensemble-020" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.0">
+<a href="#modeltimeensemble-020" class="anchor"></a>modeltime.ensemble 0.2.0<small> 2020-10-09 </small>
+</h1>
+<p><strong>Stacked Ensembles (Breaking Changes)</strong></p>
+<p>The process for creating stacked ensembles is split into 2 steps:</p>
 <ul>
-<li>Use <code><a href="../reference/modeltime_fit_resamples.html">modeltime_fit_resamples()</a></code> to generate resampled predictions</li>
-<li>Use <code><a href="../reference/ensemble_model_spec.html">ensemble_model_spec()</a></code> to apply stacking using a <code>model_spec</code>
+<li>Step 1: Use <code><a href="../reference/modeltime_fit_resamples.html">modeltime_fit_resamples()</a></code> to generate resampled predictions</li>
+<li>Step 2: Use <code><a href="../reference/ensemble_model_spec.html">ensemble_model_spec()</a></code> to apply stacking using a <code>model_spec</code>
 </li>
 </ul>
+<p>Note - <code><a href="https://rdrr.io/pkg/modeltime/man/modeltime_refit.html">modeltime_refit(stacked_ensemble)</a></code> is still one step, which is the best way to handle refitting since multiple stacked models may have different submodel compositions. An additional argument, <code>resamples</code> can be provided to train stacked ensembles made with <code><a href="../reference/ensemble_model_spec.html">ensemble_model_spec()</a></code>.</p>
 </div>
     <div id="modeltimeensemble-010" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.0">
-<a href="#modeltimeensemble-010" class="anchor"></a>modeltime.ensemble 0.1.0</h1>
+<a href="#modeltimeensemble-010" class="anchor"></a>modeltime.ensemble 0.1.0<small> 2020-10-07 </small>
+</h1>
 <ul>
 <li>Initial release of <code>modeltime.ensemble</code>.</li>
 </ul>
