@@ -39,8 +39,16 @@ knitr::include_graphics("vignettes/stacking.jpg")
 
 ## Installation
 
+Install the CRAN version:
+
 ``` r
-devtools::install_github("business-science/modeltime.ensemble")
+install.packages("modeltime.ensemble")
+```
+
+Or, install the development version:
+
+``` r
+remotes::install_github("business-science/modeltime.ensemble")
 ```
 
 ## Getting Started

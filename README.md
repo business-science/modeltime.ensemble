@@ -24,8 +24,16 @@ methods*** including model averaging, weighted averaging, and stacking.
 
 ## Installation
 
+Install the CRAN version:
+
 ``` r
-devtools::install_github("business-science/modeltime.ensemble")
+install.packages("modeltime.ensemble")
+```
+
+Or, install the development version:
+
+``` r
+remotes::install_github("business-science/modeltime.ensemble")
 ```
 
 ## Getting Started
@@ -73,7 +81,7 @@ ensemble_fit <- m750_models %>%
     ensemble_average(type = "mean")
 
 ensemble_fit
-#> -- Modeltime Ensemble -------------------------------------------
+#> ── Modeltime Ensemble ───────────────────────────────────────────
 #> Ensemble of 3 Models (MEAN)
 #> 
 #> # Modeltime Table
