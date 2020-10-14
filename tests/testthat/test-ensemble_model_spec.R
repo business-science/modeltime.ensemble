@@ -258,6 +258,15 @@ test_that("Structure:: modeltime_resample_accuracy()", {
         modeltime_resample_accuracy()
 
     expect_equal(nrow(resample_accuracy), 3)
+    expect_equal(ncol(resample_accuracy), 10)
+
+    # Multiple functions
+    resample_mean_sd <- m750_models_resample %>%
+        modeltime_resample_accuracy(summary_fns = list(mean = mean, sd = sd))
+
+    expect_equal(nrow(resample_mean_sd), 3)
+    expect_equal(ncol(resample_mean_sd), 16)
+
 
 })
 

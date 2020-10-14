@@ -6,11 +6,21 @@
 \usage{
 modeltime_resample_accuracy(
   object,
+  summary_fns = mean,
   metric_set = default_forecast_accuracy_metric_set()
 )
 }
 \arguments{
 \item{object}{a Modeltime Table with a column '.resample_results' (the output of \code{\link[=modeltime_fit_resamples]{modeltime_fit_resamples()}})}
+
+\item{summary_fns}{One or more functions that is passed to \code{dplyr::across(.fns)}.
+Possible values are:
+\itemize{
+\item NULL, to returns the resamples untransformed.
+\item A function, e.g. mean.
+\item A purrr-style lambda, e.g. ~ mean(.x, na.rm = TRUE)
+\item A list of functions/lambdas, e.g. list(mean = mean, sd = sd)
+}}
 
 \item{metric_set}{A \code{yardstick::metric_set()} that is used to summarize one or more
 forecast accuracy (regression) metrics.}
@@ -20,6 +30,9 @@ This is a wrapper for \code{yardstick} that simplifies time
 series regression accuracy metric calculations from
 a Modeltime Table that has been resampled and fitted using
 \code{\link[=modeltime_fit_resamples]{modeltime_fit_resamples()}}.
+}
+\details{
+Returns the \emph{average} accuracy metrics for each resample prediction.
 }
 \examples{
 library(tidymodels)
@@ -44,8 +57,16 @@ m750_models_resample <- m750_models \%>\%
 
 m750_models_resample
 
+# Average
 m750_models_resample \%>\%
     modeltime_resample_accuracy() \%>\%
+    table_modeltime_accuracy(.interactive = FALSE)
+
+# Mean and Standard Deviation
+m750_models_resample \%>\%
+    modeltime_resample_accuracy(
+        summary_fns = list(mean = mean, sd = sd)
+    ) \%>\%
     table_modeltime_accuracy(.interactive = FALSE)
 
 }

@@ -9,7 +9,15 @@
 #'
 #' @inheritParams modeltime::modeltime_accuracy
 #' @param object a Modeltime Table with a column '.resample_results' (the output of [modeltime_fit_resamples()])
+#' @param summary_fns One or more functions that is passed to `dplyr::across(.fns)`.
+#'  Possible values are:
+#'  * NULL, to returns the resamples untransformed.
+#'  * A function, e.g. mean.
+#'  * A purrr-style lambda, e.g. ~ mean(.x, na.rm = TRUE)
+#'  * A list of functions/lambdas, e.g. list(mean = mean, sd = sd)
 #'
+#' @details
+#' Returns the _average_ accuracy metrics for each resample prediction.
 #'
 #' @examples
 #' library(tidymodels)
@@ -34,16 +42,24 @@
 #'
 #' m750_models_resample
 #'
+#' # Average
 #' m750_models_resample %>%
 #'     modeltime_resample_accuracy() %>%
 #'     table_modeltime_accuracy(.interactive = FALSE)
 #'
+#' # Mean and Standard Deviation
+#' m750_models_resample %>%
+#'     modeltime_resample_accuracy(
+#'         summary_fns = list(mean = mean, sd = sd)
+#'     ) %>%
+#'     table_modeltime_accuracy(.interactive = FALSE)
+#'
 #' @export
-modeltime_resample_accuracy <- function(object, metric_set = default_forecast_accuracy_metric_set()) {
+modeltime_resample_accuracy <- function(object, summary_fns = mean, metric_set = default_forecast_accuracy_metric_set()) {
 
     # Checks
     if (!inherits(object, "data.frame")) rlang::abort("object must be a data.frame")
-    if (!".resample_results" %in% names(object)) rlang::abort("object must contain a column, '.resample_results'. Try using `modeltime_fit_resamples()` first. ")
+    if (!".resample_results" %in% names(object)) rlang::abort("object must contain a column, '.resample_results'. Try using `modeltime_fit_resamples()` first.")
 
     # Unnest resamples column
     predictions_tbl <- unnest_resamples(object)
@@ -52,10 +68,22 @@ modeltime_resample_accuracy <- function(object, metric_set = default_forecast_ac
     target_text <- names(predictions_tbl) %>% utils::tail(1)
     target_var  <- rlang::sym(target_text)
 
-    predictions_tbl %>%
+    ret <- predictions_tbl %>%
         dplyr::mutate(.type = "Resamples") %>%
+        dplyr::group_by(.model_id, .model_desc, .resample_id, .type) %>%
+        modeltime::summarize_accuracy_metrics(!! target_var, .pred, metric_set = metric_set) %>%
+        dplyr::select(-.resample_id) %>%
         dplyr::group_by(.model_id, .model_desc, .type) %>%
-        modeltime::summarize_accuracy_metrics(!! target_var, .pred, metric_set = metric_set)
+        dplyr::mutate(n = dplyr::n()) %>%
+        dplyr::group_by(.model_id, .model_desc, .type, n) %>%
+        dplyr::summarise(
+            dplyr::across(.fns = summary_fns),
+            .groups = "drop"
+        ) %>%
+        dplyr::ungroup()
+
+    return(ret)
+
 
 }
 
