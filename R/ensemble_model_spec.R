@@ -238,14 +238,7 @@ generate_stacking_results <- function(object,
     # - This is now performed separately with modeltime_fit_resamples()
 
     # 2. Wrangle Predictions ----
-    predictions_tbl <- object %>%
-        dplyr::select(-.model) %>%
-        tidyr::unnest(.resample_results) %>%
-        dplyr::select(.model_id, .model_desc, .predictions) %>%
-        tidyr::unnest(.predictions) %>%
-        dplyr::group_split(.model_id) %>%
-        purrr::map( tibble::rowid_to_column, var = ".row_id") %>%
-        dplyr::bind_rows()
+    predictions_tbl <- unnest_resamples(object)
 
     # Target Variable is the name in the data
     target_text <- names(predictions_tbl) %>% utils::tail(1)

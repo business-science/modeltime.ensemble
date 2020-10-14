@@ -26,15 +26,25 @@ for Stacked Ensembles, which use meta-learners.
 Refer to \code{\link[=ensemble_model_spec]{ensemble_model_spec()}}.
 }
 \details{
-The function uses \code{tune::fit_resamples()} to iteratively train and predict models
-contained in a Modeltime Table on resample objects. This is useful in
-creating Stacked Ensembles using \code{\link[=ensemble_model_spec]{ensemble_model_spec()}} because the submodel
-cross-validation predictions are used as the input to the meta-learner model.
-
+The function is a wrapper for \code{tune::fit_resamples()} to iteratively train and predict models
+contained in a Modeltime Table on resample objects.
 One difference between \code{tune::fit_resamples()} and \code{modeltime_fit_resamples()}
 is that predictions are always returned
 (i.e. \code{control = tune::control_resamples(save_pred = TRUE)}). This is needed for
 \code{ensemble_model_spec()}.
+
+\strong{Usage: Ensembles}_
+
+Fitting and Predicting Resamples is useful in
+creating Stacked Ensembles using \code{\link[=ensemble_model_spec]{ensemble_model_spec()}} because the submodel
+cross-validation predictions are used as the input to the meta-learner model.
+
+\strong{Usage: Resampled Prediction Accuracy}
+
+Calculating Accuracy Metrics on models fit to resamples can help
+to understand the model performance and stability under different
+forecasting windows. See \code{\link[=modeltime_resample_accuracy]{modeltime_resample_accuracy()}} for
+getting resampled prediction accuracy for each model.
 }
 \examples{
 library(tidymodels)
@@ -58,5 +68,9 @@ m750_models_resample <- m750_models \%>\%
     )
 
 m750_models_resample
+
+m750_models_resample \%>\%
+    modeltime_resample_accuracy() \%>\%
+    table_modeltime_accuracy(.interactive = FALSE)
 
 }

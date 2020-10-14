@@ -1,4 +1,4 @@
-context("TEST: ensemble_model_spec()")
+context("TEST: ensemble_model_spec() & modeltime_fit_resamples()")
 
 resamples_tscv <- training(m750_splits) %>%
     time_series_cv(assess = "2 years", initial = "5 years", skip = "2 years", slice_limit = 1)
@@ -11,7 +11,7 @@ m750_models_resample <- m750_models %>%
 
 # TEST ENSEMBLE AVERAGE ----
 
-# No Tuning ----
+# * No Tuning ----
 test_that("ensemble_model_spec(): Linear Regression (No Tuning)", {
 
    ensemble_fit_lm <- m750_models_resample %>%
@@ -90,7 +90,7 @@ test_that("ensemble_model_spec(): Linear Regression (No Tuning)", {
 })
 
 
-# Tuning ----
+# * Tuning ----
 test_that("ensemble_model_spec(): GLMNET (Tuning)", {
 
     ensemble_fit_glmnet <- m750_models_resample %>%
@@ -180,7 +180,7 @@ test_that("ensemble_model_spec(): GLMNET (Tuning)", {
 
 
 
-# Checks/Errors ----
+# * Checks/Errors ----
 test_that("Checks/Errors: ensemble_model_spec()", {
 
     # Object is Missing
@@ -217,7 +217,20 @@ test_that("Checks/Errors: ensemble_model_spec()", {
 
 })
 
-# Checks/Errors ----
+# MODELTIME FIT RESAMPLES ----
+
+test_that("Structure: modeltime_fit_resamples()", {
+
+    # Structure
+
+    expect_true(".resample_results" %in% names(m750_models_resample))
+
+    resamples_unnested <- unnest_resamples(m750_models_resample)
+    expect_true(all(c(".model_id", ".model_desc", ".pred") %in% names(resamples_unnested)))
+
+})
+
+# * Checks/Errors ----
 test_that("Checks/Errors: modeltime_fit_resamples()", {
 
     # Object is Missing
@@ -234,6 +247,17 @@ test_that("Checks/Errors: modeltime_fit_resamples()", {
         modeltime_fit_resamples(m750_models, 1)
     })
 
+})
+
+# MODELTIME RESAMPLE ACCURACY ----
+
+test_that("Structure:: modeltime_resample_accuracy()", {
+
+    # Structure
+    resample_accuracy <- m750_models_resample %>%
+        modeltime_resample_accuracy()
+
+    expect_equal(nrow(resample_accuracy), 3)
 
 })
 

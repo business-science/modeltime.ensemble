@@ -18,15 +18,26 @@
 #'
 #' @details
 #'
-#' The function uses `tune::fit_resamples()` to iteratively train and predict models
-#' contained in a Modeltime Table on resample objects. This is useful in
-#' creating Stacked Ensembles using [ensemble_model_spec()] because the submodel
-#' cross-validation predictions are used as the input to the meta-learner model.
-#'
+#' The function is a wrapper for `tune::fit_resamples()` to iteratively train and predict models
+#' contained in a Modeltime Table on resample objects.
 #' One difference between `tune::fit_resamples()` and `modeltime_fit_resamples()`
 #' is that predictions are always returned
 #' (i.e. `control = tune::control_resamples(save_pred = TRUE)`). This is needed for
 #' `ensemble_model_spec()`.
+#'
+#' __Usage: Ensembles___
+#'
+#' Fitting and Predicting Resamples is useful in
+#' creating Stacked Ensembles using [ensemble_model_spec()] because the submodel
+#' cross-validation predictions are used as the input to the meta-learner model.
+#'
+#' __Usage: Resampled Prediction Accuracy__
+#'
+#' Calculating Accuracy Metrics on models fit to resamples can help
+#' to understand the model performance and stability under different
+#' forecasting windows. See [modeltime_resample_accuracy()] for
+#' getting resampled prediction accuracy for each model.
+#'
 #'
 #' @examples
 #' library(tidymodels)
@@ -50,6 +61,10 @@
 #'     )
 #'
 #' m750_models_resample
+#'
+#' m750_models_resample %>%
+#'     modeltime_resample_accuracy() %>%
+#'     table_modeltime_accuracy(.interactive = FALSE)
 #'
 #' @export
 modeltime_fit_resamples <- function(object, resamples, control = control_resamples()) {
