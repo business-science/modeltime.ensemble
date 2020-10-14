@@ -1,5 +1,7 @@
 # modeltime.ensemble (development version)
 
+- Move `modeltime_fit_resamples()` to a new package `modeltime.resample`.
+
 # modeltime.ensemble 0.2.0
 
 __Stacked Ensembles (Breaking Changes)__

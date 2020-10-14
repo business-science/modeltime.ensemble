@@ -4,6 +4,7 @@ library(testthat)
 library(tidymodels)
 library(modeltime)
 library(modeltime.ensemble)
+library(modeltime.resample)
 
 # Core Packages
 library(tidyverse)

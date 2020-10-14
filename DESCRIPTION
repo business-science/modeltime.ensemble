@@ -18,6 +18,7 @@ Encoding: UTF-8
 LazyData: true
 Depends: 
     modeltime (>= 0.2.1.9000),
+    modeltime.resample (>= 0.0.0.9000),
     R (>= 3.5)
 Imports: 
     tune,

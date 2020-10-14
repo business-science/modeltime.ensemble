@@ -4,9 +4,9 @@
 #'
 #'
 #' A 2-stage stacking regressor that follows:
-#' 1. Stage 1: Sub-Model's are Trained & Predicted using `modeltime_fit_resamples()`
+#' 1. Stage 1: Sub-Model's are Trained & Predicted using [modeltime.resample::modeltime_fit_resamples()].
 #' 2. Stage 2: A Meta-learner (`model_spec`) is trained on Out-of-Sample Sub-Model
-#'   Predictions using `ensemble_model_spec()`
+#'   Predictions using `ensemble_model_spec()`.
 #'
 #' @param object A Modeltime Table. Used for ensemble sub-models.
 #' @param model_spec A `model_spec` object defining the
@@ -238,7 +238,7 @@ generate_stacking_results <- function(object,
     # - This is now performed separately with modeltime_fit_resamples()
 
     # 2. Wrangle Predictions ----
-    predictions_tbl <- unnest_resamples(object)
+    predictions_tbl <- modeltime.resample::unnest_resamples(object)
 
     # Target Variable is the name in the data
     target_text <- names(predictions_tbl) %>% utils::tail(1)

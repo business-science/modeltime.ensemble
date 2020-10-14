@@ -84,7 +84,7 @@ mdl_time_refit.mdl_time_ensemble_model_spec <- function(object, data, ..., contr
         # Fit the resamples
         control$save_pred <- TRUE
         model_resample_tbl <- model_tbl %>%
-            modeltime_fit_resamples(
+            modeltime.resample::modeltime_fit_resamples(
                 resamples = resamples,
                 control   = control
             )
