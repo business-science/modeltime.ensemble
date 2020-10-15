@@ -238,7 +238,7 @@ generate_stacking_results <- function(object,
     # - This is now performed separately with modeltime_fit_resamples()
 
     # 2. Wrangle Predictions ----
-    predictions_tbl <- modeltime.resample::unnest_resamples(object)
+    predictions_tbl <- modeltime.resample::unnest_modeltime_resamples(object)
 
     # Target Variable is the name in the data
     target_text <- names(predictions_tbl) %>% utils::tail(1)
