@@ -4,8 +4,9 @@
 
 #' @export
 #' @importFrom modeltime mdl_time_forecast
-mdl_time_forecast.mdl_time_ensemble_avg <- function(object, calibration_data, new_data = NULL,
-                                                    h = NULL, actual_data = NULL, bind_actual = TRUE, ...) {
+mdl_time_forecast.mdl_time_ensemble_avg <- function(object, calibration_data,
+                                                    new_data = NULL, h = NULL, actual_data = NULL, bind_actual = TRUE,
+                                                    keep_new_data = FALSE, ...) {
 
     model_tbl <- object$model_tbl
     type      <- object$parameters$type
@@ -56,6 +57,16 @@ mdl_time_forecast.mdl_time_ensemble_avg <- function(object, calibration_data, ne
         dplyr::mutate(.key = factor(.key, levels = c("actual", "prediction"))) %>%
         dplyr::arrange(.key, .index)
 
+    if (keep_new_data) {
+        act_tbl <- ret %>%
+            dplyr::filter(.key == "actual")
+        pred_tbl <- ret %>%
+            dplyr::filter(.key == "prediction") %>%
+            dplyr::bind_cols(new_data)
+        ret <- dplyr::bind_rows(act_tbl, pred_tbl)
+
+    }
+
     return(ret)
 }
 
@@ -63,8 +74,9 @@ mdl_time_forecast.mdl_time_ensemble_avg <- function(object, calibration_data, ne
 # 2.0 WEIGHTED ENSEMBLE ----
 
 #' @export
-mdl_time_forecast.mdl_time_ensemble_wt <- function(object, calibration_data, new_data = NULL,
-                                                   h = NULL, actual_data = NULL, bind_actual = TRUE, ...) {
+mdl_time_forecast.mdl_time_ensemble_wt <- function(object, calibration_data,
+                                                   new_data = NULL, h = NULL, actual_data = NULL, bind_actual = TRUE,
+                                                   keep_new_data = FALSE, ...) {
 
     model_tbl    <- object$model_tbl
     loadings_tbl <- object$fit$loadings_tbl
@@ -113,6 +125,16 @@ mdl_time_forecast.mdl_time_ensemble_wt <- function(object, calibration_data, new
         dplyr::mutate(.key = factor(.key, levels = c("actual", "prediction"))) %>%
         dplyr::arrange(.key, .index)
 
+    if (keep_new_data) {
+        act_tbl <- ret %>%
+            dplyr::filter(.key == "actual")
+        pred_tbl <- ret %>%
+            dplyr::filter(.key == "prediction") %>%
+            dplyr::bind_cols(new_data)
+        ret <- dplyr::bind_rows(act_tbl, pred_tbl)
+
+    }
+
     return(ret)
 }
 
@@ -126,8 +148,9 @@ mdl_time_forecast.mdl_time_ensemble_wt <- function(object, calibration_data, new
 # 4.0 MODEL SPEC ENSEMBLE ----
 
 #' @export
-mdl_time_forecast.mdl_time_ensemble_model_spec <- function(object, calibration_data, new_data = NULL,
-                                                           h = NULL, actual_data = NULL, bind_actual = TRUE, ...) {
+mdl_time_forecast.mdl_time_ensemble_model_spec <- function(object, calibration_data,
+                                                           new_data = NULL, h = NULL, actual_data = NULL, bind_actual = TRUE,
+                                                           keep_new_data = FALSE, ...) {
 
     model_tbl <- object$model_tbl
     wflw_fit  <- object$fit$fit
@@ -181,6 +204,16 @@ mdl_time_forecast.mdl_time_ensemble_model_spec <- function(object, calibration_d
     ret <- modeltime_fcast %>%
         dplyr::mutate(.key = factor(.key, levels = c("actual", "prediction"))) %>%
         dplyr::arrange(.key, .index)
+
+    if (keep_new_data) {
+        act_tbl <- ret %>%
+            dplyr::filter(.key == "actual")
+        pred_tbl <- ret %>%
+            dplyr::filter(.key == "prediction") %>%
+            dplyr::bind_cols(new_data)
+        ret <- dplyr::bind_rows(act_tbl, pred_tbl)
+
+    }
 
     return(ret)
 }

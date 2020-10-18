@@ -63,6 +63,17 @@ test_that("ensemble_model_spec(): Linear Regression (No Tuning)", {
     expect_equal(nrow(forecast_tbl), 24 + n_actual)
     expect_equal(ncol(forecast_tbl), 7)
 
+    # Forecast - Test Keep New Data
+    forecast_tbl <- calibration_tbl %>%
+        modeltime_forecast(
+            new_data    = testing(m750_splits),
+            actual_data = m750,
+            keep_new_data = TRUE
+        )
+
+    expect_equal(nrow(forecast_tbl), 24 + n_actual)
+    expect_equal(ncol(forecast_tbl), 10)
+
     # Refit - NO RESAMPLE
 
     expect_warning({
