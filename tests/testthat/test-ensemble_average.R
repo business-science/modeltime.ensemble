@@ -1,5 +1,18 @@
 context("TEST: ensemble_average()")
 
+library(testthat)
+
+# Machine Learning
+library(tidymodels)
+library(modeltime)
+library(modeltime.ensemble)
+library(modeltime.resample)
+
+# Core Packages
+library(tidyverse)
+library(timetk)
+library(lubridate)
+
 # TEST ENSEMBLE AVERAGE ----
 
 # Median ----
@@ -54,7 +67,7 @@ test_that("ensemble_average(type = 'median')", {
         modeltime_forecast(
             new_data    = testing(m750_splits),
             actual_data = m750,
-            keep_new_data = TRUE
+            keep_data   = TRUE
         )
 
     expect_equal(nrow(forecast_tbl), 24 + n_actual)
@@ -110,6 +123,8 @@ test_that("Checks/Errors: ensemble_average()", {
 
 
 })
+
+
 
 
 

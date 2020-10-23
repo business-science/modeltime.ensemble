@@ -1,6 +1,13 @@
 # modeltime.ensemble (development version)
 
+__Panel Data__
+
+- Improvements made to `ensemble_average()`, `ensemble_weighted()` and `ensemble_model_spec()` to support _Panel Data_ (i.e. when data sets with multiple time series groups that have possibly overlapping time stamps). 
+
+__Changes__
+
 - Move `modeltime_fit_resamples()` to a new package `modeltime.resample`.
+- `modeltime.ensemble` now depends on `modeltime.resample` for the `modeltime_fit_resamples()` functionality.
 
 # modeltime.ensemble 0.2.0
 

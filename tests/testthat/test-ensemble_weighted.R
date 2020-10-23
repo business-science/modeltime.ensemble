@@ -60,7 +60,7 @@ test_that("ensemble_weighted()", {
         modeltime_forecast(
             new_data    = testing(m750_splits),
             actual_data = m750,
-            keep_new_data = TRUE
+            keep_data   = TRUE
         )
 
     expect_equal(nrow(forecast_tbl), 24 + n_actual)
