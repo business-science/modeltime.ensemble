@@ -74,6 +74,14 @@ test_that("ensemble_model_spec(): Linear Regression (No Tuning)", {
     expect_equal(nrow(forecast_tbl), 24 + n_actual)
     expect_equal(ncol(forecast_tbl), 10)
 
+    expect_false({
+        forecast_tbl %>%
+            filter(.key == "prediction") %>%
+            pull(id) %>%
+            is.na() %>%
+            any()
+    })
+
     # Refit - NO RESAMPLE
 
     expect_warning({
@@ -182,7 +190,7 @@ test_that("ensemble_model_spec(): GLMNET (Tuning)", {
         modeltime_refit(m750)
 
     forecast_tbl <- refit_tbl %>%
-        modeltime_forecast(h = "2 years", actual_data = m750)
+        modeltime_forecast(h = "2 years", actual_data = m750, keep_data = TRUE)
 
     expect_false(all(is.na(accuracy_tbl$mae)))
     expect_equal(nrow(forecast_tbl), 24*4 + n_actual)

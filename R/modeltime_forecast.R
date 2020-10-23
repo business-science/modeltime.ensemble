@@ -125,16 +125,6 @@ mdl_time_forecast.mdl_time_ensemble_wt <- function(object, calibration_data,
 
         dplyr::relocate(.value, .after = .index)
 
-    # modeltime_fcast <- modeltime_fcast %>%
-    #     dplyr::left_join(loadings_tbl, by = ".model_id") %>%
-    #     dplyr::mutate(.value = .value * .loadings) %>%
-    #     dplyr::select(-.model_id, -.loadings) %>%
-    #     dplyr::group_by(.index) %>%
-    #     dplyr::summarise(.value = sum(.value, na.rm = TRUE)) %>%
-    #     dplyr::ungroup() %>%
-    #     tibble::add_column(.key = "prediction", .before = 1)
-
-
     # Recombine with actual
     if (contains_actual && bind_actual) {
         modeltime_fcast <- actual_data %>%
@@ -165,6 +155,11 @@ mdl_time_forecast.mdl_time_ensemble_model_spec <- function(object, calibration_d
     model_tbl <- object$model_tbl
     wflw_fit  <- object$fit$fit
 
+    names_new_data <- NULL
+    if (keep_data) {
+        names_new_data <- names(new_data)
+    }
+
     # Get the raw forecast results for each of the models
     modeltime_fcast <- modeltime::modeltime_forecast(
         object        = model_tbl,
@@ -172,9 +167,10 @@ mdl_time_forecast.mdl_time_ensemble_model_spec <- function(object, calibration_d
         h             = h,
         actual_data   = actual_data,
         conf_interval = NULL,
+        keep_data     = keep_data,
         ...
     ) %>%
-        dplyr::select(.model_id, .key, .index, .value)
+        dplyr::select(-.model_desc)
 
     # .key contains "actual"
     contains_actual <- "actual" %in% unique(modeltime_fcast$.key)
@@ -187,25 +183,30 @@ mdl_time_forecast.mdl_time_ensemble_model_spec <- function(object, calibration_d
             dplyr::filter(.key != "actual")
     }
 
-
     # Calculate Ensemble
     data_prepared_tbl <- modeltime_fcast %>%
         dplyr::mutate(.model_id = stringr::str_c(".model_id_", .model_id)) %>%
         tidyr::pivot_wider(
             names_from  = .model_id,
-            values_from = .value
-        )
+            values_from = .value,
+            values_fn   = list
+        ) %>%
+        tidyr::unnest(cols = dplyr::starts_with(".model_id_"))
+
+    # print("Check 1")
+    # print(data_prepared_tbl)
 
     pred_vec <- stats::predict(wflw_fit, new_data = data_prepared_tbl) %>%
         dplyr::pull(.pred)
 
     modeltime_fcast <- data_prepared_tbl %>%
-        dplyr::select(.key, .index) %>%
-        dplyr::mutate(.value = pred_vec)
+        dplyr::select(.key, .index, !!! syms(names_new_data)) %>%
+        dplyr::mutate(.value = pred_vec) %>%
+        dplyr::relocate(.value, .after = .index)
 
 
     # Recombine with actual
-    if (contains_actual) {
+    if (contains_actual && bind_actual) {
         modeltime_fcast <- actual_data %>%
             dplyr::bind_rows(modeltime_fcast)
     }
@@ -214,18 +215,12 @@ mdl_time_forecast.mdl_time_ensemble_model_spec <- function(object, calibration_d
     ret <- modeltime_fcast %>%
         dplyr::mutate(.key = factor(.key, levels = c("actual", "prediction")))
 
-    if (keep_data) {
-        act_tbl <- ret %>%
-            dplyr::filter(.key == "actual")
-        pred_tbl <- ret %>%
-            dplyr::filter(.key == "prediction") %>%
-            dplyr::bind_cols(new_data)
-        ret <- dplyr::bind_rows(act_tbl, pred_tbl)
-
+    if (arrange_index) {
+        ret <- ret %>%
+            dplyr::arrange(.key, .index)
     }
 
-    ret <- ret %>%
-        dplyr::arrange(.key, .index)
-
     return(ret)
+
+
 }
