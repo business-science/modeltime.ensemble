@@ -49,6 +49,7 @@ test_that("ensemble_average(type = 'median')", {
     accuracy_tbl <- calibration_tbl %>% modeltime_accuracy()
 
     expect_false(is.na(accuracy_tbl$mae))
+    expect_true(accuracy_tbl$mae < 250)
 
     # Forecast
     forecast_tbl <- calibration_tbl %>%
@@ -69,6 +70,7 @@ test_that("ensemble_average(type = 'median')", {
             actual_data = m750,
             keep_data   = TRUE
         )
+    # forecast_tbl %>% group_by(id) %>% plot_modeltime_forecast()
 
     expect_equal(nrow(forecast_tbl), 24 + n_actual)
     expect_equal(ncol(forecast_tbl), 10)
@@ -98,6 +100,14 @@ test_that("ensemble_average(type = 'mean')", {
     expect_equal(ensemble_fit_mean$parameters$type, "mean")
     expect_equal(ensemble_fit_mean$n_models, 3)
     expect_equal(ensemble_fit_mean$desc, "ENSEMBLE (MEAN): 3 MODELS")
+
+
+    # Forecast
+    fcast <- modeltime_table(ensemble_fit_mean) %>%
+        modeltime_forecast(testing(m750_splits))
+
+    expect_equal(nrow(fcast), nrow(testing(m750_splits)))
+    expect_equal(fcast$.index, testing(m750_splits)$date)
 
 
 })

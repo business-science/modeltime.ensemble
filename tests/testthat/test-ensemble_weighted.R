@@ -5,7 +5,7 @@ context("TEST: ensemble_weighted()")
 # Median ----
 test_that("ensemble_weighted()", {
 
-    loadings <- c(3,3,1)
+    loadings <- c(3,2,1)
 
     ensemble_fit_wt <- m750_models %>%
         ensemble_weighted(loadings = loadings)
@@ -31,6 +31,13 @@ test_that("ensemble_weighted()", {
         modeltime_table(ensemble_fit_wt) %>% pull(.model_desc),
         "ENSEMBLE (WEIGHTED): 3 MODELS"
     )
+
+    # Forecast
+    fcast <- modeltime_table(ensemble_fit_wt) %>%
+        modeltime_forecast(testing(m750_splits))
+
+    expect_equal(nrow(fcast), nrow(testing(m750_splits)))
+    expect_equal(fcast$.index, testing(m750_splits)$date)
 
     # Calibration
     calibration_tbl <- ensemble_fit_wt %>%

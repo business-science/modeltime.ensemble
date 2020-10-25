@@ -1,5 +1,7 @@
 context("TEST: ensemble_model_spec()")
 
+# SETUP ----
+
 resamples_tscv <- training(m750_splits) %>%
     time_series_cv(assess = "2 years", initial = "5 years", skip = "2 years", slice_limit = 1)
 
@@ -9,9 +11,16 @@ full_resamples_tscv <- m750 %>%
 m750_models_resample <- m750_models %>%
     modeltime_fit_resamples(resamples_tscv, control = control_resamples(verbose = F))
 
-# TEST ENSEMBLE AVERAGE ----
+ensemble_fit_glmnet <- m750_models_resample %>%
+    ensemble_model_spec(
+        model_spec = linear_reg(penalty = tune(), mixture = tune()) %>%
+            set_engine("glmnet"),
+        grid       = 1,
+        control    = control_grid(verbose = FALSE)
+    )
 
-# * No Tuning ----
+
+# NO TUNING - LM ----
 test_that("ensemble_model_spec(): Linear Regression (No Tuning)", {
 
    ensemble_fit_lm <- m750_models_resample %>%
@@ -97,7 +106,7 @@ test_that("ensemble_model_spec(): Linear Regression (No Tuning)", {
 
     refit_tbl <- calibration_tbl %>%
         combine_modeltime_tables(m750_models) %>%
-        modeltime_refit(m750, resamples = full_resamples_tscv, control = control_resamples(verbose = TRUE))
+        modeltime_refit(m750, resamples = full_resamples_tscv, control = control_resamples(verbose = FALSE))
 
     future_tbl <- refit_tbl %>% modeltime_forecast(h = "2 years", actual_data = m750)
 
@@ -109,16 +118,9 @@ test_that("ensemble_model_spec(): Linear Regression (No Tuning)", {
 })
 
 
-# * Tuning ----
-test_that("ensemble_model_spec(): GLMNET (Tuning)", {
+# TUNING - GLMNET ----
 
-    ensemble_fit_glmnet <- m750_models_resample %>%
-        ensemble_model_spec(
-            model_spec = linear_reg(penalty = tune(), mixture = tune()) %>%
-                set_engine("glmnet"),
-            grid       = 1,
-            control    = control_grid(verbose = TRUE)
-        )
+test_that("ensemble_model_spec(): GLMNET (Tuning)", {
 
     # Structure
     expect_s3_class(ensemble_fit_glmnet, "mdl_time_ensemble")
@@ -171,6 +173,12 @@ test_that("ensemble_model_spec(): GLMNET (Tuning)", {
 
     expect_equal(nrow(training_results_tbl), nrow(m750))
 
+})
+
+# MULTI-LEVEL STACKING ----
+
+test_that("Multi-Level Stacking", {
+
     # Multi-Level Stacking
     model_tbl <- m750_models %>%
         add_modeltime_model(ensemble_fit_glmnet)
@@ -190,16 +198,15 @@ test_that("ensemble_model_spec(): GLMNET (Tuning)", {
         modeltime_refit(m750)
 
     forecast_tbl <- refit_tbl %>%
+        # dplyr::slice(3:4) %>%
         modeltime_forecast(h = "2 years", actual_data = m750, keep_data = TRUE)
 
     expect_false(all(is.na(accuracy_tbl$mae)))
-    expect_equal(nrow(forecast_tbl), 24*4 + n_actual)
-
+    expect_equal(nrow(forecast_tbl), 24*4 + nrow(m750))
 })
 
 
-
-# * Checks/Errors ----
+# CHECKS / ERRORS ----
 test_that("Checks/Errors: ensemble_model_spec()", {
 
     # Object is Missing

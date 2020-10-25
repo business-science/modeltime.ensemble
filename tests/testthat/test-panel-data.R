@@ -41,6 +41,13 @@ test_that("ensemble_average(): Forecast Jumbled", {
         ensemble_average() %>%
         modeltime_table()
 
+    # Forecast
+    fcast <- model_tbl %>%
+        modeltime_forecast(data_set)
+
+    expect_equal(nrow(fcast), nrow(data_set))
+    expect_equal(fcast$.index, data_set$date)
+
     # Calibration
     calibration_tbl <- model_tbl %>%
         modeltime_calibrate(data_set)
@@ -56,6 +63,8 @@ test_that("ensemble_average(): Forecast Jumbled", {
     expect_true(all(!is.na(accuracy_tbl$mae)))
     expect_true(all(is.double(accuracy_tbl$mae)))
 
+    expect_true(accuracy_tbl$mae < 500)
+
     # * Forecast ----
     forecast_tbl <- calibration_tbl %>%
         modeltime_forecast(
@@ -64,6 +73,7 @@ test_that("ensemble_average(): Forecast Jumbled", {
             keep_data      = TRUE,
             arrange_index  = FALSE
         )
+    # forecast_tbl %>% group_by(id) %>% plot_modeltime_forecast()
 
     # * Test Actual ----
     actual_tbl <- forecast_tbl %>%
@@ -94,6 +104,13 @@ test_that("ensemble_weighted(): Forecast Jumbled", {
         ensemble_weighted(loadings) %>%
         modeltime_table()
 
+    # Forecast
+    fcast <- model_tbl %>%
+        modeltime_forecast(data_set)
+
+    expect_equal(nrow(fcast), nrow(data_set))
+    expect_equal(fcast$.index, data_set$date)
+
     # Calibration
     calibration_tbl <- model_tbl %>%
         modeltime_calibrate(data_set)
@@ -108,6 +125,7 @@ test_that("ensemble_weighted(): Forecast Jumbled", {
 
     expect_true(all(!is.na(accuracy_tbl$mae)))
     expect_true(all(is.double(accuracy_tbl$mae)))
+    expect_true(accuracy_tbl$mae < 400)
 
     # * Forecast ----
     forecast_tbl <- calibration_tbl %>%
@@ -117,6 +135,7 @@ test_that("ensemble_weighted(): Forecast Jumbled", {
             keep_data      = TRUE,
             arrange_index  = FALSE
         )
+    # forecast_tbl %>% group_by(id) %>% plot_modeltime_forecast()
 
     # * Test Actual ----
     actual_tbl <- forecast_tbl %>%
@@ -141,13 +160,13 @@ test_that("ensemble_model_spec(): Forecast Jumbled", {
     resamples_tscv <- data_set %>%
         time_series_cv(assess = "2 years", initial = "5 years", skip = "2 years", slice_limit = 2)
 
-    m750_models_resample <- modeltime_table(
+    resample_tscv <- modeltime_table(
         wflw_fit_prophet_boost,
         wflw_fit_svm
     ) %>%
         modeltime_fit_resamples(resamples_tscv, control = control_resamples(verbose = F))
 
-    ensemble_fit <- m750_models_resample %>%
+    ensemble_fit <- resample_tscv %>%
         ensemble_model_spec(
             model_spec = linear_reg() %>% set_engine("lm"),
             grid       = 3,
@@ -157,6 +176,13 @@ test_that("ensemble_model_spec(): Forecast Jumbled", {
     model_tbl <- modeltime_table(
         ensemble_fit
     )
+
+    # Forecast
+    fcast <- model_tbl %>%
+        modeltime_forecast(data_set)
+
+    expect_equal(nrow(fcast), nrow(data_set))
+    expect_equal(fcast$.index, data_set$date)
 
     # Calibration
     calibration_tbl <- model_tbl %>%
