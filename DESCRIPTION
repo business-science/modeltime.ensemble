@@ -48,6 +48,7 @@ Suggests:
     roxygen2,
     testthat,
     tidymodels,
+    xgboost,
     tidyverse,
     lubridate,
     knitr,

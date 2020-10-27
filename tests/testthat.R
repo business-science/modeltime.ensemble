@@ -6,6 +6,8 @@ library(modeltime)
 library(modeltime.ensemble)
 library(modeltime.resample)
 
+library(xgboost)
+
 # Core Packages
 library(tidyverse)
 library(timetk)

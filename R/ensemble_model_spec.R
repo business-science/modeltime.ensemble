@@ -241,7 +241,8 @@ generate_stacking_results <- function(object,
     predictions_tbl <- modeltime.resample::unnest_modeltime_resamples(object)
 
     # Target Variable is the name in the data
-    target_text <- names(predictions_tbl) %>% utils::tail(1)
+    target_text <- predictions_tbl %>%
+        modeltime.resample::get_target_text_from_resamples(column_before_target = ".row")
     target_var  <- rlang::sym(target_text)
 
     predictions_tbl <- predictions_tbl %>%
@@ -398,7 +399,6 @@ generate_stacking_results <- function(object,
     return(ret)
 
 }
-
 
 
 

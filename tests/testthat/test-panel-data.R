@@ -25,8 +25,8 @@ wflw_fit_prophet_boost <- workflow() %>%
     fit(data_set)
 
 set.seed(123)
-wflw_fit_svm <- workflow() %>%
-    add_model(svm_rbf() %>% set_engine("kernlab")) %>%
+wflw_fit_xgb <- workflow() %>%
+    add_model(boost_tree() %>% set_engine("xgboost")) %>%
     add_recipe(recipe_spec %>% update_role(date, new_role = "ID")) %>%
     fit(data_set)
 
@@ -36,7 +36,7 @@ test_that("ensemble_average(): Forecast Jumbled", {
 
     model_tbl <- modeltime_table(
         wflw_fit_prophet_boost,
-        wflw_fit_svm
+        wflw_fit_xgb
     ) %>%
         ensemble_average() %>%
         modeltime_table()
@@ -99,7 +99,7 @@ test_that("ensemble_weighted(): Forecast Jumbled", {
 
     model_tbl <- modeltime_table(
         wflw_fit_prophet_boost,
-        wflw_fit_svm
+        wflw_fit_xgb
     ) %>%
         ensemble_weighted(loadings) %>%
         modeltime_table()
@@ -162,7 +162,7 @@ test_that("ensemble_model_spec(): Forecast Jumbled", {
 
     resample_tscv <- modeltime_table(
         wflw_fit_prophet_boost,
-        wflw_fit_svm
+        wflw_fit_xgb
     ) %>%
         modeltime_fit_resamples(resamples_tscv, control = control_resamples(verbose = F))
 
