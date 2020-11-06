@@ -6,8 +6,9 @@ __Panel Data__
 
 __Changes__
 
-- Move `modeltime_fit_resamples()` to a new package `modeltime.resample`.
 - `modeltime.ensemble` now depends on `modeltime.resample` for the `modeltime_fit_resamples()` functionality.
+- `modeltime_fit_resamples()` moved to a new package `modeltime.resample`.
+- `ensemble_weighted()`: Now removes models that have no weight (e.g. loading = 0). This speeds up refitting.  
 
 # modeltime.ensemble 0.2.0
 

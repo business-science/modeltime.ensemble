@@ -81,18 +81,23 @@ ensemble_weighted.mdl_time_tbl <- function(object,
     # Create loadings table
     loadings_tbl <- object %>%
         dplyr::select(.model_id) %>%
-        dplyr::mutate(.loadings = loadings)
+        dplyr::mutate(.loadings = loadings) %>%
+        dplyr::filter(.loadings > 0)
+
+    # Remove models with no loading
+    model_tbl <- object %>%
+        dplyr::filter(.model_id %in% loadings_tbl$.model_id)
 
 
     # Create Weighted Ensemble
     ensemble_weighted <- list(
-        model_tbl      = object,
+        model_tbl      = model_tbl,
         parameters     = list(
             loadings       = loadings_original,
             scale_loadings = scale_loadings
         ),
         fit            = list(loadings_tbl  = loadings_tbl),
-        n_models       = nrow(object)
+        n_models       = nrow(model_tbl)
     )
 
     ensemble_weighted <- structure(
