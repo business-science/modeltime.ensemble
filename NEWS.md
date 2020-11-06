@@ -1,4 +1,4 @@
-# modeltime.ensemble (development version)
+# modeltime.ensemble 0.3.0
 
 __Panel Data__
 

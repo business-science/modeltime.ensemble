@@ -89,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.ensemble</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -135,10 +135,23 @@
       <small>Source: <a href='https://github.com/business-science/modeltime.ensemble/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="modeltimeensemble-development-version" class="section level1">
-<h1 class="page-header" data-toc-text="development version">
-<a href="#modeltimeensemble-development-version" class="anchor"></a>modeltime.ensemble (development version)<small> Unreleased </small>
+    <div id="modeltimeensemble-030" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.0">
+<a href="#modeltimeensemble-030" class="anchor"></a>modeltime.ensemble 0.3.0<small> Unreleased </small>
 </h1>
+<p><strong>Panel Data</strong></p>
+<ul>
+<li>Improvements made to <code><a href="../reference/ensemble_average.html">ensemble_average()</a></code>, <code><a href="../reference/ensemble_weighted.html">ensemble_weighted()</a></code> and <code><a href="../reference/ensemble_model_spec.html">ensemble_model_spec()</a></code> to support <em>Panel Data</em> (i.e. when data sets with multiple time series groups that have possibly overlapping time stamps).</li>
+</ul>
+<p><strong>Changes</strong></p>
+<ul>
+<li>
+<code>modeltime.ensemble</code> now depends on <code>modeltime.resample</code> for the <code>modeltime_fit_resamples()</code> functionality.</li>
+<li>
+<code>modeltime_fit_resamples()</code> moved to a new package <code>modeltime.resample</code>.</li>
+<li>
+<code><a href="../reference/ensemble_weighted.html">ensemble_weighted()</a></code>: Now removes models that have no weight (e.g. loading = 0). This speeds up refitting.</li>
+</ul>
 </div>
     <div id="modeltimeensemble-020" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.0">
@@ -147,7 +160,7 @@
 <p><strong>Stacked Ensembles (Breaking Changes)</strong></p>
 <p>The process for creating stacked ensembles is split into 2 steps:</p>
 <ul>
-<li>Step 1: Use <code><a href="../reference/modeltime_fit_resamples.html">modeltime_fit_resamples()</a></code> to generate resampled predictions</li>
+<li>Step 1: Use <code>modeltime_fit_resamples()</code> to generate resampled predictions</li>
 <li>Step 2: Use <code><a href="../reference/ensemble_model_spec.html">ensemble_model_spec()</a></code> to apply stacking using a <code>model_spec</code>
 </li>
 </ul>

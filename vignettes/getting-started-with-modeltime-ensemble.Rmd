@@ -52,7 +52,7 @@ library(modeltime.ensemble)
 library(tidyverse)
 library(timetk)
 
-interactive <- TRUE
+interactive <- FALSE
 ```
 
 ## Collect the Data
