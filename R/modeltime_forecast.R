@@ -73,7 +73,7 @@ mdl_time_forecast.mdl_time_ensemble_avg <- function(object, calibration_data,
         ) %>%
 
         dplyr::rowwise() %>%
-        dplyr::mutate(.value = summary_fun( dplyr::c_across( dplyr::starts_with(".model_id_") ), na.rm = TRUE )) %>%
+        dplyr::mutate(.value = summary_fun( dplyr::c_across( dplyr::starts_with(".model_id_") ), na.rm = FALSE )) %>%
         dplyr::ungroup() %>%
 
         dplyr::select(-dplyr::starts_with(".model_id_"), -.row_id)
@@ -166,8 +166,9 @@ mdl_time_forecast.mdl_time_ensemble_wt <- function(object, calibration_data,
         ) %>%
 
         dplyr::rowwise() %>%
-        dplyr::mutate(.value = sum( dplyr::c_across( dplyr::starts_with(".model_id_") ), na.rm = TRUE )) %>%
+        dplyr::mutate(.value = sum( dplyr::c_across( dplyr::starts_with(".model_id_") ), na.rm = FALSE )) %>%
         dplyr::ungroup() %>%
+
         dplyr::select(-dplyr::starts_with(".model_id_"), -.row_id)
 
 

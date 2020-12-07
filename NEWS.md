@@ -1,3 +1,9 @@
+# modeltime.ensemble 0.3.0.9000 (Development Version)
+
+__Fixes__
+
+- `modeltime_forecast()` now returns `NA` when missing values are present in the sub-model predictions.  
+
 # modeltime.ensemble 0.3.0
 
 __Panel Data__
