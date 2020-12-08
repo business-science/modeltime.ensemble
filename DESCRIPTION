@@ -21,12 +21,12 @@ Depends:
     modeltime.resample (>= 0.1.0),
     R (>= 3.5)
 Imports: 
-    tune,
+    tune (>= 0.1.2),
     rsample,
     yardstick, 
-    workflows,
-    parsnip,
-    recipes,
+    workflows (>= 0.2.1),
+    parsnip (>= 0.1.4),
+    recipes (>= 1.1.15),
     dials,
     timetk (>= 2.5.0),
     tibble,
