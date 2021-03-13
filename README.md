@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# modeltime.ensemble <img src='man/figures/logo.png' align="right" height="138.5" />
+# modeltime.ensemble <img src='man/figures/logo-modeltime-ensemble.png' align="right" height="138.5" />
 
 <!-- badges: start -->
 
@@ -93,7 +93,7 @@ ensemble_fit
 #> 3         3 <workflow> GLMNET
 ```
 
-#### Step 3 - Forecast\!
+#### Step 3 - Forecast!
 
 To forecast, just follow the [Modeltime
 Workflow](https://business-science.github.io/modeltime/articles/getting-started-with-modeltime.html).
@@ -139,21 +139,19 @@ High-Performance Forecasting Strategies then [take my
 course](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting).
 You will learn:
 
-  - Time Series Machine Learning (cutting-edge) with `Modeltime` - 30+
+-   Time Series Machine Learning (cutting-edge) with `Modeltime` - 30+
     Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
-  - NEW - Deep Learning with `GluonTS` (Competition Winners)
-  - Time Series Preprocessing, Noise Reduction, & Anomaly Detection
-  - Feature engineering using lagged variables & external regressors
-  - Hyperparameter Tuning
-  - Time series cross-validation
-  - Ensembling Multiple Machine Learning & Univariate Modeling
+-   NEW - Deep Learning with `GluonTS` (Competition Winners)
+-   Time Series Preprocessing, Noise Reduction, & Anomaly Detection
+-   Feature engineering using lagged variables & external regressors
+-   Hyperparameter Tuning
+-   Time series cross-validation
+-   Ensembling Multiple Machine Learning & Univariate Modeling
     Techniques (Competition Winner)
-  - Scalable Forecasting - Forecast 1000+ time series in parallel
-  - and more.
+-   Scalable Forecasting - Forecast 1000+ time series in parallel
+-   and more.
 
 <p class="text-center" style="font-size:30px;">
-
 <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Unlock
 the High-Performance Time Series Forecasting Course</a>
-
 </p>

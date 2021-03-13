@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# modeltime.ensemble <img src='man/figures/logo.png' align="right" height="138.5" />
+# modeltime.ensemble <img src='man/figures/logo-modeltime-ensemble.png' align="right" height="138.5" />
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.com/business-science/modeltime.ensemble.svg?branch=master)](https://travis-ci.com/business-science/modeltime.ensemble)
