@@ -5,14 +5,12 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.com/business-science/modeltime.ensemble.svg?branch=master)](https://travis-ci.com/business-science/modeltime.ensemble)
-[![Codecov test
-coverage](https://codecov.io/gh/business-science/modeltime.ensemble/branch/master/graph/badge.svg)](https://codecov.io/gh/business-science/modeltime.ensemble?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/modeltime.ensemble)](https://cran.r-project.org/package=modeltime.ensemble)
 ![](http://cranlogs.r-pkg.org/badges/modeltime.ensemble?color=brightgreen)
 ![](http://cranlogs.r-pkg.org/badges/grand-total/modeltime.ensemble?color=brightgreen)
-
+[![R-CMD-check](https://github.com/business-science/modeltime.ensemble/workflows/R-CMD-check/badge.svg)](https://github.com/business-science/modeltime.ensemble/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/business-science/modeltime.ensemble/branch/master/graph/badge.svg)](https://codecov.io/gh/business-science/modeltime.ensemble?branch=master)
 <!-- badges: end -->
 
 > Ensemble Algorithms for Time Series Forecasting with Modeltime
