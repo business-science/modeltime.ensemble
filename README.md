@@ -114,42 +114,85 @@ calibration_tbl %>%
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
-## Learning More
+## Meet the modeltime ecosystem
 
-<a href="https://www.youtube.com/embed/elQb4VzRINg" target="_blank"><img src="http://img.youtube.com/vi/elQb4VzRINg/0.jpg" alt="Anomalize" width="100%" height="450"/></a>
+> Learn a growing ecosystem of forecasting packages
 
-[*My Talk on High-Performance Time Series
-Forecasting*](https://youtu.be/elQb4VzRINg)
+<div class="figure" style="text-align: center">
+
+<img src="man/figures/modeltime_ecosystem.jpg" alt="The modeltime ecosystem is growing" width="100%" />
+<p class="caption">
+The modeltime ecosystem is growing
+</p>
+
+</div>
+
+Modeltime is part of a **growing ecosystem** of Modeltime forecasting
+packages.
+
+-   [Learn Modeltime (Machine
+    Learning)](https://business-science.github.io/modeltime/)
+
+-   [Learn Timetk (Feature Engineering,
+    Visualization)](https://business-science.github.io/timetk/)
+
+-   [Learn Modeltime H2O
+    (AutoML)](https://business-science.github.io/modeltime.h2o/)
+
+-   [Learn Modeltime GluonTS (Deep
+    Learning)](https://business-science.github.io/modeltime.gluonts/)
+
+-   [Learn Modeltime Ensemble (Blending
+    Forecasts)](https://business-science.github.io/modeltime.ensemble/)
+
+-   [Learn Modeltime Resample
+    (Backtesting)](https://business-science.github.io/modeltime.resample/)
+
+## Take the High-Performance Forecasting Course
+
+> Become the forecasting expert for your organization
+
+<a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/" target="_blank"><img src="https://www.filepicker.io/api/file/jay1WUozSWCVHfFBEil3" alt="High-Performance Time Series Forecasting Course" width="100%" /></a>
+
+[*High-Performance Time Series
+Course*](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/)
+
+### Time Series is Changing
 
 Time series is changing. **Businesses now need 10,000+ time series
 forecasts every day.** This is what I call a *High-Performance Time
 Series Forecasting System (HPTSF)* - Accurate, Robust, and Scalable
 Forecasting.
 
-**High-Performance Forecasting Systems will save companies MILLIONS of
-dollars.** Imagine what will happen to your career if you can provide
-your organization a “High-Performance Time Series Forecasting System”
-(HPTSF System).
+**High-Performance Forecasting Systems will save companies by improving
+accuracy and scalability.** Imagine what will happen to your career if
+you can provide your organization a “High-Performance Time Series
+Forecasting System” (HPTSF System).
 
-I teach how to build a HPTFS System in my **High-Performance Time Series
-Forecasting Course**. If interested in learning Scalable
-High-Performance Forecasting Strategies then [take my
-course](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting).
+### How to Learn High-Performance Time Series Forecasting
+
+I teach how to build a HPTFS System in my [**High-Performance Time
+Series Forecasting
+Course**](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting).
 You will learn:
 
--   Time Series Machine Learning (cutting-edge) with `Modeltime` - 30+
-    Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
--   NEW - Deep Learning with `GluonTS` (Competition Winners)
--   Time Series Preprocessing, Noise Reduction, & Anomaly Detection
--   Feature engineering using lagged variables & external regressors
--   Hyperparameter Tuning
--   Time series cross-validation
--   Ensembling Multiple Machine Learning & Univariate Modeling
+-   **Time Series Machine Learning** (cutting-edge) with `Modeltime` -
+    30+ Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
+-   **Deep Learning** with `GluonTS` (Competition Winners)
+-   **Time Series Preprocessing**, Noise Reduction, & Anomaly Detection
+-   **Feature engineering** using lagged variables & external regressors
+-   **Hyperparameter Tuning**
+-   **Time series cross-validation**
+-   **Ensembling** Multiple Machine Learning & Univariate Modeling
     Techniques (Competition Winner)
--   Scalable Forecasting - Forecast 1000+ time series in parallel
+-   **Scalable Forecasting** - Forecast 1000+ time series in parallel
 -   and more.
 
+<p class="text-center" style="font-size:24px;">
+Become the Time Series Expert for your organization.
+</p>
+<br>
 <p class="text-center" style="font-size:30px;">
-<a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Unlock
+<a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Take
 the High-Performance Time Series Forecasting Course</a>
 </p>

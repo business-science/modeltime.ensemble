@@ -10,7 +10,7 @@ navbar:
       href: index.html
     - text: "Getting Started"
       href: articles/getting-started-with-modeltime-ensemble.html
-    - text: "Key Functions"
+    - text: "API Functions"
       href: reference/index.html
     - text: "News"
       href: news/index.html
