@@ -109,11 +109,27 @@ Predictions using ensemble_model_spec().
 <li>
   <a href="../articles/getting-started-with-modeltime-ensemble.html">Getting Started</a>
 </li>
-<li>
-  <a href="../reference/index.html">API Functions</a>
-</li>
-<li>
-  <a href="../news/index.html">News</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    API
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">API Functions</li>
+    <li>
+      <a href="../reference/index.html">
+        <span class="fas fa-home"></span>
+         
+        Function Reference
+      </a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Change History</li>
+    <li>
+      <a href="../news/index.html">News</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -122,12 +138,12 @@ Predictions using ensemble_model_spec().
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Workflow</li>
+    <li class="dropdown-header">Forecast</li>
     <li>
-      <a href="https://business-science.github.io/modeltime/">Modeltime (Machine Learning)</a>
+      <a href="https://business-science.github.io/modeltime/">Modeltime (Forecasting)</a>
     </li>
     <li>
-      <a href="https://business-science.github.io/timetk/">TimeTK (Data Transformation &amp; Visualization)</a>
+      <a href="https://business-science.github.io/timetk/">TimeTK (Time Series Analysis)</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Improve</li>
@@ -138,7 +154,7 @@ Predictions using ensemble_model_spec().
       <a href="https://business-science.github.io/modeltime.resample/">Modeltime Resample (Backtesting)</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">More Power</li>
+    <li class="dropdown-header">Scale</li>
     <li>
       <a href="https://business-science.github.io/modeltime.h2o/">Modeltime H2O (AutoML)</a>
     </li>
@@ -146,6 +162,13 @@ Predictions using ensemble_model_spec().
       <a href="https://business-science.github.io/modeltime.gluonts/">Modeltime GluonTS (Deep Learning)</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/">
+    <span class="fas fa-graduation-cap"></span>
+     
+    Learn
+  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -298,7 +321,7 @@ up parallelization using <code>tune</code> via one of the backends such as
         control   <span class='op'>=</span> <span class='fu'>control_resamples</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
     <span class='op'>)</span>
 </div><div class='output co'>#&gt; ── Fitting Resamples ────────────────────────────────────────────
-#&gt; </div><div class='output co'>#&gt; <span class='message'>● Model ID: <span style='color: #0000BB;'>1</span><span> </span><span style='color: #0000BB;'>ARIMA(0,1,1)(0,1,1)[12]</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'>frequency = 12 observations per 1 year</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'>● Model ID: </span><span style='color: #0000BB;'>2</span><span> </span><span style='color: #0000BB;'>PROPHET</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'>Disabling weekly seasonality. Run prophet with weekly.seasonality=TRUE to override this.</span></div><div class='output co'>#&gt; <span class='message'>Disabling daily seasonality. Run prophet with daily.seasonality=TRUE to override this.</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'>● Model ID: </span><span style='color: #0000BB;'>3</span><span> </span><span style='color: #0000BB;'>GLMNET</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1 (predictions)</span><span></span></div><div class='output co'>#&gt; 5.594 sec elapsed
+#&gt; </div><div class='output co'>#&gt; <span class='message'>● Model ID: <span style='color: #0000BB;'>1</span><span> </span><span style='color: #0000BB;'>ARIMA(0,1,1)(0,1,1)[12]</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'>frequency = 12 observations per 1 year</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'>● Model ID: </span><span style='color: #0000BB;'>2</span><span> </span><span style='color: #0000BB;'>PROPHET</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'>Disabling weekly seasonality. Run prophet with weekly.seasonality=TRUE to override this.</span></div><div class='output co'>#&gt; <span class='message'>Disabling daily seasonality. Run prophet with daily.seasonality=TRUE to override this.</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1 (predictions)</span><span></span></div><div class='output co'>#&gt; <span class='message'>● Model ID: </span><span style='color: #0000BB;'>3</span><span> </span><span style='color: #0000BB;'>GLMNET</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>i</span><span> </span><span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1 (predictions)</span><span></span></div><div class='output co'>#&gt; 5.995 sec elapsed
 #&gt; </div><div class='input'>
 <span class='co'># Step 2: Metalearner ----</span>
 
@@ -334,7 +357,7 @@ up parallelization using <code>tune</code> via one of the backends such as
 #&gt;  -2637.1730       0.5754      -0.1920       0.8551  
 #&gt; 
 #&gt; 
-#&gt; 0.553 sec elapsed
+#&gt; 0.59 sec elapsed
 #&gt; </div><div class='input'>
 <span class='va'>ensemble_fit_lm</span>
 </div><div class='output co'>#&gt; ── Modeltime Ensemble ───────────────────────────────────────────
@@ -433,7 +456,7 @@ up parallelization using <code>tune</code> via one of the backends such as
 #&gt; ...
 #&gt; and 11 more lines.
 #&gt; 
-#&gt; 5.864 sec elapsed
+#&gt; 6.438 sec elapsed
 #&gt; </div><div class='input'>
 <span class='va'>ensemble_fit_glmnet</span>
 </div><div class='output co'>#&gt; ── Modeltime Ensemble ───────────────────────────────────────────
