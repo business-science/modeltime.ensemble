@@ -17,7 +17,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    modeltime (>= 0.3.0),
+    modeltime (>= 0.5.0.9000),
     modeltime.resample (>= 0.1.0),
     R (>= 3.5)
 Imports: 
@@ -58,3 +58,5 @@ Suggests:
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
+Remotes:
+    business-science/modeltime
