@@ -10,6 +10,14 @@ navbar:
       href: index.html
     - text: "Getting Started"
       href: articles/getting-started-with-modeltime-ensemble.html
+    - text: "Articles"
+      href: articles/index.html
+      menu:
+        - text: 'Forecasting'
+        - text: 'Getting Started with Modeltime'
+          href: articles/getting-started-with-modeltime-ensemble.html
+        - text: 'Recursive Ensemble Forecasting'
+          href: articles/recursive-ensembles.html
     - text: "API"
       href: reference/index.html
       menu:

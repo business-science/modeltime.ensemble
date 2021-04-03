@@ -1,8 +1,8 @@
 ---
-title: "getting-started-with-recursive-ensemble"
+title: "Recursive Ensemble Forecasts"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{getting-started-with-recursive-ensemble}
+  %\VignetteIndexEntry{recursive-ensembles}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -23,19 +23,21 @@ knitr::opts_chunk$set(
 
 # What is a Recursive Model?
 
-A *recursive model* uses predictions to generate new values for independent features. These features are typically lags used in autoregressive models. 
+A *recursive model* uses predictions to generate new values for independent features. These features are typically lags used in autoregressive models.
 
 # Why is Recursive needed for Autoregressive Models?
 
-It's important to understand that a recursive model is only needed when using lagged features with a **Lag Size \< Forecast Horizon.** When the lag length is less than the forecast horizon, a problem exists were missing values (`NA`) are generated in the future data. 
+It's important to understand that a recursive model is only needed when using lagged features with a **Lag Size \< Forecast Horizon.** When the lag length is less than the forecast horizon, a problem exists were missing values (`NA`) are generated in the future data.
 
 A solution that `recursive()` implements is to iteratively fill these missing values in with values generated from predictions. This technique can be used for:
 
-1. __Single ensemble recursive predictions__ - Effectively turning any `ensemble` model into an Autoregressive (AR) model
+1.  **Single ensemble recursive predictions** - Effectively turning any `ensemble` model into an Autoregressive (AR) model
 
-2. __Panel ensembles recursive predictions__ - In many situations we need to forecast more than one time series. We can batch-process these with 1 model by processing time series groups as panels. This technique can be extended to recursive forecasting for scalable models (1 model that predicts many time series).
+2.  **Panel ensembles recursive predictions** - In many situations we need to forecast **more than one time series**. We can batch-process these with 1 model by processing time series groups as panels. This technique can be extended to recursive forecasting for scalable models (1 model that predicts many time series).
 
 # Single Ensemble Recursive Example
+
+> Use single ensembles to forecast a single time series
 
 First, we need to load the necessary libraries:
 
@@ -96,7 +98,7 @@ model_fit_mars <- mars("regression") %>%
     fit(value ~ ., data = train_data)
 ```
 
-The next step is to create an ensemble of type mean (in which the predictions of the two models will be averaged) and right after that we use the `recursive()` function to create the recursive model. You can consult all the information of the function by typing in the console ?modeltime::recursive.
+The next step is to create an ensemble of type mean (in which the predictions of the two models will be averaged) and right after that we use the `recursive()` function to create the recursive model. You can consult all the information of the function by typing in the console `?modeltime::recursive`.
 
 ```{r}
 recursive_ensemble <- modeltime_table(
@@ -108,8 +110,9 @@ recursive_ensemble <- modeltime_table(
         transform  = recipe_lag,
         train_tail = tail(train_data, FORECAST_HORIZON)
     )
-```
 
+recursive_ensemble
+```
 
 Finally, we predict over our dataset and visualize the predictions:
 
@@ -129,8 +132,9 @@ fcast %>%
     )
 ```
 
-
 # Panel Ensemble Recursive Example
+
+> Use panel ensembles to batch forecast multimple time series
 
 First, we select a forecast horizon of 24 days and extend the data frame with the function `future_frame()`. We do this to create a future dataset, which we can distinguish because its values will be NA.
 
@@ -199,6 +203,8 @@ recursive_ensemble_p <- modeltime_table(
         train_tail = panel_tail(train_data, id, FORECAST_HORIZON),
         id = "id"
     )
+
+recursive_ensemble_p
 ```
 
 Finally, we predict over our dataset and visualize the predictions:
@@ -221,7 +227,9 @@ fcast %>%
     )
 ```
 
-This is just a small portion of everything that can be done.... If you want to get all the details, read on!
+# Summary
+
+Recursive modeling can be applied to ensembles. But, this is just a small portion of everything that can be done.... If you want to get all the details, read on!
 
 ## Take the High-Performance Forecasting Course
 
@@ -229,32 +237,38 @@ This is just a small portion of everything that can be done.... If you want to g
 
 <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/" target="_blank"><img src="https://www.filepicker.io/api/file/bKyqVAi5Qi64sS05QYLk" alt="High-Performance Time Series Forecasting Course" width="100%" style="box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);"/></a>
 
-[_High-Performance Time Series Course_](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/)
+[*High-Performance Time Series Course*](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/)
 
 ### Time Series is Changing
 
-Time series is changing. __Businesses now need 10,000+ time series forecasts every day.__ This is what I call a _High-Performance Time Series Forecasting System (HPTSF)_ - Accurate, Robust, and Scalable Forecasting. 
+Time series is changing. **Businesses now need 10,000+ time series forecasts every day.** This is what I call a *High-Performance Time Series Forecasting System (HPTSF)* - Accurate, Robust, and Scalable Forecasting.
 
- __High-Performance Forecasting Systems will save companies by improving accuracy and scalability.__ Imagine what will happen to your career if you can provide your organization a "High-Performance Time Series Forecasting System" (HPTSF System).
+**High-Performance Forecasting Systems will save companies by improving accuracy and scalability.** Imagine what will happen to your career if you can provide your organization a "High-Performance Time Series Forecasting System" (HPTSF System).
 
 ### How to Learn High-Performance Time Series Forecasting
 
-I teach how to build a HPTFS System in my [__High-Performance Time Series Forecasting Course__](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting). You will learn:
+I teach how to build a HPTFS System in my [**High-Performance Time Series Forecasting Course**](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting). You will learn:
 
-- __Time Series Machine Learning__ (cutting-edge) with `Modeltime` - 30+ Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
-- __Deep Learning__ with `GluonTS` (Competition Winners)
-- __Time Series Preprocessing__, Noise Reduction, & Anomaly Detection
-- __Feature engineering__ using lagged variables & external regressors
-- __Hyperparameter Tuning__
-- __Time series cross-validation__
-- __Ensembling__ Multiple Machine Learning & Univariate Modeling Techniques (Competition Winner)
-- __Scalable Forecasting__ - Forecast 1000+ time series in parallel
-- and more.
+-   **Time Series Machine Learning** (cutting-edge) with `Modeltime` - 30+ Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
+-   **Deep Learning** with `GluonTS` (Competition Winners)
+-   **Time Series Preprocessing**, Noise Reduction, & Anomaly Detection
+-   **Feature engineering** using lagged variables & external regressors
+-   **Hyperparameter Tuning**
+-   **Time series cross-validation**
+-   **Ensembling** Multiple Machine Learning & Univariate Modeling Techniques (Competition Winner)
+-   **Scalable Forecasting** - Forecast 1000+ time series in parallel
+-   and more.
 
 <p class="text-center" style="font-size:24px;">
+
 Become the Time Series Expert for your organization.
+
 </p>
+
 <br>
+
 <p class="text-center" style="font-size:30px;">
+
 <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Take the High-Performance Time Series Forecasting Course</a>
+
 </p>
