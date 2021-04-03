@@ -1,8 +1,8 @@
 ---
-title: "Forecasting with Recursive Ensembles"
+title: "Autoregressive Forecasting (Recursive Ensembles)"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Forecasting with Recursive Ensembles}
+  %\VignetteIndexEntry{Autoregressive Forecasting (Recursive Ensembles)}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -35,7 +35,7 @@ A solution that `recursive()` implements is to iteratively fill these missing va
 
 2.  **Panel ensembles recursive predictions** - In many situations we need to forecast **more than one time series**. We can batch-process these with 1 model by processing time series groups as panels. This technique can be extended to recursive forecasting for scalable models (1 model that predicts many time series).
 
-Here's an example of a panel forecast that uses a recursive ensemble with a Linear Regression and MARS model.
+Here's an example of a panel forecast that uses a recursive ensemble with a Elastic Net and MARS model.
 
 ```{r, echo=F}
 knitr::include_graphics("panel-ensemble.jpg")
@@ -52,6 +52,7 @@ library(modeltime.ensemble)
 library(modeltime)
 library(tidymodels)
 library(earth)
+library(glmnet)
 library(tidyverse)
 library(lubridate)
 library(timetk)
@@ -71,14 +72,16 @@ m750_extended <- m750 %>%
     ungroup()
 ```
 
-The next step is to create a recipe where we specify the formula we are going to use and create the lagged variables that our model will use. Notice that we create lags up to our forecast horizon.
+The next step is to create a ___Transformer Function___ where we create the lagged variables that our model will use. Notice that we create lags up to our forecast horizon. We could also include rolling features and any number of other "engineered features" based on lags.
 
 ```{r}
-recipe_lag <- recipe(value ~ date, m750_extended) %>%
-    step_lag(value, lag = 1:FORECAST_HORIZON)
+lag_transformer <- function(data){
+    data %>%
+        tk_augment_lags(value, .lags = 1:FORECAST_HORIZON)
+}
 
 # Data Preparation
-m750_lagged <- recipe_lag %>% prep() %>% juice()
+m750_lagged <- m750_extended %>% lag_transformer()
 m750_lagged
 ```
 
@@ -93,19 +96,29 @@ future_data <- m750_lagged %>%
     filter(is.na(value))
 ```
 
-Next, we are going to create two models that we will then join into an ensemble. The first model is a linear model while the second model is a MARS model. In a real scenario, we would typically do a pre-selection work where we would analyze more models and keep those with better performance to make the ensemble.
+Next, we are going to create two models that we will then join into an ensemble. 
+
+1. The first model is a Linear Regression model 
+2. The second model is a MARS model
+
+In a real scenario, we would typically do a pre-selection work where we would analyze more models and keep those with better performance to make the ensemble.
 
 ```{r}
 model_fit_lm <- linear_reg() %>%
     set_engine("lm") %>%
-    fit(value ~ ., data = train_data)
+    fit(value ~ ., data = train_data %>% select(-id))
 
 model_fit_mars <- mars("regression") %>%
     set_engine("earth", endspan = 24) %>%
-    fit(value ~ ., data = train_data)
+    fit(value ~ ., data = train_data %>% select(-id))
 ```
 
-The next step is to create an ensemble of type mean (in which the predictions of the two models will be averaged) and right after that we use the `recursive()` function to create the recursive model. You can consult all the information of the function by typing in the console `?modeltime::recursive`.
+The next step is to create an ensemble of type mean (in which the predictions of the two models will be averaged) and right after that we use the `recursive()` function to create the recursive model. 
+
+- The `recursive()` function tells the ensemble to use recursion during the prediction process
+- The recursive model uses the ___Transformer Function___ and `train_tail` to generate transformations (e.g. lags) during the prediction process
+
+You can consult all the information of the function by typing in the console `?modeltime::recursive`.
 
 ```{r}
 recursive_ensemble <- modeltime_table(
@@ -114,7 +127,7 @@ recursive_ensemble <- modeltime_table(
 ) %>%
     ensemble_average(type = "mean") %>%
     recursive(
-        transform  = recipe_lag,
+        transform  = lag_transformer,
         train_tail = tail(train_data, FORECAST_HORIZON)
     )
 
@@ -157,7 +170,7 @@ m4_extended <- m4_monthly %>%
     ungroup()
 ```
 
-Then we create a transformer function that will be in charge of generating the lags for each time series up to each forecasting horizon:
+Then we create a ___Transformer Function___ that will be in charge of generating the lags for each time series up to each forecasting horizon. Note that this time we use __grouped lags__ to generate lags by group. This is important when we have multiple time series. Make sure to ungroup after the lagging process. 
 
 ```{r}
 lag_transformer_grouped <- function(data){
@@ -177,6 +190,8 @@ m4_lags <- m4_extended %>%
 m4_lags
 ```
 
+We split into training data and future data.
+
 ```{r}
 train_data <- m4_lags %>%
     drop_na()
@@ -185,40 +200,49 @@ future_data <- m4_lags %>%
     filter(is.na(value))
 ```
 
-Next, we are going to create two models that we will then join into an ensemble. The first model is a linear model while the second model is a MARS model.
+Next, we are going to create two models that we will then join into an ensemble. 
+
+1. The first model is an Elastic Net (GLMNET) model 
+2. The second model is a MARS model
+
+The elastic net applies penalty to the lagged regressors preventing bad lags from dominating the results. This can show an improvement versus a standard Linear Regression. 
 
 ```{r}
-model_fit_lm <- linear_reg() %>%
-    set_engine("lm") %>%
+model_fit_glmnet <- linear_reg(penalty = 1) %>%
+    set_engine("glmnet") %>%
     fit(value ~ ., data = train_data)
 
-model_fit_mars <- mars("regression") %>%
-    set_engine("earth") %>%
+model_fit_mars <- mars("regression", num_terms = 7) %>%
+    set_engine("earth", endspan = 24) %>%
     fit(value ~ ., data = train_data)
 ```
 
-The next step is to create an ensemble of type mean (in which the predictions of the two models will be averaged) and right after that we use the `recursive()` function to create the recursive model. Note that unlike the previous example, in this case we have to pass to the recursive function the argument `id` and we have to use the `panel_tail()` function to create the train_tail.
+The next step is to create an ensemble of type mean (in which the predictions of the two models will be averaged) and right after that we use the `recursive()` function to create the recursive model. Unlike the previous example:
+
+- We have to pass to the recursive function the argument `id` specifying ID's for each time series group
+- We have to use the `panel_tail()` function to create the train_tail by group.
+
 
 ```{r}
-recursive_ensemble_p <- modeltime_table(
+recursive_ensemble_panel <- modeltime_table(
     model_fit_mars,
-    model_fit_lm
+    model_fit_glmnet
 ) %>%
-    ensemble_average(type = "median") %>%
+    ensemble_average(type = "mean") %>%
     recursive(
         transform  = lag_transformer_grouped,
         train_tail = panel_tail(train_data, id, FORECAST_HORIZON),
-        id = "id"
+        id         = "id"
     )
 
-recursive_ensemble_p
+recursive_ensemble_panel
 ```
 
 Finally, we predict over our dataset and visualize the predictions:
 
 ```{r}
 fcast <- modeltime_table(
-    recursive_ensemble_p
+    recursive_ensemble_panel
 ) %>%
     modeltime_forecast(
         new_data = future_data,
