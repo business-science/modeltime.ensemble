@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recursive Ensemble Forecasts • modeltime.ensemble</title>
+<title>Forecasting with Recursive Ensembles • modeltime.ensemble</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Recursive Ensemble Forecasts">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Forecasting with Recursive Ensembles">
 <meta property="og:description" content="modeltime.ensemble">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -156,7 +156,7 @@
       </header><script src="recursive-ensembles_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Recursive Ensemble Forecasts</h1>
+      <h1 data-toc-skip>Forecasting with Recursive Ensembles</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/business-science/modeltime.ensemble/blob/master/vignettes/recursive-ensembles.Rmd"><code>vignettes/recursive-ensembles.Rmd</code></a></small>
@@ -180,6 +180,8 @@
 <li><p><strong>Single ensemble recursive predictions</strong> - Effectively turning any <code>ensemble</code> model into an Autoregressive (AR) model</p></li>
 <li><p><strong>Panel ensembles recursive predictions</strong> - In many situations we need to forecast <strong>more than one time series</strong>. We can batch-process these with 1 model by processing time series groups as panels. This technique can be extended to recursive forecasting for scalable models (1 model that predicts many time series).</p></li>
 </ol>
+<p>Here’s an example of a panel forecast that uses a recursive ensemble with a Linear Regression and MARS model.</p>
+<p><img src="panel-ensemble.jpg" width="95%" style="display: block; margin: auto;"></p>
 </div>
 <div id="single-ensemble-recursive-example" class="section level1">
 <h1 class="hasAnchor">
@@ -290,7 +292,7 @@
         .interactive <span class="op">=</span> <span class="cn">FALSE</span>,
         .conf_interval_show <span class="op">=</span> <span class="cn">FALSE</span>,
     <span class="op">)</span></code></pre></div>
-<p><img src="recursive-ensembles_files/figure-html/unnamed-chunk-8-1.png" width="95%" style="display: block; margin: auto;"></p>
+<p><img src="recursive-ensembles_files/figure-html/unnamed-chunk-9-1.png" width="95%" style="display: block; margin: auto;"></p>
 </div>
 <div id="panel-ensemble-recursive-example" class="section level1">
 <h1 class="hasAnchor">
@@ -397,9 +399,10 @@
     <span class="fu">group_by</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/plot_modeltime_forecast.html">plot_modeltime_forecast</a></span><span class="op">(</span>
         .interactive <span class="op">=</span> <span class="cn">FALSE</span>,
-        .conf_interval_show <span class="op">=</span> <span class="cn">FALSE</span>
+        .conf_interval_show <span class="op">=</span> <span class="cn">FALSE</span>,
+        .facet_ncol <span class="op">=</span> <span class="fl">2</span>
     <span class="op">)</span></code></pre></div>
-<p><img src="recursive-ensembles_files/figure-html/unnamed-chunk-15-1.png" width="95%" style="display: block; margin: auto;"></p>
+<p><img src="recursive-ensembles_files/figure-html/unnamed-chunk-16-1.png" width="95%" style="display: block; margin: auto;"></p>
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">

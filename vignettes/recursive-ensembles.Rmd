@@ -1,8 +1,8 @@
 ---
-title: "Recursive Ensemble Forecasts"
+title: "Forecasting with Recursive Ensembles"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{recursive-ensembles}
+  %\VignetteIndexEntry{Forecasting with Recursive Ensembles}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -34,6 +34,12 @@ A solution that `recursive()` implements is to iteratively fill these missing va
 1.  **Single ensemble recursive predictions** - Effectively turning any `ensemble` model into an Autoregressive (AR) model
 
 2.  **Panel ensembles recursive predictions** - In many situations we need to forecast **more than one time series**. We can batch-process these with 1 model by processing time series groups as panels. This technique can be extended to recursive forecasting for scalable models (1 model that predicts many time series).
+
+Here's an example of a panel forecast that uses a recursive ensemble with a Linear Regression and MARS model.
+
+```{r, echo=F}
+knitr::include_graphics("panel-ensemble.jpg")
+```
 
 # Single Ensemble Recursive Example
 
@@ -223,7 +229,8 @@ fcast %>%
     group_by(id) %>%
     plot_modeltime_forecast(
         .interactive = FALSE,
-        .conf_interval_show = FALSE
+        .conf_interval_show = FALSE,
+        .facet_ncol = 2
     )
 ```
 
