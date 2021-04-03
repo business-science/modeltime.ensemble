@@ -46,6 +46,7 @@ Imports:
     tictoc
 Suggests: 
     roxygen2,
+    earth,
     testthat,
     tidymodels,
     xgboost,

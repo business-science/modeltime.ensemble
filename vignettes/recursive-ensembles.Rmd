@@ -51,6 +51,7 @@ First, we need to load the necessary libraries:
 library(modeltime.ensemble)
 library(modeltime)
 library(tidymodels)
+library(earth)
 library(tidyverse)
 library(lubridate)
 library(timetk)
