@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 # What is a Recursive Model?
 
-A *recursive model* uses predictions to generate new values for independent features. These features are typically lags used in autoregressive models.
+A ___recursive model___ uses predictions to generate new values for independent features. These features are typically lags used in __autoregressive models.__
 
 # Why is Recursive needed for Autoregressive Models?
 
@@ -33,12 +33,12 @@ A solution that `recursive()` implements is to iteratively fill these missing va
 
 1.  **Single ensemble recursive predictions** - Effectively turning any `ensemble` model into an Autoregressive (AR) model
 
-2.  **Panel ensembles recursive predictions** - In many situations we need to forecast **more than one time series**. We can batch-process these with 1 model by processing time series groups as panels. This technique can be extended to recursive forecasting for scalable models (1 model that predicts many time series).
+2.  **Panel ensemble recursive predictions** - In many situations we need to forecast **more than one time series**. We can batch-process these with 1 model by processing time series groups as panels. This technique can be extended to recursive forecasting for scalable models (1 model that predicts many time series).
 
-Here's an example of a panel forecast that uses a recursive ensemble with a Elastic Net and MARS model.
+Here's an example of a panel forecast that uses a recursive ensemble with Elastic Net and XGBoost models.
 
 ```{r, echo=F}
-knitr::include_graphics("panel-ensemble.jpg")
+knitr::include_graphics("panel-ensemble.png")
 ```
 
 # Single Ensemble Recursive Example
@@ -53,6 +53,7 @@ library(modeltime)
 library(tidymodels)
 library(earth)
 library(glmnet)
+library(xgboost)
 library(tidyverse)
 library(lubridate)
 library(timetk)
@@ -134,20 +135,26 @@ recursive_ensemble <- modeltime_table(
 recursive_ensemble
 ```
 
+Next, we add the recursive ensemble to the modeltime table, which organizes one or more models prior to forecasting. 
+
+```{r}
+model_tbl <- modeltime_table(
+    recursive_ensemble
+)
+
+model_tbl
+```
+
 Finally, we predict over our dataset and visualize the predictions:
 
 ```{r}
-fcast <- modeltime_table(
-    recursive_ensemble
-) %>%
+model_tbl %>%
     modeltime_forecast(
-        new_data = future_data,
+        new_data    = future_data,
         actual_data = m750
-    )
-
-fcast %>%
+    ) %>%
     plot_modeltime_forecast(
-        .interactive = FALSE,
+        .interactive        = FALSE,
         .conf_interval_show = FALSE,
     )
 ```
@@ -155,6 +162,9 @@ fcast %>%
 # Panel Ensemble Recursive Example
 
 > Use panel ensembles to batch forecast multimple time series
+
+This is a more complex extension of the previous example for forecasting multiple time series in batches. We'll showcase a Weighted Ensemble with XGBoost and GLMNET. 
+
 
 First, we select a forecast horizon of 24 days and extend the data frame with the function `future_frame()`. We do this to create a future dataset, which we can distinguish because its values will be NA.
 
@@ -202,22 +212,21 @@ future_data <- m4_lags %>%
 
 Next, we are going to create two models that we will then join into an ensemble. 
 
-1. The first model is an Elastic Net (GLMNET) model 
-2. The second model is a MARS model
+1. __The first model is an Elastic Net (GLMNET) model:__ An elastic net applies is an improved version of linear regression that applies a penalty to the lagged regressors preventing bad lags from dominating the results. This can show an improvement versus a standard Linear Regression.
 
-The elastic net applies penalty to the lagged regressors preventing bad lags from dominating the results. This can show an improvement versus a standard Linear Regression. 
+2. __The second model is an XGBOOST model:__ An xgboost model is a tree-based algorithm that is very different in how it models vs a linear model. It's much better for non-linear data (e.g. seasonality). 
 
 ```{r}
 model_fit_glmnet <- linear_reg(penalty = 1) %>%
     set_engine("glmnet") %>%
     fit(value ~ ., data = train_data)
 
-model_fit_mars <- mars("regression", num_terms = 7) %>%
-    set_engine("earth", endspan = 24) %>%
+model_fit_xgboost <- boost_tree("regression", learn_rate = 0.35) %>%
+    set_engine("xgboost") %>%
     fit(value ~ ., data = train_data)
 ```
 
-The next step is to create an ensemble of type mean (in which the predictions of the two models will be averaged) and right after that we use the `recursive()` function to create the recursive model. Unlike the previous example:
+The next step is to create an ensemble. We'll use a Weighted Ensemble (`ensemble_weighted()`) with a 60/40 loading. Right after that we use the `recursive()` function to create the recursive model. Unlike the previous example:
 
 - We have to pass to the recursive function the argument `id` specifying ID's for each time series group
 - We have to use the `panel_tail()` function to create the train_tail by group.
@@ -225,10 +234,10 @@ The next step is to create an ensemble of type mean (in which the predictions of
 
 ```{r}
 recursive_ensemble_panel <- modeltime_table(
-    model_fit_mars,
-    model_fit_glmnet
+    model_fit_glmnet,
+    model_fit_xgboost
 ) %>%
-    ensemble_average(type = "mean") %>%
+    ensemble_weighted(loadings = c(4, 6)) %>%
     recursive(
         transform  = lag_transformer_grouped,
         train_tail = panel_tail(train_data, id, FORECAST_HORIZON),
@@ -238,24 +247,31 @@ recursive_ensemble_panel <- modeltime_table(
 recursive_ensemble_panel
 ```
 
-Finally, we predict over our dataset and visualize the predictions:
+Next, we add the recursive ensemble to the modeltime table, which organizes one or more models prior to forecasting. 
 
 ```{r}
-fcast <- modeltime_table(
+model_tbl <- modeltime_table(
     recursive_ensemble_panel
-) %>%
-    modeltime_forecast(
-        new_data = future_data,
-        actual_data = m4_lags,
-        keep_data = TRUE
-    )
+)
 
-fcast %>%
+model_tbl
+```
+
+
+Finally, we forecast over our dataset and visualize the forecast.
+
+```{r}
+model_tbl %>%
+    modeltime_forecast(
+        new_data    = future_data,
+        actual_data = m4_lags,
+        keep_data   = TRUE
+    ) %>%
     group_by(id) %>%
     plot_modeltime_forecast(
-        .interactive = FALSE,
+        .interactive        = FALSE,
         .conf_interval_show = FALSE,
-        .facet_ncol = 2
+        .facet_ncol         = 2
     )
 ```
 
