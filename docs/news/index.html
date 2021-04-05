@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.ensemble</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -205,21 +205,21 @@
       <small>Source: <a href='https://github.com/business-science/modeltime.ensemble/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="modeltimeensemble-0309000-development-version" class="section level1">
-<h1 class="page-header" data-toc-text="0.3.0.9000">
-<a href="#modeltimeensemble-0309000-development-version" class="anchor"></a>modeltime.ensemble 0.3.0.9000 (Development Version)<small> Unreleased </small>
+    <div id="modeltimeensemble-040" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.0">
+<a href="#modeltimeensemble-040" class="anchor"></a>modeltime.ensemble 0.4.0<small> Unreleased </small>
 </h1>
 <p><strong>Recursive Ensembles</strong></p>
 <ul>
 <li>
-<code>recursive()</code> - The <code>recursive()</code> function is extended to recursive ensembles for both single time series and multiple time series models (panel data).</li>
+<code><a href="https://rdrr.io/pkg/modeltime/man/recursive.html">recursive()</a></code> - The <code><a href="https://rdrr.io/pkg/modeltime/man/recursive.html">recursive()</a></code> function is extended to recursive ensembles for both single time series and multiple time series models (panel data).</li>
 <li>
 <a href="https://business-science.github.io/modeltime.ensemble/articles/recursive-ensembles.html">“Forecasting with Recursive Ensembles”</a> - A new forecasting vignette for using <code>recurive()</code> with ensembles.</li>
 </ul>
 <p><strong>Fixes</strong></p>
 <ul>
 <li>
-<code>modeltime_forecast()</code> now returns <code>NA</code> when missing values are present in the sub-model predictions.</li>
+<code><a href="https://rdrr.io/pkg/modeltime/man/modeltime_forecast.html">modeltime_forecast()</a></code> now returns <code>NA</code> when missing values are present in the sub-model predictions.</li>
 </ul>
 </div>
     <div id="modeltimeensemble-030" class="section level1">
@@ -251,7 +251,7 @@
 <li>Step 2: Use <code><a href="../reference/ensemble_model_spec.html">ensemble_model_spec()</a></code> to apply stacking using a <code>model_spec</code>
 </li>
 </ul>
-<p>Note - <code>modeltime_refit(stacked_ensemble)</code> is still one step, which is the best way to handle refitting since multiple stacked models may have different submodel compositions. An additional argument, <code>resamples</code> can be provided to train stacked ensembles made with <code><a href="../reference/ensemble_model_spec.html">ensemble_model_spec()</a></code>.</p>
+<p>Note - <code><a href="https://rdrr.io/pkg/modeltime/man/modeltime_refit.html">modeltime_refit(stacked_ensemble)</a></code> is still one step, which is the best way to handle refitting since multiple stacked models may have different submodel compositions. An additional argument, <code>resamples</code> can be provided to train stacked ensembles made with <code><a href="../reference/ensemble_model_spec.html">ensemble_model_spec()</a></code>.</p>
 </div>
     <div id="modeltimeensemble-010" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.0">
