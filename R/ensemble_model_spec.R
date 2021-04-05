@@ -79,13 +79,13 @@
 #' `doFuture`. Then set `control = control_grid(allow_par = TRUE)`
 #'
 #' @examples
+#' \donttest{
 #' library(tidymodels)
 #' library(modeltime)
 #' library(modeltime.ensemble)
 #' library(tidyverse)
 #' library(timetk)
 #'
-#' \donttest{
 #' # Step 1: Make resample predictions for submodels
 #' resamples_tscv <- training(m750_splits) %>%
 #'     time_series_cv(

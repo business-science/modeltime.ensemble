@@ -5,8 +5,6 @@ context("TEST: RECURSIVE ENSEMBLES")
 
 test_that("recursive ensemble 1 - single / recipe / parsnip", {
 
-    skip_on_cran()
-
     FORECAST_HORIZON <- 24
 
     m750_extended <- m750 %>%

@@ -15,7 +15,6 @@ URL: https://github.com/business-science/modeltime.ensemble
 BugReports: https://github.com/business-science/modeltime.ensemble/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 Depends: 
     modeltime (>= 0.5.1),
     modeltime.resample (>= 0.1.0),

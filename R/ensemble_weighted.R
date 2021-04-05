@@ -23,6 +23,7 @@
 #'
 #'
 #' @examples
+#' \donttest{
 #' library(tidymodels)
 #' library(modeltime)
 #' library(modeltime.ensemble)
@@ -50,6 +51,7 @@
 #'         .interactive = FALSE,
 #'         .conf_interval_show = FALSE
 #'     )
+#' }
 #'
 #' @export
 ensemble_weighted <- function(object, loadings, scale_loadings = TRUE) {

@@ -30,6 +30,7 @@ The weighted method uses uses \code{loadings} by applying a
 \emph{loading x model prediction} for each submodel.
 }
 \examples{
+\donttest{
 library(tidymodels)
 library(modeltime)
 library(modeltime.ensemble)
@@ -57,5 +58,6 @@ modeltime_table(
         .interactive = FALSE,
         .conf_interval_show = FALSE
     )
+}
 
 }

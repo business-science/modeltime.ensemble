@@ -22,6 +22,7 @@
 #'   underlying models forecast at each timestamp
 #'
 #' @examples
+#' \donttest{
 #' library(tidymodels)
 #' library(modeltime)
 #' library(modeltime.ensemble)
@@ -46,6 +47,7 @@
 #'         .interactive = FALSE,
 #'         .conf_interval_show = FALSE
 #'     )
+#' }
 #'
 #' @export
 ensemble_average <- function(object, type = c("mean", "median")) {

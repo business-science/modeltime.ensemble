@@ -32,6 +32,7 @@ underlying models forecast at each timestamp
 }
 }
 \examples{
+\donttest{
 library(tidymodels)
 library(modeltime)
 library(modeltime.ensemble)
@@ -56,5 +57,6 @@ modeltime_table(
         .interactive = FALSE,
         .conf_interval_show = FALSE
     )
+}
 
 }
