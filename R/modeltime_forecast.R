@@ -466,15 +466,9 @@ mdl_time_forecast_recursive_ensemble_panel <- function(object, calibration_data,
 
     .id <- dplyr::ensym(id)
 
-    # print("Sym ID")
-    # print(.id)
-    #
-    # print("New Data")
-    # print(new_data)
-
     # LOOP LOGIC ----
 
-    .preds <- tibble::tibble(.id = new_data %>% dplyr::select(!! .id) %>% purrr::as_vector(),
+    .preds <- tibble::tibble(.id = new_data %>% dplyr::pull(!! .id),
                              .pred = numeric(nrow(new_data))) %>%
         dplyr::group_by(.id) %>%
         dplyr::mutate(rowid.. = dplyr::row_number()) %>%
@@ -494,8 +488,7 @@ mdl_time_forecast_recursive_ensemble_panel <- function(object, calibration_data,
         .first_slice <- .first_slice %>% dplyr::select(-rowid..)
     }
 
-    .forecasts <-
-        modeltime::mdl_time_forecast(
+    .forecasts <- modeltime::mdl_time_forecast(
             object,
             new_data = .first_slice,
             h = h,
@@ -506,8 +499,7 @@ mdl_time_forecast_recursive_ensemble_panel <- function(object, calibration_data,
         ) %>%
         dplyr::filter(!is.na(.value))
 
-    .forecast_from_model <-
-        .forecasts %>%
+    .forecast_from_model <- .forecasts %>%
         dplyr::filter(.key == "prediction")
 
     .preds[.preds$rowid.. == 1, 2] <- new_data[new_data$rowid.. == 1, y_var] <- .forecast_from_model$.value
@@ -546,8 +538,7 @@ mdl_time_forecast_recursive_ensemble_panel <- function(object, calibration_data,
         ) %>%
             dplyr::filter(!is.na(.value))
 
-        .nth_forecast_from_model <-
-            .nth_forecast %>%
+        .nth_forecast_from_model <- .nth_forecast %>%
             dplyr::filter(.key == "prediction")
 
         .forecasts <- dplyr::bind_rows(
