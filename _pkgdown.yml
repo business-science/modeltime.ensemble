@@ -14,7 +14,7 @@ navbar:
       href: articles/index.html
       menu:
         - text: 'Forecasting'
-        - text: 'Getting Started with Modeltime'
+        - text: 'Getting Started with Modeltime Ensemble'
           href: articles/getting-started-with-modeltime-ensemble.html
         - text: 'Autoregressive Forecasting (Recursive Ensembles)'
           href: articles/recursive-ensembles.html

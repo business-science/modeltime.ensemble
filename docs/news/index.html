@@ -112,7 +112,7 @@
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Forecasting</li>
     <li>
-      <a href="../articles/getting-started-with-modeltime-ensemble.html">Getting Started with Modeltime</a>
+      <a href="../articles/getting-started-with-modeltime-ensemble.html">Getting Started with Modeltime Ensemble</a>
     </li>
     <li>
       <a href="../articles/recursive-ensembles.html">Autoregressive Forecasting (Recursive Ensembles)</a>
@@ -212,14 +212,14 @@
 <p><strong>Recursive Ensembles</strong></p>
 <ul>
 <li>
-<code><a href="https://rdrr.io/pkg/modeltime/man/recursive.html">recursive()</a></code> - The <code><a href="https://rdrr.io/pkg/modeltime/man/recursive.html">recursive()</a></code> function is extended to recursive ensembles for both single time series and multiple time series models (panel data).</li>
+<code>recursive()</code> - The <code>recursive()</code> function is extended to recursive ensembles for both single time series and multiple time series models (panel data).</li>
 <li>
 <a href="https://business-science.github.io/modeltime.ensemble/articles/recursive-ensembles.html">“Forecasting with Recursive Ensembles”</a> - A new forecasting vignette for using <code>recurive()</code> with ensembles.</li>
 </ul>
 <p><strong>Fixes</strong></p>
 <ul>
 <li>
-<code><a href="https://rdrr.io/pkg/modeltime/man/modeltime_forecast.html">modeltime_forecast()</a></code> now returns <code>NA</code> when missing values are present in the sub-model predictions.</li>
+<code>modeltime_forecast()</code> now returns <code>NA</code> when missing values are present in the sub-model predictions.</li>
 </ul>
 </div>
     <div id="modeltimeensemble-030" class="section level1">
@@ -251,7 +251,7 @@
 <li>Step 2: Use <code><a href="../reference/ensemble_model_spec.html">ensemble_model_spec()</a></code> to apply stacking using a <code>model_spec</code>
 </li>
 </ul>
-<p>Note - <code><a href="https://rdrr.io/pkg/modeltime/man/modeltime_refit.html">modeltime_refit(stacked_ensemble)</a></code> is still one step, which is the best way to handle refitting since multiple stacked models may have different submodel compositions. An additional argument, <code>resamples</code> can be provided to train stacked ensembles made with <code><a href="../reference/ensemble_model_spec.html">ensemble_model_spec()</a></code>.</p>
+<p>Note - <code>modeltime_refit(stacked_ensemble)</code> is still one step, which is the best way to handle refitting since multiple stacked models may have different submodel compositions. An additional argument, <code>resamples</code> can be provided to train stacked ensembles made with <code><a href="../reference/ensemble_model_spec.html">ensemble_model_spec()</a></code>.</p>
 </div>
     <div id="modeltimeensemble-010" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.0">
