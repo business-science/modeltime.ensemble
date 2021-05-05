@@ -18,6 +18,8 @@ library(lubridate)
 # Median ----
 test_that("ensemble_average(type = 'median')", {
 
+    testthat::skip_on_cran()
+
     ensemble_fit_median <- m750_models %>%
         ensemble_average(type = "median")
 
@@ -77,7 +79,11 @@ test_that("ensemble_average(type = 'median')", {
 
     # Refit
     refit_tbl <- calibration_tbl %>%
-        modeltime_refit(m750)
+        modeltime_refit(m750, control = control_refit())
+
+    # Refit in Parallel ----
+    refit_tbl <- calibration_tbl %>%
+        modeltime_refit(m750, control = control_refit(verbose = TRUE, allow_par = TRUE, cores = 2, packages = "modeltime.ensemble"))
 
     training_results_tbl <- refit_tbl %>%
         pluck(".model", 1, "model_tbl", ".model", 1, "fit", "fit", "fit", "data")

@@ -17,7 +17,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: 
     modeltime (>= 0.5.1.9000),
-    modeltime.resample (>= 0.1.0),
+    modeltime.resample (>= 0.2.0),
     R (>= 3.5)
 Imports: 
     tune (>= 0.1.2),

@@ -11,6 +11,14 @@ mdl_time_refit.mdl_time_ensemble_avg <- function(object, data, ..., control = co
     # Backwards compatibility
     if (is.null(control)) control <- control_refit()
 
+    # Prevent issues with recursive parallelization
+    control$allow_par <- FALSE
+    control$cores <- 1
+
+    required_pkgs <- c("modeltime.ensemble", "modeltime.resample", "modeltime")
+
+    control$packages <- c(control$packages, required_pkgs) %>% unique()
+
     # Get the raw forecast results for each of the models
     fit_modeltime <- modeltime::modeltime_refit(
         object        = model_tbl,
