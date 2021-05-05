@@ -106,7 +106,7 @@ test_that("ensemble_model_spec(): Linear Regression (No Tuning)", {
 
     refit_tbl <- calibration_tbl %>%
         combine_modeltime_tables(m750_models) %>%
-        modeltime_refit(m750, resamples = full_resamples_tscv, control = control_resamples(verbose = FALSE))
+        modeltime_refit(m750, resamples = full_resamples_tscv, control = control_refit(verbose = TRUE))
 
     future_tbl <- refit_tbl %>% modeltime_forecast(h = "2 years", actual_data = m750)
 

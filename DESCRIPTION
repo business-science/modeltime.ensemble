@@ -54,6 +54,7 @@ Suggests:
     knitr,
     rmarkdown,
     covr, 
+    qpdf,
     remotes
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr

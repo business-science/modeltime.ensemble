@@ -3,9 +3,13 @@
 # 1.0 AVERAGE & WEIGHTED -----
 
 #' @export
-mdl_time_refit.mdl_time_ensemble_avg <- function(object, data, ..., control = NULL) {
+#' @importFrom modeltime control_refit
+mdl_time_refit.mdl_time_ensemble_avg <- function(object, data, ..., control = control_refit()) {
 
     model_tbl <- object$model_tbl
+
+    # Backwards compatibility
+    if (is.null(control)) control <- control_refit()
 
     # Get the raw forecast results for each of the models
     fit_modeltime <- modeltime::modeltime_refit(
@@ -28,12 +32,15 @@ mdl_time_refit.mdl_time_ensemble_wt <- mdl_time_refit.mdl_time_ensemble_avg
 # 2.0 MODEL SPEC ----
 
 #' @export
-mdl_time_refit.mdl_time_ensemble_model_spec <- function(object, data, ..., control = NULL) {
+mdl_time_refit.mdl_time_ensemble_model_spec <- function(object, data, ..., control = control_refit()) {
 
     # SETUP ----
 
     # Submodels
     model_tbl <- object$model_tbl
+
+    # Backwards compatibility
+    if (is.null(control)) control <- control_refit()
 
     # Meta-Learner Model Workflow
     wflw_fit  <- object$fit$fit
@@ -109,7 +116,10 @@ mdl_time_refit.mdl_time_ensemble_model_spec <- function(object, data, ..., contr
 # 3.0 RECURSIVE ----
 
 #' @export
-mdl_time_refit.recursive_ensemble <- function(object, data, ..., control = NULL) {
+mdl_time_refit.recursive_ensemble <- function(object, data, ..., control = control_refit()) {
+
+    # Backwards compatibility
+    if (is.null(control)) control <- control_refit()
 
     if (inherits(object, "recursive")) {
 
