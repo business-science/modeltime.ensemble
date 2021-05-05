@@ -77,34 +77,35 @@ mdl_time_refit.mdl_time_ensemble_model_spec <- function(object, data, ..., contr
         # Checks
         if (!inherits(resamples, "rset")) rlang::abort("'resamples' must be an rset object. Try using 'timetk::time_series_cv()' or 'rsample::vfold_cv()' to create an rset.")
 
-        # Control
-        if (is.null(control)) {
-            control <- object$parameters$control
-        } else {
-            if (is.null(control$verbose)) control$verbose <- FALSE
-            if (is.null(control$allow_par)) control$allow_par <- TRUE
-            if (is.null(control$pkgs)) control$pkgs <- NULL
-        }
-        control$extract       <- NULL
-        control$save_workflow <- FALSE
+        # * Map Control Refit to Control Grid ----
+        control_rsmpl <- tune::control_grid(
+            verbose       = control$verbose,
+            pkg           = control$packages,
+            allow_par     = control$allow_par,
+            extract       = NULL,
+            save_workflow = FALSE,
+            save_pred     = TRUE,
+            parallel_over = NULL
+        )
 
         # Fit the resamples
-        control$save_pred <- TRUE
         model_resample_tbl <- model_tbl %>%
             modeltime.resample::modeltime_fit_resamples(
                 resamples = resamples,
-                control   = control
+                control   = control_rsmpl
             )
 
         # Fit the meta-learner
-        control$save_pred <- FALSE
+
+        control_rsmpl$save_pred <- FALSE
+
         ret <- model_resample_tbl %>%
             ensemble_model_spec(
                 model_spec = model_spec,
                 kfolds     = object$parameters$kfolds,
                 param_info = object$parameters$param_info,
                 grid       = object$parameters$grid,
-                control    = control
+                control    = control_rsmpl
             )
 
         return(ret)
