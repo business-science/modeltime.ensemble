@@ -61,3 +61,5 @@ VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 Remotes:
     business-science/modeltime
+    tidymodels/parsnip
+

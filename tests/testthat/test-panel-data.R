@@ -34,10 +34,16 @@ wflw_fit_xgb <- workflow() %>%
 
 test_that("ensemble_average(): Forecast Jumbled", {
 
-    model_tbl <- modeltime_table(
+    submodel_tbl <- modeltime_table(
         wflw_fit_prophet_boost,
         wflw_fit_xgb
-    ) %>%
+    )
+
+    # submodel_tbl %>%
+    #     modeltime_calibrate(data_set) %>%
+    #     modeltime_accuracy()
+
+    model_tbl <- submodel_tbl %>%
         ensemble_average() %>%
         modeltime_table()
 
