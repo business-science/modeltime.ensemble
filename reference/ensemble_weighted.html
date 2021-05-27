@@ -262,12 +262,12 @@ which contains the models that you will ensemble.</p>
 #&gt; Ensemble of 3 Models (WEIGHTED)
 #&gt; 
 #&gt; # Modeltime Table
-#&gt; <span style='color: #949494;'># A tibble: 3 x 4</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 3 x 4</span>
 #&gt;   .model_id .model     .model_desc             .loadings
-#&gt;       </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>         1 </span><span style='color: #949494;'>&lt;workflow&gt;</span><span> ARIMA(0,1,1)(0,1,1)[12]     0.429
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>         2 </span><span style='color: #949494;'>&lt;workflow&gt;</span><span> PROPHET                     0.429
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>         3 </span><span style='color: #949494;'>&lt;workflow&gt;</span><span> GLMNET                      0.143</div><div class='input'>
+#&gt;       <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>         1 <span style='color: #949494;'>&lt;workflow&gt;</span> ARIMA(0,1,1)(0,1,1)[12]     0.429
+#&gt; <span style='color: #BCBCBC;'>2</span>         2 <span style='color: #949494;'>&lt;workflow&gt;</span> PROPHET                     0.429
+#&gt; <span style='color: #BCBCBC;'>3</span>         3 <span style='color: #949494;'>&lt;workflow&gt;</span> GLMNET                      0.143</div><div class='input'>
 <span class='co'># Forecast with the Ensemble</span>
 <span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/modeltime_table.html'>modeltime_table</a></span><span class='op'>(</span>
     <span class='va'>ensemble_fit</span>
@@ -289,7 +289,7 @@ which contains the models that you will ensemble.</p>
 #&gt; <span class='warning'>Regenerate your recipe to avoid this warning.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'keep_original_cols' was added to `step_dummy()` after this recipe was created.</span>
 #&gt; <span class='warning'>Regenerate your recipe to avoid this warning.</span></div><div class='img'><img src='ensemble_weighted-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
