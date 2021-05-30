@@ -1,7 +1,7 @@
 Package: modeltime.ensemble
 Type: Package
 Title: Ensemble Algorithms for Time Series Forecasting with Modeltime
-Version: 0.4.0.9000
+Version: 0.4.1
 Authors@R: c(
     person("Matt", "Dancho", email = "mdancho@business-science.io", role = c("aut", "cre")),
     person("Business Science", role = "cph")
@@ -16,7 +16,7 @@ BugReports: https://github.com/business-science/modeltime.ensemble/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: 
-    modeltime (>= 0.5.1.9000),
+    modeltime (>= 0.6.0),
     modeltime.resample (>= 0.2.0),
     R (>= 3.5)
 Imports: 
@@ -24,7 +24,7 @@ Imports:
     rsample,
     yardstick, 
     workflows (>= 0.2.1),
-    parsnip (>= 0.1.4),
+    parsnip (>= 0.1.6),
     recipes (>= 0.1.15),
     dials,
     timetk (>= 2.5.0),
@@ -59,7 +59,4 @@ Suggests:
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-Remotes:
-    business-science/modeltime,
-    tidymodels/parsnip
 
