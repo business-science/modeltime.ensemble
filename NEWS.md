@@ -1,8 +1,14 @@
-# modeltime.ensemble 0.4.0.9000 (Development Version)
+# modeltime.ensemble 0.4.1.9000 (Development Version)
 
 ### Compatibility with `modeltime` 0.7.0. 
 
 - Calibration: Added "id" feature to enable accuracy and confidence intervals by time series ID. 
+
+# modeltime.ensemble 0.4.1
+
+- Improvements for parallel processing during refitting (available in `modeltime` 0.6.0). 
+- Requires `modeltime` 0.6.0 and `parsnip` 0.1.6 to align with [xgboost upgrades](https://github.com/business-science/modeltime/issues/107). 
+
 
 # modeltime.ensemble 0.4.0
 
