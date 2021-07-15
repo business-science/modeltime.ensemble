@@ -2,7 +2,7 @@
 
 ### Compatibility with `modeltime` 0.7.0. 
 
-- Calibration: Added "id" feature to enable accuracy and confidence intervals by time series ID. 
+- __Calibration__: Added "id" feature to enable accuracy and confidence intervals by time series ID. 
 
 # modeltime.ensemble 0.4.1
 
