@@ -1,5 +1,9 @@
 # modeltime.ensemble 0.4.0.9000 (Development Version)
 
+### Compatibility with `modeltime` 0.7.0. 
+
+- Calibration: Added "id" feature to enable accuracy and confidence intervals by time series ID. 
+
 # modeltime.ensemble 0.4.0
 
 __Recursive Ensembles__
