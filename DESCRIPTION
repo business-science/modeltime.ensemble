@@ -26,7 +26,6 @@ Imports:
     workflows (>= 0.2.1),
     parsnip (>= 0.1.6),
     recipes (>= 0.1.15),
-    dials,
     timetk (>= 2.5.0),
     tibble,
     dplyr (>= 1.0.0),
@@ -36,14 +35,15 @@ Imports:
     stringr,
     rlang (>= 0.1.2),
     cli,
-    crayon,
-    utils,
     generics,
     magrittr,
-    glmnet,
-    progressr,
     tictoc
 Suggests: 
+    crayon,
+    dials,
+    glmnet,
+    progressr,
+    utils,
     roxygen2,
     earth,
     testthat,
@@ -59,5 +59,4 @@ Suggests:
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-Remotes:
-    business-science/modeltime
+
