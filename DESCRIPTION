@@ -1,7 +1,7 @@
 Package: modeltime.ensemble
 Type: Package
 Title: Ensemble Algorithms for Time Series Forecasting with Modeltime
-Version: 0.4.2
+Version: 0.4.2.9000
 Authors@R: c(
     person("Matt", "Dancho", email = "mdancho@business-science.io", role = c("aut", "cre")),
     person("Business Science", role = "cph")
