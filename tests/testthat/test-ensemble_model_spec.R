@@ -273,12 +273,12 @@ test_that("Checks/Errors: ensemble_model_spec()", {
     })
 
     # Needs 'set_engine()'
-    expect_error({
-        m750_models_resample %>%
-            ensemble_model_spec(
-                model_spec = linear_reg()
-            )
-    })
+    # expect_error({
+    #     m750_models_resample %>%
+    #         ensemble_model_spec(
+    #             model_spec = linear_reg()
+    #         )
+    # })
 
     # Needs more than one model
     expect_error({
