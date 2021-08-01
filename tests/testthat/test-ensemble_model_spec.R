@@ -3,7 +3,7 @@ context("TEST: ensemble_model_spec()")
 # SETUP ----
 
 
-testthat::test_that("ensemble_model_spec: setup", {
+testthat::test_that("ensemble_model_spec", {
 
     skip_on_cran()
 
@@ -56,14 +56,9 @@ testthat::test_that("ensemble_model_spec: setup", {
             control    = control_grid(verbose = FALSE)
         )
 
-})
 
 
-
-# NO TUNING - LM ----
-test_that("ensemble_model_spec(): Linear Regression (No Tuning)", {
-
-    skip_on_cran()
+    # NO TUNING - LM ----
 
     ensemble_fit_lm <- m750_models_resample %>%
         ensemble_model_spec(
@@ -157,14 +152,15 @@ test_that("ensemble_model_spec(): Linear Regression (No Tuning)", {
 
 
 
-})
+    # TUNING - GLMNET ----
 
-
-# TUNING - GLMNET ----
-
-test_that("ensemble_model_spec(): GLMNET (Tuning)", {
-
-    skip_on_cran()
+    ensemble_fit_glmnet <<- m750_models_resample %>%
+        ensemble_model_spec(
+            model_spec = linear_reg(penalty = tune(), mixture = tune()) %>%
+                set_engine("glmnet"),
+            grid       = 1,
+            control    = control_grid(verbose = FALSE)
+        )
 
     # Structure
     expect_s3_class(ensemble_fit_glmnet, "mdl_time_ensemble")
@@ -217,13 +213,9 @@ test_that("ensemble_model_spec(): GLMNET (Tuning)", {
 
     expect_equal(nrow(training_results_tbl), nrow(m750))
 
-})
 
-# MULTI-LEVEL STACKING ----
+    # MULTI-LEVEL STACKING ----
 
-test_that("Multi-Level Stacking", {
-
-    skip_on_cran()
 
     # Multi-Level Stacking
     model_tbl <- m750_models %>%
