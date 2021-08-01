@@ -337,7 +337,7 @@ up parallelization using <code>tune</code> via one of the backends such as
         control   <span class='op'>=</span> <span class='fu'>control_resamples</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
     <span class='op'>)</span>
 </div><div class='output co'>#&gt; ── Fitting Resamples ────────────────────────────────────────────
-#&gt; </div><div class='output co'>#&gt; <span class='message'>• Model ID: <span style='color: #0000BB;'>1</span> <span style='color: #0000BB;'>ARIMA(0,1,1)(0,1,1)[12]</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Slice1: preprocessor 1/1: 'keep_original_cols' was added to `step_dummy()` after...</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Slice1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span></span></div><div class='output co'>#&gt; <span class='message'>frequency = 12 observations per 1 year</span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'>• Model ID: <span style='color: #0000BB;'>2</span> <span style='color: #0000BB;'>PROPHET</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Slice1: preprocessor 1/1: 'keep_original_cols' was added to `step_dummy()` after...</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Slice1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span></span></div><div class='output co'>#&gt; <span class='message'>Disabling weekly seasonality. Run prophet with weekly.seasonality=TRUE to override this.</span></div><div class='output co'>#&gt; <span class='message'>Disabling daily seasonality. Run prophet with daily.seasonality=TRUE to override this.</span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'>• Model ID: <span style='color: #0000BB;'>3</span> <span style='color: #0000BB;'>GLMNET</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Slice1: preprocessor 1/1: 'keep_original_cols' was added to `step_dummy()` after...</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Slice1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span></div><div class='output co'>#&gt; 4.325 sec elapsed
+#&gt; </div><div class='output co'>#&gt; <span class='message'>• Model ID: <span style='color: #0000BB;'>1</span> <span style='color: #0000BB;'>ARIMA(0,1,1)(0,1,1)[12]</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Slice1: preprocessor 1/1: 'keep_original_cols' was added to `step_dummy()` after...</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Slice1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span></span></div><div class='output co'>#&gt; <span class='message'>frequency = 12 observations per 1 year</span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'>• Model ID: <span style='color: #0000BB;'>2</span> <span style='color: #0000BB;'>PROPHET</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Slice1: preprocessor 1/1: 'keep_original_cols' was added to `step_dummy()` after...</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Slice1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span></span></div><div class='output co'>#&gt; <span class='message'>Disabling weekly seasonality. Run prophet with weekly.seasonality=TRUE to override this.</span></div><div class='output co'>#&gt; <span class='message'>Disabling daily seasonality. Run prophet with daily.seasonality=TRUE to override this.</span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'>• Model ID: <span style='color: #0000BB;'>3</span> <span style='color: #0000BB;'>GLMNET</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #BBBB00;'>!</span> <span style='color: #BBBB00;'>Slice1: preprocessor 1/1: 'keep_original_cols' was added to `step_dummy()` after...</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Slice1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span></div><div class='output co'>#&gt; 5.08 sec elapsed
 #&gt; </div><div class='input'>
 <span class='co'># Step 2: Metalearner ----</span>
 
@@ -347,7 +347,7 @@ up parallelization using <code>tune</code> via one of the backends such as
         model_spec <span class='op'>=</span> <span class='fu'>linear_reg</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>set_engine</span><span class='op'>(</span><span class='st'>"lm"</span><span class='op'>)</span>,
         control    <span class='op'>=</span> <span class='fu'>control_grid</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
     <span class='op'>)</span>
-</div><div class='output co'>#&gt; ── Fitting Non-Tunable Model Specification ──────────────────────</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Fitting model spec to submodel cross-validation predictions.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Prediction Error Comparison:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
+</div><div class='output co'>#&gt; ── Fitting Non-Tunable Model Specification ──────────────────────</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Fitting model spec to submodel cross-validation predictions.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Prediction Error Comparison:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 3</span>
 #&gt;   .model_id  rmse .model_desc            
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                  
 #&gt; <span style='color: #BCBCBC;'>1</span> 1          579. ARIMA(0,1,1)(0,1,1)[12]
@@ -373,14 +373,14 @@ up parallelization using <code>tune</code> via one of the backends such as
 #&gt;  -2637.1730       0.5754      -0.1920       0.8551  
 #&gt; 
 #&gt; 
-#&gt; 0.468 sec elapsed
+#&gt; 0.584 sec elapsed
 #&gt; </div><div class='input'>
 <span class='va'>ensemble_fit_lm</span>
 </div><div class='output co'>#&gt; ── Modeltime Ensemble ───────────────────────────────────────────
 #&gt; Ensemble of 3 Models (LM STACK)
 #&gt; 
 #&gt; # Modeltime Table
-#&gt; <span style='color: #949494;'># A tibble: 3 x 3</span>
+#&gt; <span style='color: #949494;'># A tibble: 3 × 3</span>
 #&gt;   .model_id .model     .model_desc            
 #&gt;       <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                  
 #&gt; <span style='color: #BCBCBC;'>1</span>         1 <span style='color: #949494;'>&lt;workflow&gt;</span> ARIMA(0,1,1)(0,1,1)[12]
@@ -397,17 +397,17 @@ up parallelization using <code>tune</code> via one of the backends such as
         grid       <span class='op'>=</span> <span class='fl'>2</span>,
         control    <span class='op'>=</span> <span class='fu'>control_grid</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
     <span class='op'>)</span>
-</div><div class='output co'>#&gt; ── Tuning Model Specification ───────────────────────────────────</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Performing 5-Fold Cross Validation.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold1: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold1: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold1: preprocessor 1/1, model 1/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold1: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold1: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold1: preprocessor 1/1, model 2/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold2: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold2: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold2: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold2: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold2: preprocessor 1/1, model 1/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold2: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold2: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold2: preprocessor 1/1, model 2/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold3: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold3: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold3: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold3: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold3: preprocessor 1/1, model 1/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold3: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold3: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold3: preprocessor 1/1, model 2/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold4: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold4: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold4: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold4: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold4: preprocessor 1/1, model 1/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold4: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold4: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold4: preprocessor 1/1, model 2/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold5: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold5: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold5: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold5: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold5: preprocessor 1/1, model 1/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold5: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold5: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold5: preprocessor 1/1, model 2/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span> Finished tuning Model Specification.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Model Parameters:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 8</span>
-#&gt;       penalty mixture .metric .estimator  mean     n std_err .config            
-#&gt;         <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              
-#&gt; <span style='color: #BCBCBC;'>1</span> 0.000<span style='text-decoration: underline;'>000</span>325   0.166 rmse    standard    143.     5    12.1 Preprocessor1_Mode…
-#&gt; </div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Prediction Error Comparison:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
+</div><div class='output co'>#&gt; ── Tuning Model Specification ───────────────────────────────────</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Performing 5-Fold Cross Validation.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold1: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold1: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold1: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold1: preprocessor 1/1, model 1/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold1: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold1: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold1: preprocessor 1/1, model 2/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold2: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold2: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold2: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold2: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold2: preprocessor 1/1, model 1/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold2: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold2: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold2: preprocessor 1/1, model 2/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold3: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold3: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold3: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold3: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold3: preprocessor 1/1, model 1/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold3: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold3: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold3: preprocessor 1/1, model 2/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold4: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold4: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold4: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold4: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold4: preprocessor 1/1, model 1/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold4: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold4: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold4: preprocessor 1/1, model 2/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold5: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold5: preprocessor 1/1</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold5: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold5: preprocessor 1/1, model 1/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold5: preprocessor 1/1, model 1/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold5: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✓</span> <span style='color: #000000;'>Fold5: preprocessor 1/1, model 2/2</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>i</span> <span style='color: #000000;'>Fold5: preprocessor 1/1, model 2/2 (predictions)</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span> Finished tuning Model Specification.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Model Parameters:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 8</span>
+#&gt;   penalty mixture .metric .estimator  mean     n std_err .config             
+#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               
+#&gt; <span style='color: #BCBCBC;'>1</span>  0.043<span style='text-decoration: underline;'>3</span>   0.609 rmse    standard    139.     5    10.0 Preprocessor1_Model2
+#&gt; </div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Prediction Error Comparison:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 3</span>
 #&gt;   .model_id  rmse .model_desc            
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                  
 #&gt; <span style='color: #BCBCBC;'>1</span> 1          579. ARIMA(0,1,1)(0,1,1)[12]
 #&gt; <span style='color: #BCBCBC;'>2</span> 2          381. PROPHET                
 #&gt; <span style='color: #BCBCBC;'>3</span> 3          558. GLMNET                 
-#&gt; <span style='color: #BCBCBC;'>4</span> ensemble   128. ENSEMBLE (MODEL SPEC)  
+#&gt; <span style='color: #BCBCBC;'>4</span> ensemble   130. ENSEMBLE (MODEL SPEC)  
 #&gt; 
 #&gt; ── Final Model ──────────────────────────────────────────────────
 #&gt; </div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Model Workflow:</span></div><div class='output co'>#&gt; ══ Workflow [trained] ══════════════════════════════════════════════════════════
@@ -419,67 +419,67 @@ up parallelization using <code>tune</code> via one of the backends such as
 #&gt; 
 #&gt; ── Model ───────────────────────────────────────────────────────────────────────
 #&gt; 
-#&gt; Call:  glmnet::glmnet(x = maybe_matrix(x), y = y, family = "gaussian",      alpha = ~0.166370713403474) 
+#&gt; Call:  glmnet::glmnet(x = maybe_matrix(x), y = y, family = "gaussian",      alpha = ~0.609204838849837) 
 #&gt; 
 #&gt;    Df  %Dev Lambda
-#&gt; 1   0  0.00 3330.0
-#&gt; 2   3  3.92 3034.0
-#&gt; 3   3 10.20 2764.0
-#&gt; 4   3 16.35 2519.0
-#&gt; 5   3 22.33 2295.0
-#&gt; 6   3 28.13 2091.0
-#&gt; 7   3 33.70 1905.0
-#&gt; 8   3 39.01 1736.0
-#&gt; 9   3 44.06 1582.0
-#&gt; 10  3 48.83 1441.0
-#&gt; 11  3 53.29 1313.0
-#&gt; 12  3 57.45 1197.0
-#&gt; 13  3 61.31 1090.0
-#&gt; 14  3 64.86  993.5
-#&gt; 15  3 68.10  905.2
-#&gt; 16  3 71.07  824.8
-#&gt; 17  3 73.75  751.5
-#&gt; 18  3 76.17  684.8
-#&gt; 19  3 78.34  623.9
-#&gt; 20  3 80.29  568.5
-#&gt; 21  3 82.02  518.0
-#&gt; 22  3 83.56  472.0
-#&gt; 23  3 84.92  430.1
-#&gt; 24  3 86.12  391.9
-#&gt; 25  3 87.18  357.0
-#&gt; 26  3 88.11  325.3
-#&gt; 27  3 88.93  296.4
-#&gt; 28  3 89.65  270.1
-#&gt; 29  3 90.28  246.1
-#&gt; 30  3 90.83  224.2
-#&gt; 31  3 91.31  204.3
-#&gt; 32  3 91.74  186.2
-#&gt; 33  3 92.11  169.6
-#&gt; 34  3 92.44  154.6
-#&gt; 35  3 92.73  140.8
-#&gt; 36  3 92.99  128.3
-#&gt; 37  3 93.22  116.9
-#&gt; 38  3 93.42  106.5
-#&gt; 39  3 93.60   97.1
-#&gt; 40  3 93.76   88.4
-#&gt; 41  3 93.91   80.6
-#&gt; 42  3 94.04   73.4
-#&gt; 43  3 94.16   66.9
-#&gt; 44  3 94.26   61.0
-#&gt; 45  3 94.36   55.5
-#&gt; 46  3 94.45   50.6
+#&gt; 1   0  0.00 909.30
+#&gt; 2   2  9.93 828.60
+#&gt; 3   2 21.08 755.00
+#&gt; 4   3 31.51 687.90
+#&gt; 5   3 40.66 626.80
+#&gt; 6   3 48.55 571.10
+#&gt; 7   3 55.36 520.40
+#&gt; 8   3 61.20 474.10
+#&gt; 9   3 66.21 432.00
+#&gt; 10  3 70.50 393.60
+#&gt; 11  3 74.16 358.70
+#&gt; 12  3 77.29 326.80
+#&gt; 13  3 79.96 297.80
+#&gt; 14  3 82.22 271.30
+#&gt; 15  3 84.15 247.20
+#&gt; 16  3 85.79 225.30
+#&gt; 17  3 87.19 205.20
+#&gt; 18  3 88.37 187.00
+#&gt; 19  3 89.38 170.40
+#&gt; 20  3 90.23 155.30
+#&gt; 21  3 90.96 141.50
+#&gt; 22  3 91.58 128.90
+#&gt; 23  3 92.11 117.40
+#&gt; 24  3 92.56 107.00
+#&gt; 25  3 92.94  97.51
+#&gt; 26  3 93.27  88.84
+#&gt; 27  3 93.55  80.95
+#&gt; 28  3 93.79  73.76
+#&gt; 29  3 94.00  67.21
+#&gt; 30  3 94.18  61.24
+#&gt; 31  3 94.33  55.80
+#&gt; 32  3 94.46  50.84
+#&gt; 33  3 94.58  46.32
+#&gt; 34  3 94.68  42.21
+#&gt; 35  3 94.76  38.46
+#&gt; 36  3 94.83  35.04
+#&gt; 37  3 94.89  31.93
+#&gt; 38  2 94.94  29.09
+#&gt; 39  2 94.97  26.51
+#&gt; 40  2 95.00  24.15
+#&gt; 41  2 95.02  22.01
+#&gt; 42  2 95.04  20.05
+#&gt; 43  2 95.05  18.27
+#&gt; 44  2 95.06  16.65
+#&gt; 45  2 95.07  15.17
+#&gt; 46  2 95.08  13.82
 #&gt; 
 #&gt; ...
-#&gt; and 42 more lines.
+#&gt; and 12 more lines.
 #&gt; 
-#&gt; 5.185 sec elapsed
+#&gt; 6.246 sec elapsed
 #&gt; </div><div class='input'>
 <span class='va'>ensemble_fit_glmnet</span>
 </div><div class='output co'>#&gt; ── Modeltime Ensemble ───────────────────────────────────────────
 #&gt; Ensemble of 3 Models (GLMNET STACK)
 #&gt; 
 #&gt; # Modeltime Table
-#&gt; <span style='color: #949494;'># A tibble: 3 x 3</span>
+#&gt; <span style='color: #949494;'># A tibble: 3 × 3</span>
 #&gt;   .model_id .model     .model_desc            
 #&gt;       <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                  
 #&gt; <span style='color: #BCBCBC;'>1</span>         1 <span style='color: #949494;'>&lt;workflow&gt;</span> ARIMA(0,1,1)(0,1,1)[12]
