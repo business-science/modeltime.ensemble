@@ -7,9 +7,83 @@
 #'
 #' @inheritParams ensemble_nested_average
 #' @inheritParams ensemble_weighted
+#' @param loading_method Instructs on how to apply the loadings:
+#'
+#' - "lowest_rmse" (default): A loading vector will be applied such that
+#'  the first loading is applied to the algorithm with the lowest Root Mean Squared Error (RMSE).
+#'  The next loading will be applied to the algorithm ranking second for lowest RMSE.
+#'
+#' - "sequential": A loading vector will be applied to algorithms based on the order of the
+#'  algorithm's appearance. This method tends to be less powerful than lowest RMSE.
 #'
 #'
+#' @details
 #'
+#' If we start with a nested modeltime table, we can add ensembles.
+#'
+#' ```r
+#' nested_modeltime_tbl
+#'
+#' # Nested Modeltime Table
+#' Trained on: .splits | Model Errors: [0]
+#' # A tibble: 2 x 5
+#'   id    .actual_data       .future_data      .splits         .modeltime_tables
+#'   <fct> <list>             <list>            <list>          <list>
+#' 1 1_1   <tibble [104 x 2]> <tibble [52 x 2]> <split [52|52]> <mdl_time_tbl [2 x 5]>
+#' 2 1_3   <tibble [104 x 2]> <tibble [52 x 2]> <split [52|52]> <mdl_time_tbl [2 x 5]>
+#' ```
+#'
+#' An ensemble can be added to a Nested modeltime table.
+#'
+#' ``` r
+#' ensem <- nested_modeltime_tbl %>%
+#'     ensemble_nested_weighted(
+#'         loadings       = c(2,1),
+#'         control        = control_nested_fit(allow_par = FALSE, verbose = TRUE)
+#'     )
+#' ```
+#'
+#' We can then verify the model has been added.
+#'
+#' ``` r
+#' ensem %>% extract_nested_modeltime_table()
+#' ```
+#'
+#' This produces an ensemble .model_id 3, which is an ensemble of the first two models.
+#'
+#' ```
+#' # A tibble: 4 x 6
+#'   id    .model_id .model         .model_desc                   .type .calibration_data
+#'   <fct>     <dbl> <list>         <chr>                         <chr> <list>
+#' 1 1_3           1 <workflow>     PROPHET                       Test  <tibble [52 x 4]>
+#' 2 1_3           2 <workflow>     XGBOOST                       Test  <tibble [52 x 4]>
+#' 3 1_3           3 <ensemble [2]> ENSEMBLE (WEIGHTED): 2 MODELS Test  <tibble [52 x 4]>
+#' ```
+#'
+#' We can verify the loadings have been applied correctly. Note that the loadings will be
+#' applied based on the model with the lowest RMSE.
+#'
+#' ``` r
+#' ensem %>%
+#'     extract_nested_modeltime_table(1) %>%
+#'     slice(3) %>%
+#'     pluck(".model", 1)
+#' ```
+#'
+#' Note that the xgboost model gets the 66% loading and prophet gets 33% loading.
+#' This is because xgboost has the lower RMSE in this case.
+#'
+#' ```r
+#' -- Modeltime Ensemble -------------------------------------------
+#'     Ensemble of 2 Models (WEIGHTED)
+#'
+#' # Modeltime Table
+#' # A tibble: 2 x 6
+#'   .model_id .model     .model_desc .type .calibration_data .loadings
+#'       <int> <list>     <chr>       <chr> <list>                <dbl>
+#' 1         1 <workflow> PROPHET     Test  <tibble [52 x 4]>     0.333
+#' 2         2 <workflow> XGBOOST     Test  <tibble [52 x 4]>     0.667
+#' ```
 #' @export
 ensemble_nested_weighted <- function(object,
                                      loadings,
