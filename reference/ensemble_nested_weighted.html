@@ -240,6 +240,16 @@ Modeltime Nested Forecasting Workflow.</p>
 to proportionally weight the submodels.</p></td>
     </tr>
     <tr>
+      <th>loading_method</th>
+      <td><p>Instructs on how to apply the loadings:</p><ul>
+<li><p>"lowest_rmse" (default): A loading vector will be applied such that
+the first loading is applied to the algorithm with the lowest Root Mean Squared Error (RMSE).
+The next loading will be applied to the algorithm ranking second for lowest RMSE.</p></li>
+<li><p>"sequential": A loading vector will be applied to algorithms based on the order of the
+algorithm's appearance. This method tends to be less powerful than lowest RMSE.</p></li>
+</ul></td>
+    </tr>
+    <tr>
       <th>keep_submodels</th>
       <td><p>Whether or not to keep the submodels in the
 nested modeltime table results</p></td>
@@ -255,6 +265,51 @@ use in the ensemble.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If we start with a nested modeltime table, we can add ensembles.<div class="sourceCode r"></p><pre>nested_modeltime_tbl
+
+# Nested Modeltime Table
+Trained on: .splits | Model Errors: [0]
+# A tibble: 2 x 5
+  id    .actual_data       .future_data      .splits         .modeltime_tables
+  &lt;fct&gt; &lt;list&gt;             &lt;list&gt;            &lt;list&gt;          &lt;list&gt;
+1 1_1   &lt;tibble [104 x 2]&gt; &lt;tibble [52 x 2]&gt; &lt;split [52|52]&gt; &lt;mdl_time_tbl [2 x 5]&gt;
+2 1_3   &lt;tibble [104 x 2]&gt; &lt;tibble [52 x 2]&gt; &lt;split [52|52]&gt; &lt;mdl_time_tbl [2 x 5]&gt;
+</pre><p></div></p>
+<p>An ensemble can be added to a Nested modeltime table.<div class="sourceCode r"></p><pre><span class='va'>ensem</span> <span class='op'>&lt;-</span> <span class='va'>nested_modeltime_tbl</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>ensemble_nested_weighted</span><span class='op'>(</span>
+        loadings       <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span>,
+        control        <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/control_modeltime.html'>control_nested_fit</a></span><span class='op'>(</span>allow_par <span class='op'>=</span> <span class='cn'>FALSE</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+    <span class='op'>)</span>
+</pre><p></div></p>
+<p>We can then verify the model has been added.<div class="sourceCode r"></p><pre><span class='va'>ensem</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/log_extractors.html'>extract_nested_modeltime_table</a></span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+<p>This produces an ensemble .model_id 3, which is an ensemble of the first two models.</p><pre># A tibble: 4 x 6
+  id    .model_id .model         .model_desc                   .type .calibration_data
+  &lt;fct&gt;     &lt;dbl&gt; &lt;list&gt;         &lt;chr&gt;                         &lt;chr&gt; &lt;list&gt;
+1 1_3           1 &lt;workflow&gt;     PROPHET                       Test  &lt;tibble [52 x 4]&gt;
+2 1_3           2 &lt;workflow&gt;     XGBOOST                       Test  &lt;tibble [52 x 4]&gt;
+3 1_3           3 &lt;ensemble [2]&gt; ENSEMBLE (WEIGHTED): 2 MODELS Test  &lt;tibble [52 x 4]&gt;
+</pre>
+
+<p>We can verify the loadings have been applied correctly. Note that the loadings will be
+applied based on the model with the lowest RMSE.<div class="sourceCode r"></p><pre><span class='va'>ensem</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/log_extractors.html'>extract_nested_modeltime_table</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>pluck</span><span class='op'>(</span><span class='st'>".model"</span>, <span class='fl'>1</span><span class='op'>)</span>
+</pre><p></div></p>
+<p>Note that the xgboost model gets the 66% loading and prophet gets 33% loading.
+This is because xgboost has the lower RMSE in this case.<div class="sourceCode r"></p><pre>-- Modeltime Ensemble -------------------------------------------
+    Ensemble of 2 Models (WEIGHTED)
+
+# Modeltime Table
+# A tibble: 2 x 6
+  .model_id .model     .model_desc .type .calibration_data .loadings
+      &lt;int&gt; &lt;list&gt;     &lt;chr&gt;       &lt;chr&gt; &lt;list&gt;                &lt;dbl&gt;
+1         1 &lt;workflow&gt; PROPHET     Test  &lt;tibble [52 x 4]&gt;     0.333
+2         2 &lt;workflow&gt; XGBOOST     Test  &lt;tibble [52 x 4]&gt;     0.667
+</pre><p></div></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
