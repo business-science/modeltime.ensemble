@@ -266,6 +266,7 @@ ensemble_nested_weighted_parallel <- function(object,
         fcast_tbl_old <- attr(object, "test_forecast_tbl")
         fcast_tbl <- dplyr::bind_rows(fcast_tbl_old, fcast_tbl) %>%
             dplyr::arrange(!! as.name(id_text), .key, .model_id)
+
     }
 
     # Finish Parallel Backend ----
