@@ -16,7 +16,7 @@ BugReports: https://github.com/business-science/modeltime.ensemble/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: 
-    modeltime (>= 0.7.0),
+    modeltime (>= 1.0.0),
     modeltime.resample (>= 0.2.0),
     R (>= 3.5)
 Imports: 
@@ -37,7 +37,10 @@ Imports:
     cli,
     generics,
     magrittr,
-    tictoc
+    tictoc,
+    parallel, 
+    doParallel,
+    foreach,
 Suggests: 
     crayon,
     dials,
@@ -56,7 +59,6 @@ Suggests:
     covr, 
     qpdf,
     remotes
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-
