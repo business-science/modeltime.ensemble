@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • modeltime.ensemble</title>
+<title>Nested Ensemble Weighted — ensemble_nested_weighted • modeltime.ensemble</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Nested Ensemble Weighted — ensemble_nested_weighted" />
+<meta property="og:description" content="Creates an Ensemble Model using Weighted Averaging in the
+Modeltime Nested Forecasting Workflow." />
 
 
 
@@ -75,7 +77,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -199,73 +201,62 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Nested Ensemble Weighted</h1>
+    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.ensemble/blob/master/R/nested_ensemble_weighted.R'><code>R/nested_ensemble_weighted.R</code></a></small>
+    <div class="hidden name"><code>ensemble_nested_weighted.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Creates an Ensemble Model using Weighted Averaging in the
+Modeltime Nested Forecasting Workflow.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>ensemble_nested_weighted</span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  <span class='va'>loadings</span>,
+  scale_loadings <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  loading_method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"lowest_rmse"</span>, <span class='st'>"sequential"</span><span class='op'>)</span>,
+  keep_submodels <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  model_ids <span class='op'>=</span> <span class='cn'>NULL</span>,
+  control <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/control_modeltime.html'>control_nested_fit</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-ensemble-forecasting" class="hasAnchor"><a href="#section-ensemble-forecasting" class="anchor"></a>Ensemble Forecasting</h2>
-          <p class="section-desc"><p>Functions used to create ensembles.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="ensemble_average.html">ensemble_average()</a></code> </p>
-        </td>
-        <td><p>Creates an Ensemble Model using Mean/Median Averaging</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ensemble_weighted.html">ensemble_weighted()</a></code> </p>
-        </td>
-        <td><p>Creates a Weighted Ensemble Model</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ensemble_model_spec.html">ensemble_model_spec()</a></code> </p>
-        </td>
-        <td><p>Creates a Stacked Ensemble Model from a Model Spec</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-nested-ensemble-forecasting" class="hasAnchor"><a href="#section-nested-ensemble-forecasting" class="anchor"></a>Nested Ensemble Forecasting</h2>
-          <p class="section-desc"><p>Make ensembles with the nested forecasting workflow</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="ensemble_nested_average.html">ensemble_nested_average()</a></code> </p>
-        </td>
-        <td><p>Nested Ensemble Average</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>A nested modeltime object (inherits class <code>nested_mdl_time</code>)</p></td>
+    </tr>
+    <tr>
+      <th>loadings</th>
+      <td><p>A vector of weights corresponding to the loadings</p></td>
+    </tr>
+    <tr>
+      <th>scale_loadings</th>
+      <td><p>If TRUE, divides by the sum of the loadings
+to proportionally weight the submodels.</p></td>
+    </tr>
+    <tr>
+      <th>keep_submodels</th>
+      <td><p>Whether or not to keep the submodels in the
+nested modeltime table results</p></td>
+    </tr>
+    <tr>
+      <th>model_ids</th>
+      <td><p>A vector of id's (<code>.model_id</code>) identifying which submodels to
+use in the ensemble.</p></td>
+    </tr>
+    <tr>
+      <th>control</th>
+      <td><p>Controls various aspects of the ensembling process. See <code><a href='https://rdrr.io/pkg/modeltime/man/control_modeltime.html'>control_nested_fit()</a></code>.</p></td>
+    </tr>
     </table>
-  </div>
 
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
