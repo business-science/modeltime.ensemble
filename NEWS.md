@@ -1,5 +1,10 @@
 #  modeltime.ensemble 0.4.2.9000 (Development Version)
 
+## NEW Nested Modeltime
+
+- `ensemble_nested_weighted()`: Apply weighted ensembles iteratively
+- `ensemble_nested_average()`: Apply average ensembles iteratively
+
 # modeltime.ensemble 0.4.2
 
 ### Compatibility with `modeltime` 0.7.0. 

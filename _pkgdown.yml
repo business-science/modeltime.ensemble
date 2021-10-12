@@ -57,16 +57,17 @@ navbar:
       href: https://github.com/business-science/modeltime.ensemble
 
 reference:
-  - title: Weighted Ensembles
-    desc: Functions used to create ensembles using averaging and loadings.
+  - title: Ensemble Forecasting
+    desc: Functions used to create ensembles.
     contents:
     - "ensemble_average"
     - "ensemble_weighted"
-  - title: Stacked Ensembles
-    desc: Functions used create stacked ensembles using meta-learners.
-    contents:
     - "ensemble_model_spec"
     - "modeltime_fit_resamples"
+  - title: Nested Ensemble Forecasting
+    desc: Make ensembles with the nested forecasting workflow
+    contents:
+    - "ensemble_nested_average"
 
 
 repo:
