@@ -4,6 +4,7 @@
 ensemble_nested_average <- function(object,
                                     type = c("mean", "median"),
                                     keep_submodels = TRUE,
+                                    model_ids = NULL,
                                     control = control_nested_fit()) {
 
     UseMethod("ensemble_nested_average", object)
@@ -14,6 +15,7 @@ ensemble_nested_average <- function(object,
 ensemble_nested_average.nested_mdl_time <- function(object,
                                                     type = c("mean", "median"),
                                                     keep_submodels = TRUE,
+                                                    model_ids = NULL,
                                                     control = control_nested_fit()) {
 
     # Parallel or Sequential
@@ -22,6 +24,7 @@ ensemble_nested_average.nested_mdl_time <- function(object,
             object         = object,
             type           = type,
             keep_submodels = keep_submodels,
+            model_ids      = model_ids,
             control        = control
         )
     } else {
@@ -29,6 +32,7 @@ ensemble_nested_average.nested_mdl_time <- function(object,
             object         = object,
             type           = type,
             keep_submodels = keep_submodels,
+            model_ids      = model_ids,
             control        = control
         )
     }
@@ -40,6 +44,7 @@ ensemble_nested_average.nested_mdl_time <- function(object,
 ensemble_nested_average_parallel <- function(object,
                                              type = c("mean", "median"),
                                              keep_submodels = TRUE,
+                                             model_ids = NULL,
                                              control = control_nested_fit()) {
 
     t1 <- Sys.time()
@@ -94,7 +99,13 @@ ensemble_nested_average_parallel <- function(object,
     ) %op% {
 
         # Make Ensemble -----
-        ensem <- x %>% ensemble_average(type = type)
+        if (is.null(model_ids)) {
+            ensem <- x %>% ensemble_average(type = type)
+        } else {
+            ensem <- x %>%
+                dplyr::filter(.model_id %in% model_ids) %>%
+                ensemble_average(type = type)
+        }
 
         new_mod_id <- max(x$.model_id) + 1
 
@@ -212,11 +223,11 @@ ensemble_nested_average_parallel <- function(object,
         acc_tbl_old <- attr(object, "accuracy_tbl")
         acc_tbl <- dplyr::bind_rows(acc_tbl_old, acc_tbl) %>%
             dplyr::arrange(.model_id) %>%
-            dplyr::arrange(dplyr::all_of(id_text))
+            dplyr::arrange(!! as.name(id_text))
 
         fcast_tbl_old <- attr(object, "test_forecast_tbl")
         fcast_tbl <- dplyr::bind_rows(fcast_tbl_old, fcast_tbl) %>%
-            arrange(dplyr::all_of(id_text), .key, .model_id)
+            arrange(!! as.name(id_text), .key, .model_id)
     }
 
     # Finish Parallel Backend ----
@@ -256,6 +267,7 @@ ensemble_nested_average_parallel <- function(object,
 ensemble_nested_average_sequential <- function(object,
                                                type = c("mean", "median"),
                                                keep_submodels = TRUE,
+                                               model_ids = NULL,
                                                control = control_nested_fit()) {
 
     t1 <- Sys.time()
@@ -303,7 +315,13 @@ ensemble_nested_average_sequential <- function(object,
                 if (control$verbose) cli::cli_alert_info(stringr::str_glue("[{i}/{n_ids}] Starting Modeltime Table: ID {id}..."))
 
                 # Make Ensemble -----
-                ensem <- x %>% ensemble_average(type = type)
+                if (is.null(model_ids)) {
+                    ensem <- x %>% ensemble_average(type = type)
+                } else {
+                    ensem <- x %>%
+                        dplyr::filter(.model_id %in% model_ids) %>%
+                        ensemble_average(type = type)
+                }
 
                 new_mod_id <- max(x$.model_id) + 1
 
@@ -419,11 +437,11 @@ ensemble_nested_average_sequential <- function(object,
         acc_tbl_old <- attr(object, "accuracy_tbl")
         acc_tbl <- dplyr::bind_rows(acc_tbl_old, acc_tbl) %>%
             dplyr::arrange(.model_id) %>%
-            dplyr::arrange(dplyr::all_of(id_text))
+            dplyr::arrange(!! as.name(id_text))
 
         fcast_tbl_old <- attr(object, "test_forecast_tbl")
         fcast_tbl <- dplyr::bind_rows(fcast_tbl_old, fcast_tbl) %>%
-            dplyr::arrange(dplyr::all_of(id_text), .key, .model_id)
+            dplyr::arrange(!! as.name(id_text), .key, .model_id)
     }
 
     # attr(nested_modeltime, "error_tbl")           <- logging_env$error_tbl %>% tidyr::drop_na(.error_desc)
