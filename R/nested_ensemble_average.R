@@ -1,5 +1,89 @@
 
 
+#' Nested Ensemble Average
+#'
+#' Creates an Ensemble Model using Mean/Median Averaging in the
+#' Modeltime Nested Forecasting Workflow.
+#'
+#' @param object A nested modeltime object (inherits class `nested_mdl_time`)
+#' @param type One of "mean" for mean averaging or "median" for median averaging
+#' @param keep_submodels Whether or not to keep the submodels in the
+#'  nested modeltime table results
+#' @param model_ids A vector of id's (`.model_id`) identifying which submodels to
+#'  use in the ensemble.
+#' @param control Controls various aspects of the ensembling process. See [control_nested_fit()].
+#'
+#' @details
+#'
+#' If we start with a nested modeltime table, we can add ensembles.
+#'
+#' ```r
+#' nested_modeltime_tbl
+#'
+#' # Nested Modeltime Table
+#' Trained on: .splits | Model Errors: [0]
+#' # A tibble: 2 x 5
+#'   id    .actual_data       .future_data      .splits         .modeltime_tables
+#'   <fct> <list>             <list>            <list>          <list>
+#' 1 1_1   <tibble [104 x 2]> <tibble [52 x 2]> <split [52|52]> <mdl_time_tbl [2 x 5]>
+#' 2 1_3   <tibble [104 x 2]> <tibble [52 x 2]> <split [52|52]> <mdl_time_tbl [2 x 5]>
+#' ```
+#'
+#' An ensemble can be added to a Nested modeltime table.
+#'
+#' ``` r
+#' ensem <- nested_modeltime_tbl %>%
+#'     ensemble_nested_average(
+#'         type           = "mean",
+#'         keep_submodels = TRUE,
+#'         control        = control_nested_fit(allow_par = FALSE, verbose = TRUE)
+#'     )
+#' ```
+#'
+#' We can then verify the model has been added.
+#'
+#' ``` r
+#' ensem %>% extract_nested_modeltime_table()
+#' ```
+#'
+#' This produces an ensemble .model_id 3, which is an ensemble of the first two models.
+#'
+#' ```
+#' # A tibble: 4 x 6
+#'   id    .model_id .model         .model_desc                 .type .calibration_data
+#'   <fct>     <dbl> <list>         <chr>                       <chr> <list>
+#' 1 1_1           1 <workflow>     PROPHET                     Test  <tibble [52 x 4]>
+#' 2 1_1           2 <workflow>     XGBOOST                     Test  <tibble [52 x 4]>
+#' 3 1_1           3 <ensemble [2]> ENSEMBLE (MEAN): 2 MODELS   Test  <tibble [52 x 4]>
+#' ```
+#'
+#' Additional ensembles can be added by simply adding onto the nested modeltime table.
+#' Notice that we make use of `model_ids` to make sure it only uses model id's 1 and 2.
+#'
+#' ``` r
+#' ensem_2 <- ensem %>%
+#'     ensemble_nested_average(
+#'         type           = "median",
+#'         keep_submodels = TRUE,
+#'         model_ids      = c(1,2),
+#'         control        = control_nested_fit(allow_par = FALSE, verbose = TRUE)
+#'     )
+#' ```
+#'
+#' This returns a 4th model that is a median ensemble of the first two models.
+#'
+#' ```
+#' ensem_2 %>% extract_nested_modeltime_table()
+#' # A tibble: 4 x 6
+#'   id    .model_id .model         .model_desc                 .type .calibration_data
+#'   <fct>     <dbl> <list>         <chr>                       <chr> <list>
+#' 1 1_1           1 <workflow>     PROPHET                     Test  <tibble [52 x 4]>
+#' 2 1_1           2 <workflow>     XGBOOST                     Test  <tibble [52 x 4]>
+#' 3 1_1           3 <ensemble [2]> ENSEMBLE (MEAN): 2 MODELS   Test  <tibble [52 x 4]>
+#' 4 1_1           4 <ensemble [2]> ENSEMBLE (MEDIAN): 2 MODELS Test  <tibble [52 x 4]>
+#' ```
+#'
+#'
 #' @export
 ensemble_nested_average <- function(object,
                                     type = c("mean", "median"),
