@@ -62,3 +62,5 @@ Suggests:
 RoxygenNote: 7.1.2
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
+Remotes:
+  business-science/modeltime
