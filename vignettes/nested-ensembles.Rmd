@@ -1,0 +1,437 @@
+---
+title: "Iterative Forecasting with Nested Ensembles"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Iterative Forecasting with Nested Ensembles}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+    # collapse = TRUE,
+    message = FALSE, 
+    warning = FALSE,
+    paged.print = FALSE,
+    comment = "#>",
+    fig.width = 8, 
+    fig.height = 4.5,
+    fig.align = 'center',
+    out.width='95%'
+)
+```
+
+> Iteratively forecast with nested modeling
+
+__Why is nested forecasting important?__ For starters, the ability to _iteratively forecast_ time series with many models that are trained on many individual groups has been a huge request from students in our [Time Series Course](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/). Why? Because two methods exist that get results: 
+
+1. __Global Modeling:__ Best for scalability using a Global Models and a Panel Data structure. See [Forecasting with Global Models](https://business-science.github.io/modeltime/articles/modeling-panel-data.html). 
+
+2. __Iterative Forecasting:__ Best for accuracy using a Nested Data Structure. Takes longer than global model (more resources due to for-loop iteration), but can yield great results. 
+
+We've incorporated a new approach called ___"nested forecasting"___ to help perform _Iterative Forecasting_. 
+
+## What is Nested Forecasting?
+
+The core idea of __nested forecasting__ is to convert a dataset containing __many time series groups__ into a nested data set, then fit __many models__ to each of the nested datasets. The result is an iterative forecasting process that generates Nested Modeltime Tables with all of the forecast attributes needed to make decisions. 
+
+## What is Nested Ensembling?
+
+__Nested ensembling__ applies the concept of ensembling, which is generally averaging many individual models (called submodels) to produce a more stable model that sometimes improves over the best individual model. 
+
+We can __apply the ensembling techniques to iterative or nested forecasting__. In this tutorial, we will show you how to perform:
+
+- Average Ensembles using `ensemble_nested_average()`. These are the simplest models. 
+
+- Weighted Ensembles using `ensemble_nested_weighted()`. These allow the user to provide "loadings" to distribute the weighting to the top models, which can sometimes improve over the simple average ensembles. 
+
+Let's go!
+
+
+# Nested Ensemble Tutorial
+
+We'll showcase __nested ensembling__ for iterative forecasting in this short tutorial. 
+
+## Libraries
+
+Load the following libraries. 
+
+```{r}
+library(tidymodels)
+library(modeltime)
+library(modeltime.ensemble)
+library(tidyverse)
+library(timetk)
+library(gt)
+```
+
+## Data
+
+Read in the Walmart Sales Weekly data (comes with `timetk`).
+
+```{r}
+data_tbl <- walmart_sales_weekly %>%
+    select(id, Date, Weekly_Sales) %>%
+    set_names(c("id", "date", "value")) %>%
+    filter(id %in% c("1_1", "1_3"))
+
+data_tbl
+```
+
+We can get a quick visual of the two time series we will forecast. 
+
+```{r}
+data_tbl %>%
+  group_by(id) %>%
+  plot_time_series(date, value, .facet_ncol = 1, .interactive = FALSE)
+```
+
+
+## Prepare the Data in Nested Format
+
+
+The most critical stage in __"Nested Forecasting"__ is data preparation, making sure that the input to the nested forecasting workflow is in the appropriate structure. We've included several functions to help that involve a bit of forethought that can be broken into 3 steps:
+
+
+1. __Extending each of the times series:__ How far into the future do you need to predict for each time series? See `extend_timeseries()`.
+
+2. __Nesting by the grouping variable:__ This is where you create the nested structure. You'll identify the ID column that separates each time series, and the number of timestamps to include in the ".future_data" and optionally ".actual_data". Typically, you'll select the same `.length_future` as your extension from the previous step. See `nest_timeseries()`.
+
+3. __Train/Test Set Splitting:__ Finally, you'll take your `.actual_data` and convert into train/test splits that can be used for accuracy and confidence interval estimation. See `split_nested_timeseries()`.
+
+Here are the 3-steps in action:
+
+```{r}
+nested_data_tbl <- data_tbl %>%
+    # Step 1: Extend
+    extend_timeseries(
+        .id_var        = id,
+        .date_var      = date,
+        .length_future = 52
+    ) %>%
+    # Step 2: Nest
+    nest_timeseries(
+        .id_var        = id,
+        .length_future = 52,
+        .length_actual = 52*2
+    ) %>%
+    # Step 3: Split Train/Test
+    split_nested_timeseries(
+        .length_test = 52
+    )
+
+nested_data_tbl
+```
+
+
+
+## Nested Modeltime Workflow
+
+
+Next, we move into the __Nested Modeltime Workflow__ now that nested data has been created. The Nested Modeltime Workflow includes 3 steps:
+
+1. __Modeling Fitting:__ This is the training stage where we fit to _training data_. The _test forecast_ is generated from this step. 
+
+    a. Create tidymodels workflows.
+    
+    b. `modeltime_nested_fit()`: Used to fit the submodels to the training data.
+    
+    c. `ensemble_nested_average()` or `ensemble_nested_weighted()`: Used to make ensembles from the submodels.
+
+2. __Model Evaluation and Selection:__ This is where we review model performance and select the best model by minimizing or maximizing an error metric. See `modeltime_nested_select_best()`.
+
+3. __Model Refitting:__ This is the final fitting stage where we fit to _actual data_. The _future forecast_ is generated from this step. See `modeltime_nested_refit()`.
+
+
+
+### Step 1A: Create Tidymodels Workflows
+
+First, we create `tidymodels` workflows for the various models that you intend to create.
+
+#### Prophet
+
+
+A common modeling method is prophet, that can be created using `prophet_reg()`. We'll create a workflow. Note that we use the `extract_nested_train_split(nested_data_tbl)` to help us build preprocessing features.
+
+
+```{r}
+rec_prophet <- recipe(value ~ date, extract_nested_train_split(nested_data_tbl)) 
+
+wflw_prophet <- workflow() %>%
+    add_model(
+        prophet_reg("regression", seasonality_yearly = TRUE) %>% 
+            set_engine("prophet")
+    ) %>%
+    add_recipe(rec_prophet)
+```
+
+
+#### XGBoost
+
+Next, we can use a machine learning method that can get good results: XGBoost. We will add a few extra features in the recipe feature engineering step to generate features that tend to get better modeling results. Note that we use the `extract_nested_train_split(nested_data_tbl)` to help us build preprocessing features.
+
+```{r}
+rec_xgb <- recipe(value ~ ., extract_nested_train_split(nested_data_tbl)) %>%
+    step_timeseries_signature(date) %>%
+    step_rm(date) %>%
+    step_zv(all_predictors()) %>%
+    step_dummy(all_nominal_predictors(), one_hot = TRUE)
+
+wflw_xgb <- workflow() %>%
+    add_model(boost_tree("regression") %>% set_engine("xgboost")) %>%
+    add_recipe(rec_xgb)
+```
+
+
+### Step 1B: Nested Modeltime Tables
+
+With a couple of modeling workflows in hand, we are now ready to test them on each of the time series. We start by using the `modeltime_nested_fit()` function, which iteratively fits each model to each of the nested time series train/test ".splits" column. 
+
+```{r, message=TRUE}
+nested_modeltime_tbl <- modeltime_nested_fit(
+  # Nested data 
+  nested_data = nested_data_tbl,
+  
+  # Add workflows
+  wflw_prophet,
+  wflw_xgb
+)
+
+nested_modeltime_tbl
+```
+
+This adds a new column with `.modeltime_tables` for each of the data sets and has created several __logged attributes__ that are part of the "Nested Modeltime Table". We also can see that the models were trained on ".splits" and none of the models had any errors. 
+
+#### Accuracy Check
+
+This is kind of advanced, but because our accuracy functions (`table_modeltime_accuracy(.interactive = FALSE)`) produce static `gt` table, we can make a function to highlight rows by group. 
+
+```{r}
+tab_style_by_group <- function(object, ..., style) {
+  
+  subset_log <- object[["_boxhead"]][["type"]]=="row_group"
+  grp_col    <- object[["_boxhead"]][["var"]][subset_log] %>% rlang::sym()
+  
+  object %>%
+    tab_style(
+      style = style,
+      locations = cells_body(
+        rows = .[["_data"]] %>%
+          rowid_to_column("rowid") %>%
+          group_by(!! grp_col) %>%
+          filter(...) %>%
+          ungroup() %>%
+          pull(rowid)
+      )
+    )
+}
+```
+
+And now we can see which models are the winners, performing the best by group with the lowest RMSE (root mean squared error). 
+
+```{r}
+nested_modeltime_tbl %>% 
+  extract_nested_test_accuracy() %>%
+  group_by(id) %>%
+  table_modeltime_accuracy(.interactive = FALSE) %>%
+  tab_style_by_group(
+    rmse == min(rmse),
+    style = cell_fill(color = "lightblue")
+  )
+  
+```
+
+
+### Step 1C: Make Ensembles
+
+Now that we've fitted submodels, our goal is to __improve on the submodels by leveraging ensembles.__
+
+
+#### Average Ensemble
+
+We'll give a go at an __average ensemble__ using a simple mean with the `ensemble_nested_average()` function. We select `type = "mean"` for simple average (another option is median ensemble, which is better when you have models with large spikes). 
+
+```{r}
+nested_ensemble_1_tbl <- nested_modeltime_tbl %>%
+    ensemble_nested_average(
+        type           = "mean", 
+        keep_submodels = TRUE
+    )
+
+nested_ensemble_1_tbl
+```
+
+We can check the accuracy again. This time the Ensemble (MEAN) outperforms both the prophet and xgboost submodels. 
+
+```{r}
+nested_ensemble_1_tbl %>% 
+  extract_nested_test_accuracy() %>%
+  group_by(id) %>%
+  table_modeltime_accuracy(.interactive = FALSE) %>%
+  tab_style_by_group(
+    rmse == min(rmse),
+    style = cell_fill(color = "lightblue")
+  )
+```
+
+
+
+
+#### Weighted Ensemble
+
+Next, we can give a go at a weighted ensemble with the `ensemble_nested_weighted()` function. A few key points about the arguments:
+
+- `loadings`: This parameter allows us to weight models differently. Providing `c(2,1)` places a 2-to-1 weighting on the two submodels.
+
+- `loading_method`: We've selected "lowest_rmse", which will rank the models by each ID, placing the model with the lowest RMSE error with the first loading, and the model with the second lowest RMSE the second loading. 
+
+- `model_ids`: This is a filtering mechanism to help us isolate which model ID's that we want to include as submodels. We want to exclude Model ID 3, because this is our Ensemble Average (MEAN) model.
+
+- `control`: This uses `control_nested_fit()` to control aspects of the fitting process like running in Parallel vs Sequential and outputting verbose to provide additional information during the fitting process. 
+
+```{r, message=TRUE}
+nested_ensemble_2_tbl <- nested_ensemble_1_tbl %>%
+    ensemble_nested_weighted(
+        loadings       = c(2,1),  
+        loading_method = "lowest_rmse",
+        model_ids      = c(1,2), 
+        control        = control_nested_fit(allow_par = FALSE, verbose = TRUE)
+    ) 
+
+nested_ensemble_2_tbl
+```
+
+Next, let's check the accuracy on the new ensemble. The Weighted Ensemble has improved the 1_1 time series, but not the 1_3 time series. 
+
+```{r}
+nested_ensemble_2_tbl %>% 
+  extract_nested_test_accuracy() %>%
+  group_by(id) %>%
+  table_modeltime_accuracy(.interactive = FALSE) %>%
+  tab_style_by_group(
+    rmse == min(rmse),
+    style = cell_fill(color = "lightblue")
+  )
+```
+
+## Step 2: Select Best
+
+Using the accuracy data, we can pick a metric and select the best model based on that metric. The available metrics are in the `default_forecast_accuracy_metric_set()`. Make sure to select `minimize` based on the metric. The `filter_test_forecasts` parameter tells the function to filter the logged test forecasts to just the best. 
+
+```{r}
+best_nested_modeltime_tbl <- nested_ensemble_2_tbl %>%
+    modeltime_nested_select_best(
+      metric                = "rmse", 
+      minimize              = TRUE, 
+      filter_test_forecasts = TRUE
+    )
+```
+
+
+#### Extract Nested Best Model Report
+
+The best model selections can be accessed with `extract_nested_best_model_report()`.
+
+```{r}
+best_nested_modeltime_tbl %>%
+  extract_nested_best_model_report() %>%
+  table_modeltime_accuracy(.interactive = FALSE)
+```
+
+#### Extract Nested Best Test Forecasts
+
+Once we've selected the best models, we can easily visualize the best forecasts by time series. Note that the nested test forecast logs have been modified to isolate the best models. 
+
+```{r}
+best_nested_modeltime_tbl %>%
+  extract_nested_test_forecast() %>%
+  group_by(id) %>%
+  plot_modeltime_forecast(
+    .facet_ncol  = 1,
+    .interactive = FALSE
+  )
+```
+
+
+### Step 3: Refitting and Future Forecast
+
+With the best models in hand, we can make our future forecasts by refitting the models to the full dataset. 
+
+- If the best models have been selected, the only the best models will be refit. 
+
+- If best models have not been selected, then all models will be refit.
+
+We've selected our best models, and will move forward with refitting and future forecast logging using the `modeltime_nested_refit()` function. 
+
+```{r, message=TRUE}
+nested_modeltime_refit_tbl <- best_nested_modeltime_tbl %>%
+    modeltime_nested_refit(
+        control = control_nested_refit(verbose = TRUE)
+    )
+```
+
+We can see that the nested modeltime table appears the same, but has now been trained on `.actual_data`.  
+
+```{r, message = TRUE}
+nested_modeltime_refit_tbl
+```
+
+#### Extract Nested Future Forecast
+
+After the refitting process completes, we can now access the future forecast, which is logged.
+
+```{r}
+nested_modeltime_refit_tbl %>%
+  extract_nested_future_forecast() %>%
+  group_by(id) %>%
+  plot_modeltime_forecast(
+    .interactive = FALSE,
+    .facet_ncol  = 2
+  )
+```
+
+# Summary
+
+Nested ensembling is a powerful technique that can improve forecasting accuracy. But, this is just a small portion of what can be done to take your forecasting to the next level... If you want to __become a forecasting expert for your organization__, then take the read on! 
+
+## Take the High-Performance Forecasting Course
+
+> Become the forecasting expert for your organization
+
+<a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/" target="_blank"><img src="https://www.filepicker.io/api/file/bKyqVAi5Qi64sS05QYLk" alt="High-Performance Time Series Forecasting Course" width="100%" style="box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);"/></a>
+
+[*High-Performance Time Series Course*](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/)
+
+### Time Series is Changing
+
+Time series is changing. **Businesses now need 10,000+ time series forecasts every day.** This is what I call a *High-Performance Time Series Forecasting System (HPTSF)* - Accurate, Robust, and Scalable Forecasting.
+
+**High-Performance Forecasting Systems will save companies by improving accuracy and scalability.** Imagine what will happen to your career if you can provide your organization a "High-Performance Time Series Forecasting System" (HPTSF System).
+
+### How to Learn High-Performance Time Series Forecasting
+
+I teach how to build a HPTFS System in my [**High-Performance Time Series Forecasting Course**](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting). You will learn:
+
+-   **Time Series Machine Learning** (cutting-edge) with `Modeltime` - 30+ Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
+-   **Deep Learning** with `GluonTS` (Competition Winners)
+-   **Time Series Preprocessing**, Noise Reduction, & Anomaly Detection
+-   **Feature engineering** using lagged variables & external regressors
+-   **Hyperparameter Tuning**
+-   **Time series cross-validation**
+-   **Ensembling** Multiple Machine Learning & Univariate Modeling Techniques (Competition Winner)
+-   **Scalable Forecasting** - Forecast 1000+ time series in parallel
+-   and more.
+
+<p class="text-center" style="font-size:24px;">
+
+Become the Time Series Expert for your organization.
+
+</p>
+
+<br>
+
+<p class="text-center" style="font-size:30px;">
+
+<a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Take the High-Performance Time Series Forecasting Course</a>
+
+</p>

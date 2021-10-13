@@ -42,6 +42,7 @@ Imports:
     doParallel,
     foreach,
 Suggests: 
+    gt,
     crayon,
     dials,
     glmnet,

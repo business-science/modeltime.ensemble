@@ -203,7 +203,7 @@ ensemble_nested_weighted_parallel <- function(object,
 
         # Sort loadings if needed
         if (loading_method == "lowest_rmse") {
-            loadings <- x %>%
+            loadings <- ensem %>%
                 modeltime::modeltime_accuracy() %>%
                 tibble::rowid_to_column("..rowid") %>%
                 dplyr::arrange(rmse) %>%
@@ -440,7 +440,7 @@ ensemble_nested_weighted_sequential <- function(object,
 
                 # Sort loadings if needed
                 if (loading_method == "lowest_rmse") {
-                    loadings <- x %>%
+                    loadings <- ensem %>%
                         modeltime::modeltime_accuracy() %>%
                         tibble::rowid_to_column("..rowid") %>%
                         dplyr::arrange(rmse) %>%

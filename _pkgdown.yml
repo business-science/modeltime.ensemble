@@ -13,9 +13,15 @@ navbar:
     - text: "Articles"
       href: articles/index.html
       menu:
-        - text: 'Forecasting'
+        - text: 'Getting Started'
         - text: 'Getting Started with Modeltime Ensemble'
           href: articles/getting-started-with-modeltime-ensemble.html
+        - text: "---"
+        - text: 'Forecasting Many Time Series'
+        - text: 'Nested Forecasting with Ensembles'
+          href: articles/nested-ensembles.html
+        - text: "---"
+        - text: 'Advanced'
         - text: 'Autoregressive Forecasting (Recursive Ensembles)'
           href: articles/recursive-ensembles.html
     - text: "API"
