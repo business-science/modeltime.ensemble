@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.ensemble</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9000</span>
       </span>
     </div>
 
@@ -110,10 +110,17 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Forecasting</li>
+    <li class="dropdown-header">Getting Started</li>
     <li>
       <a href="../articles/getting-started-with-modeltime-ensemble.html">Getting Started with Modeltime Ensemble</a>
     </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Forecasting Many Time Series</li>
+    <li>
+      <a href="../articles/nested-ensembles.html">Nested Forecasting with Ensembles</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Advanced</li>
     <li>
       <a href="../articles/recursive-ensembles.html">Autoregressive Forecasting (Recursive Ensembles)</a>
     </li>
@@ -215,8 +222,8 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-weighted-ensembles" class="hasAnchor"><a href="#section-weighted-ensembles" class="anchor"></a>Weighted Ensembles</h2>
-          <p class="section-desc"><p>Functions used to create ensembles using averaging and loadings.</p></p>
+          <h2 id="section-ensemble-forecasting" class="hasAnchor"><a href="#section-ensemble-forecasting" class="anchor"></a>Ensemble Forecasting</h2>
+          <p class="section-desc"><p>Functions used to create ensembles.</p></p>
         </th>
       </tr>
       
@@ -236,12 +243,18 @@
           <p><code><a href="ensemble_weighted.html">ensemble_weighted()</a></code> </p>
         </td>
         <td><p>Creates a Weighted Ensemble Model</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ensemble_model_spec.html">ensemble_model_spec()</a></code> </p>
+        </td>
+        <td><p>Creates a Stacked Ensemble Model from a Model Spec</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-stacked-ensembles" class="hasAnchor"><a href="#section-stacked-ensembles" class="anchor"></a>Stacked Ensembles</h2>
-          <p class="section-desc"><p>Functions used create stacked ensembles using meta-learners.</p></p>
+          <h2 id="section-nested-ensemble-forecasting" class="hasAnchor"><a href="#section-nested-ensemble-forecasting" class="anchor"></a>Nested Ensemble Forecasting</h2>
+          <p class="section-desc"><p>Make ensembles with the nested forecasting workflow</p></p>
         </th>
       </tr>
       
@@ -252,9 +265,15 @@
       <tr>
         
         <td>
-          <p><code><a href="ensemble_model_spec.html">ensemble_model_spec()</a></code> </p>
+          <p><code><a href="ensemble_nested_average.html">ensemble_nested_average()</a></code> </p>
         </td>
-        <td><p>Creates a Stacked Ensemble Model from a Model Spec</p></td>
+        <td><p>Nested Ensemble Average</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ensemble_nested_weighted.html">ensemble_nested_weighted()</a></code> </p>
+        </td>
+        <td><p>Nested Ensemble Weighted</p></td>
       </tr>
     </tbody>
     </table>

@@ -74,6 +74,8 @@ reference:
     desc: Make ensembles with the nested forecasting workflow
     contents:
     - "ensemble_nested_average"
+    - "ensemble_nested_weighted"
+
 
 
 repo:

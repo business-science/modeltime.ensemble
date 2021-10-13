@@ -43,7 +43,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.ensemble</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9000</span>
       </span>
     </div>
 
@@ -65,10 +65,17 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-<li class="dropdown-header">Forecasting</li>
+<li class="dropdown-header">Getting Started</li>
     <li>
       <a href="../articles/getting-started-with-modeltime-ensemble.html">Getting Started with Modeltime Ensemble</a>
     </li>
+    <li class="divider">
+    <li class="dropdown-header">Forecasting Many Time Series</li>
+    <li>
+      <a href="../articles/nested-ensembles.html">Nested Forecasting with Ensembles</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Advanced</li>
     <li>
       <a href="../articles/recursive-ensembles.html">Autoregressive Forecasting (Recursive Ensembles)</a>
     </li>
@@ -153,7 +160,7 @@
 
       
 
-      </header><script src="getting-started-with-modeltime-ensemble_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><script src="getting-started-with-modeltime-ensemble_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting Started with Modeltime Ensemble</h1>
@@ -238,7 +245,7 @@
     <span class="fu"><a href="https://rdrr.io/pkg/timetk/man/step_fourier.html">step_fourier</a></span><span class="op">(</span><span class="va">date</span>, K <span class="op">=</span> <span class="fl">1</span>, period <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>
 
 <span class="va">recipe_spec</span> <span class="op">%&gt;%</span> <span class="fu">prep</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">juice</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; # A tibble: 282 x 42
+<pre><code>#&gt; # A tibble: 282 × 42
 #&gt;    date       value date_index.num date_year date_half date_quarter date_month
 #&gt;    &lt;date&gt;     &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;int&gt;        &lt;int&gt;      &lt;int&gt;
 #&gt;  1 1990-01-01  6370          -1.72     -1.66         1            1          1
@@ -257,11 +264,7 @@
 #&gt; #   date_mweek &lt;int&gt;, date_week &lt;int&gt;, date_week2 &lt;int&gt;, date_week3 &lt;int&gt;,
 #&gt; #   date_week4 &lt;int&gt;, date_mday7 &lt;int&gt;, date_month.lbl_01 &lt;dbl&gt;,
 #&gt; #   date_month.lbl_02 &lt;dbl&gt;, date_month.lbl_03 &lt;dbl&gt;, date_month.lbl_04 &lt;dbl&gt;,
-#&gt; #   date_month.lbl_05 &lt;dbl&gt;, date_month.lbl_06 &lt;dbl&gt;, date_month.lbl_07 &lt;dbl&gt;,
-#&gt; #   date_month.lbl_08 &lt;dbl&gt;, date_month.lbl_09 &lt;dbl&gt;, date_month.lbl_10 &lt;dbl&gt;,
-#&gt; #   date_month.lbl_11 &lt;dbl&gt;, date_wday.lbl_1 &lt;dbl&gt;, date_wday.lbl_2 &lt;dbl&gt;,
-#&gt; #   date_wday.lbl_3 &lt;dbl&gt;, date_wday.lbl_4 &lt;dbl&gt;, date_wday.lbl_5 &lt;dbl&gt;,
-#&gt; #   date_wday.lbl_6 &lt;dbl&gt;, date_sin12_K1 &lt;dbl&gt;, date_cos12_K1 &lt;dbl&gt;</code></pre>
+#&gt; #   date_month.lbl_05 &lt;dbl&gt;, date_month.lbl_06 &lt;dbl&gt;, …</code></pre>
 </div>
 <div id="model-1---auto-arima" class="section level2">
 <h2 class="hasAnchor">
@@ -323,7 +326,7 @@
 
 <span class="va">m750_models</span></code></pre></div>
 <pre><code>#&gt; # Modeltime Table
-#&gt; # A tibble: 3 x 3
+#&gt; # A tibble: 3 × 3
 #&gt;   .model_id .model     .model_desc            
 #&gt;       &lt;int&gt; &lt;list&gt;     &lt;chr&gt;                  
 #&gt; 1         1 &lt;workflow&gt; ARIMA(0,1,1)(0,1,1)[12]
@@ -343,7 +346,7 @@
 #&gt; Ensemble of 3 Models (MEAN)
 #&gt; 
 #&gt; # Modeltime Table
-#&gt; # A tibble: 3 x 3
+#&gt; # A tibble: 3 × 3
 #&gt;   .model_id .model     .model_desc            
 #&gt;       &lt;int&gt; &lt;list&gt;     &lt;chr&gt;                  
 #&gt; 1         1 &lt;workflow&gt; ARIMA(0,1,1)(0,1,1)[12]

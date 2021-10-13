@@ -89,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.ensemble</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9000</span>
       </span>
     </div>
 
@@ -111,10 +111,17 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Forecasting</li>
+    <li class="dropdown-header">Getting Started</li>
     <li>
       <a href="../articles/getting-started-with-modeltime-ensemble.html">Getting Started with Modeltime Ensemble</a>
     </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Forecasting Many Time Series</li>
+    <li>
+      <a href="../articles/nested-ensembles.html">Nested Forecasting with Ensembles</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Advanced</li>
     <li>
       <a href="../articles/recursive-ensembles.html">Autoregressive Forecasting (Recursive Ensembles)</a>
     </li>
@@ -262,7 +269,7 @@ which contains the models that you will ensemble.</p>
 #&gt; Ensemble of 3 Models (WEIGHTED)
 #&gt; 
 #&gt; # Modeltime Table
-#&gt; <span style='color: #949494;'># A tibble: 3 x 4</span>
+#&gt; <span style='color: #949494;'># A tibble: 3 × 4</span>
 #&gt;   .model_id .model     .model_desc             .loadings
 #&gt;       <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span>         1 <span style='color: #949494;'>&lt;workflow&gt;</span> ARIMA(0,1,1)(0,1,1)[12]     0.429

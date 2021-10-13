@@ -314,7 +314,7 @@ nested_ensemble_2_tbl %>%
   )
 ```
 
-## Step 2: Select Best
+### Step 2: Select Best
 
 Using the accuracy data, we can pick a metric and select the best model based on that metric. The available metrics are in the `default_forecast_accuracy_metric_set()`. Make sure to select `minimize` based on the metric. The `filter_test_forecasts` parameter tells the function to filter the logged test forecasts to just the best. 
 
