@@ -183,13 +183,25 @@ ensemble_nested_average_parallel <- function(object,
     ) %op% {
 
         # Make Ensemble -----
-        if (is.null(model_ids)) {
-            ensem <- x %>% ensemble_average(type = type)
-        } else {
+
+        # Isolate model ids
+        ensem <- x
+        if (!is.null(model_ids)) {
             ensem <- x %>%
-                dplyr::filter(.model_id %in% model_ids) %>%
-                ensemble_average(type = type)
+                dplyr::filter(.model_id %in% model_ids)
         }
+
+        # Filter out NULL models
+        ensem <- ensem %>%
+            dplyr::filter(!purrr::map_lgl(.model, is.null))
+
+        # Filter model_ids
+        if (!is.null(model_ids)) {
+            ensem <- ensem %>%
+                dplyr::filter(.model_id %in% model_ids)
+        }
+
+        ensem <- ensem %>% ensemble_average(type = type)
 
         new_mod_id <- max(x$.model_id) + 1
 
@@ -399,13 +411,27 @@ ensemble_nested_average_sequential <- function(object,
                 if (control$verbose) cli::cli_alert_info(stringr::str_glue("[{i}/{n_ids}] Starting Modeltime Table: ID {id}..."))
 
                 # Make Ensemble -----
-                if (is.null(model_ids)) {
-                    ensem <- x %>% ensemble_average(type = type)
-                } else {
+
+                # Isolate model ids
+                ensem <- x
+                if (!is.null(model_ids)) {
                     ensem <- x %>%
-                        dplyr::filter(.model_id %in% model_ids) %>%
-                        ensemble_average(type = type)
+                        dplyr::filter(.model_id %in% model_ids)
                 }
+
+                # Filter out NULL models
+                ensem <- ensem %>%
+                    dplyr::filter(!purrr::map_lgl(.model, is.null))
+
+                print(ensem)
+
+                # Filter model_ids
+                if (!is.null(model_ids)) {
+                    ensem <- ensem %>%
+                        dplyr::filter(.model_id %in% model_ids)
+                }
+
+                ensem <- ensem %>% ensemble_average(type = type)
 
                 new_mod_id <- max(x$.model_id) + 1
 

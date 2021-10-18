@@ -210,6 +210,10 @@ ensemble_nested_weighted_parallel <- function(object,
                 dplyr::filter(.model_id %in% model_ids)
         }
 
+        # Filter out NULL models
+        ensem <- ensem %>%
+            dplyr::filter(!purrr::map_lgl(.model, is.null))
+
         # Check Loadings
         loading_len  <- length(loadings)
         submodel_len <- nrow(ensem)
@@ -485,6 +489,10 @@ ensemble_nested_weighted_sequential <- function(object,
                     ensem <- x %>%
                         dplyr::filter(.model_id %in% model_ids)
                 }
+
+                # Filter out NULL models
+                ensem <- ensem %>%
+                    dplyr::filter(!purrr::map_lgl(.model, is.null))
 
                 # Check Loadings
                 loading_len  <- length(loadings)
