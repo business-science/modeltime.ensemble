@@ -283,7 +283,7 @@ Next, we can give a go at a weighted ensemble with the `ensemble_nested_weighted
 
 - `loadings`: This parameter allows us to weight models differently. Providing `c(2,1)` places a 2-to-1 weighting on the two submodels.
 
-- `metric`: This parameter is determined by the __accuracy table.__ The default is to use the "rmse" column. The loadings are then applied to the best "rmse".
+- `metric`: This parameter is determined by the __accuracy table.__ The default is to use the "rmse" column. The loadings are then applied to the best (lowest) "rmse" first. The best model will have 2/3 (66% weight) loading and the second best will have 1/3 (33% weight).
 
 - `model_ids`: This is a filtering mechanism to help us isolate which model ID's that we want to include as submodels. We want to exclude Model ID 3, because this is our Ensemble Average (MEAN) model.
 

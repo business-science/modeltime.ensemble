@@ -92,7 +92,7 @@ ensemble_nested_weighted <- function(object,
     metric_set_tbl <- tibble::as_tibble(attr(object, "metric_set"))
     if (!metric %in% metric_set_tbl$metric) {
         available_metrics_text <- stringr::str_c(metric_set_tbl$metric, collapse = ", ")
-        rlang::abort(stringr::glue("`metric = {metric}` is not one of the available metrics. Choose from one of: {available_metrics_text}}"))
+        rlang::abort(stringr::str_glue("`metric = {metric}` is not one of the available metrics. Choose from one of: {available_metrics_text}}"))
     }
 
     UseMethod("ensemble_nested_weighted", object)
@@ -210,6 +210,22 @@ ensemble_nested_weighted_parallel <- function(object,
                 dplyr::filter(.model_id %in% model_ids)
         }
 
+        # Check Loadings
+        loading_len  <- length(loadings)
+        submodel_len <- nrow(ensem)
+
+        if (submodel_len == 0) rlang::abort("No submodels detected.")
+
+        # Trim loadings if necessary
+        if (submodel_len < loading_len) {
+            loadings <- loadings[1:submodel_len]
+        }
+
+        # Extend loadings if necessary
+        if (loading_len < submodel_len) {
+            loadings <- c(loadings, rep(0, submodel_len - loading_len))
+        }
+
         # Sort loadings
         if (direction == "minimize") {
             loadings <- ensem %>%
@@ -217,6 +233,7 @@ ensemble_nested_weighted_parallel <- function(object,
                 tibble::rowid_to_column("..rowid") %>%
 
                 dplyr::arrange(!! as.name(metric)) %>%
+                dplyr::slice(1:length(loadings)) %>%
 
                 dplyr::mutate(.loadings = loadings) %>%
                 dplyr::arrange(..rowid) %>%
@@ -227,6 +244,7 @@ ensemble_nested_weighted_parallel <- function(object,
                 tibble::rowid_to_column("..rowid") %>%
 
                 dplyr::arrange(dplyr::desc(!! as.name(metric))) %>%
+                dplyr::slice(1:length(loadings)) %>%
 
                 dplyr::mutate(.loadings = loadings) %>%
                 dplyr::arrange(..rowid) %>%
@@ -236,7 +254,7 @@ ensemble_nested_weighted_parallel <- function(object,
         # Make Ensem
         ensem <- ensem %>%
             ensemble_weighted(
-                loadings = loadings,
+                loadings       = loadings,
                 scale_loadings = scale_loadings
             )
 
@@ -468,6 +486,22 @@ ensemble_nested_weighted_sequential <- function(object,
                         dplyr::filter(.model_id %in% model_ids)
                 }
 
+                # Check Loadings
+                loading_len  <- length(loadings)
+                submodel_len <- nrow(ensem)
+
+                if (submodel_len == 0) rlang::abort("No submodels detected.")
+
+                # Trim loadings if necessary
+                if (submodel_len < loading_len) {
+                    loadings <- loadings[1:submodel_len]
+                }
+
+                # Extend loadings if necessary
+                if (loading_len < submodel_len) {
+                    loadings <- c(loadings, rep(0, submodel_len - loading_len))
+                }
+
                 # Sort loadings
                 if (direction == "minimize") {
                     loadings <- ensem %>%
@@ -475,17 +509,18 @@ ensemble_nested_weighted_sequential <- function(object,
                         tibble::rowid_to_column("..rowid") %>%
 
                         dplyr::arrange(!! as.name(metric)) %>%
+                        dplyr::slice(1:length(loadings)) %>%
 
                         dplyr::mutate(.loadings = loadings) %>%
                         dplyr::arrange(..rowid) %>%
                         dplyr::pull(.loadings)
-
                 } else {
                     loadings <- ensem %>%
                         modeltime::modeltime_accuracy(metric_set = metric_set) %>%
                         tibble::rowid_to_column("..rowid") %>%
 
                         dplyr::arrange(dplyr::desc(!! as.name(metric))) %>%
+                        dplyr::slice(1:length(loadings)) %>%
 
                         dplyr::mutate(.loadings = loadings) %>%
                         dplyr::arrange(..rowid) %>%
