@@ -166,9 +166,9 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="modeltime-ensemble" class="section level1">
+<div id="modeltimeensemble-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#modeltime-ensemble" class="anchor"></a>modeltime.ensemble <img src="reference/figures/logo-modeltime-ensemble.png" align="right" height="138.5">
+<a href="#modeltimeensemble-" class="anchor"></a>modeltime.ensemble <img src="reference/figures/logo-modeltime-ensemble.png" align="right" height="138.5">
 </h1></div>
 <!-- badges: start -->
 
@@ -181,10 +181,10 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the CRAN version:</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"modeltime.ensemble"</span><span class="op">)</span></code></pre></div>
 <p>Or, install the development version:</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"business-science/modeltime.ensemble"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="getting-started" class="section level2">
@@ -201,7 +201,7 @@
 <h2 class="hasAnchor">
 <a href="#make-your-first-ensemble-in-minutes" class="anchor"></a>Make Your First Ensemble in Minutes</h2>
 <p>Load the following libraries.</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/modeltime">modeltime</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/modeltime.ensemble">modeltime.ensemble</a></span><span class="op">)</span>
@@ -211,7 +211,7 @@
 <h4 class="hasAnchor">
 <a href="#step-1---create-a-modeltime-table" class="anchor"></a>Step 1 - Create a Modeltime Table</h4>
 <p>Create a <em>Modeltime Table</em> using the <code>modeltime</code> package.</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">m750_models</span>
 <span class="co">#&gt; # Modeltime Table</span>
 <span class="co">#&gt; # A tibble: 3 × 3</span>
@@ -225,7 +225,7 @@
 <h4 class="hasAnchor">
 <a href="#step-2---make-a-modeltime-ensemble" class="anchor"></a>Step 2 - Make a Modeltime Ensemble</h4>
 <p>Then turn that Modeltime Table into a <strong><em>Modeltime Ensemble.</em></strong></p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ensemble_fit</span> <span class="op">&lt;-</span> <span class="va">m750_models</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="reference/ensemble_average.html">ensemble_average</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span>
 
@@ -245,7 +245,7 @@
 <h4 class="hasAnchor">
 <a href="#step-3---forecast" class="anchor"></a>Step 3 - Forecast!</h4>
 <p>To forecast, just follow the <a href="https://business-science.github.io/modeltime/articles/getting-started-with-modeltime.html">Modeltime Workflow</a>.</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Calibration</span>
 <span class="va">calibration_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_table.html">modeltime_table</a></span><span class="op">(</span>
     <span class="va">ensemble_fit</span>
@@ -269,11 +269,9 @@
 <p>Learn a growing ecosystem of forecasting packages</p>
 </blockquote>
 <div class="figure" style="text-align: center">
-
 <img src="reference/figures/modeltime_ecosystem.jpg" alt="The modeltime ecosystem is growing" width="100%"><p class="caption">
 The modeltime ecosystem is growing
 </p>
-
 </div>
 <p>Modeltime is part of a <strong>growing ecosystem</strong> of Modeltime forecasting packages.</p>
 <ul>
@@ -323,8 +321,9 @@ The modeltime ecosystem is growing
 <p class="text-center" style="font-size:24px;">
 Become the Time Series Expert for your organization.
 </p>
-<p><br></p>
-<p class="text-center" style="font-size:30px;"> <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Take the High-Performance Time Series Forecasting Course</a> </p>
+<br><p class="text-center" style="font-size:30px;">
+<a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Take the High-Performance Time Series Forecasting Course</a>
+</p>
 </div>
 </div>
 </div>
@@ -360,6 +359,7 @@ Become the Time Series Expert for your organization.
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=modeltime.ensemble"><img src="http://www.r-pkg.org/badges/version/modeltime.ensemble" alt="CRAN_Status_Badge"></a></li>
 <li><a href="https://github.com/business-science/modeltime.ensemble/actions"><img src="https://github.com/business-science/modeltime.ensemble/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/business-science/modeltime.ensemble?branch=master"><img src="https://codecov.io/gh/business-science/modeltime.ensemble/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>

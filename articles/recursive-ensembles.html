@@ -160,7 +160,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="recursive-ensembles_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Autoregressive Forecasting (Recursive Ensembles)</h1>
@@ -181,13 +181,13 @@
 <div id="why-is-recursive-needed-for-autoregressive-models" class="section level1">
 <h1 class="hasAnchor">
 <a href="#why-is-recursive-needed-for-autoregressive-models" class="anchor"></a>Why is Recursive needed for Autoregressive Models?</h1>
-<p>It's important to understand that a recursive model is only needed when using lagged features with a <strong>Lag Size &lt; Forecast Horizon.</strong> When the lag length is less than the forecast horizon, a problem exists were missing values (<code>NA</code>) are generated in the future data.</p>
+<p>It’s important to understand that a recursive model is only needed when using lagged features with a <strong>Lag Size &lt; Forecast Horizon.</strong> When the lag length is less than the forecast horizon, a problem exists were missing values (<code>NA</code>) are generated in the future data.</p>
 <p>A solution that <code><a href="https://rdrr.io/pkg/modeltime/man/recursive.html">recursive()</a></code> implements is to iteratively fill these missing values in with values generated from predictions. This technique can be used for:</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Single ensemble recursive predictions</strong> - Effectively turning any <code>ensemble</code> model into an Autoregressive (AR) model</p></li>
 <li><p><strong>Panel ensemble recursive predictions</strong> - In many situations we need to forecast <strong>more than one time series</strong>. We can batch-process these with 1 model by processing time series groups as panels. This technique can be extended to recursive forecasting for scalable models (1 model that predicts many time series).</p></li>
 </ol>
-<p>Here's an example of a panel forecast that uses a recursive ensemble with Elastic Net and XGBoost models.</p>
+<p>Here’s an example of a panel forecast that uses a recursive ensemble with Elastic Net and XGBoost models.</p>
 <p><img src="panel-ensemble.png" width="95%" style="display: block; margin: auto;"></p>
 </div>
 <div id="single-ensemble-recursive-example" class="section level1">
@@ -197,7 +197,7 @@
 <p>Use single ensembles to forecast a single time series</p>
 </blockquote>
 <p>First, we need to load the necessary libraries:</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/modeltime.ensemble">modeltime.ensemble</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/modeltime">modeltime</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span>
@@ -208,7 +208,7 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org">lubridate</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/timetk">timetk</a></span><span class="op">)</span></code></pre></div>
 <p>Next, we select a forecast horizon of 24 days and extend the data frame with the function <code><a href="https://rdrr.io/pkg/timetk/man/future_frame.html">future_frame()</a></code>. We do this to create a future dataset, which we can distinguish because its values will be NA.</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">FORECAST_HORIZON</span> <span class="op">&lt;-</span> <span class="fl">24</span>
 
 <span class="va">m750_extended</span> <span class="op">&lt;-</span> <span class="va">m750</span> <span class="op">%&gt;%</span>
@@ -218,8 +218,8 @@
         .bind_data  <span class="op">=</span> <span class="cn">TRUE</span>
     <span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>The next step is to create a <strong><em>Transformer Function</em></strong> where we create the lagged variables that our model will use. Notice that we create lags up to our forecast horizon. We could also include rolling features and any number of other "engineered features" based on lags.</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<p>The next step is to create a <strong><em>Transformer Function</em></strong> where we create the lagged variables that our model will use. Notice that we create lags up to our forecast horizon. We could also include rolling features and any number of other “engineered features” based on lags.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lag_transformer</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">{</span>
     <span class="va">data</span> <span class="op">%&gt;%</span>
         <span class="fu"><a href="https://rdrr.io/pkg/timetk/man/tk_augment_lags.html">tk_augment_lags</a></span><span class="op">(</span><span class="va">value</span>, .lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">FORECAST_HORIZON</span><span class="op">)</span>
@@ -248,7 +248,7 @@
 #&gt; #   value_lag19 &lt;dbl&gt;, value_lag20 &lt;dbl&gt;, value_lag21 &lt;dbl&gt;, value_lag22 &lt;dbl&gt;,
 #&gt; #   value_lag23 &lt;dbl&gt;, value_lag24 &lt;dbl&gt;</code></pre>
 <p>We divide the data set into training dataset and future dataset:</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">m750_lagged</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span>
@@ -261,7 +261,7 @@
 <li>The second model is a MARS model</li>
 </ol>
 <p>In a real scenario, we would typically do a pre-selection work where we would analyze more models and keep those with better performance to make the ensemble.</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_fit_lm</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">set_engine</span><span class="op">(</span><span class="st">"lm"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">fit</span><span class="op">(</span><span class="va">value</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">train_data</span> <span class="op">%&gt;%</span> <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">id</span><span class="op">)</span><span class="op">)</span>
@@ -272,10 +272,10 @@
 <p>The next step is to create an ensemble of type mean (in which the predictions of the two models will be averaged) and right after that we use the <code><a href="https://rdrr.io/pkg/modeltime/man/recursive.html">recursive()</a></code> function to create the recursive model.</p>
 <ul>
 <li>The <code><a href="https://rdrr.io/pkg/modeltime/man/recursive.html">recursive()</a></code> function tells the ensemble to use recursion during the prediction process</li>
-<li>The recursive model uses the <strong><em>Transformer Function</em></strong> and <code>train_tail</code> to generate transformations (e.g. lags) during the prediction process</li>
+<li>The recursive model uses the <strong><em>Transformer Function</em></strong> and <code>train_tail</code> to generate transformations (e.g. lags) during the prediction process</li>
 </ul>
 <p>You can consult all the information of the function by typing in the console <code><a href="https://rdrr.io/pkg/modeltime/man/recursive.html">?modeltime::recursive</a></code>.</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">recursive_ensemble</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_table.html">modeltime_table</a></span><span class="op">(</span>
     <span class="va">model_fit_lm</span>,
     <span class="va">model_fit_mars</span>
@@ -299,7 +299,7 @@
 #&gt; 1         1 &lt;fit[+]&gt; LM         
 #&gt; 2         2 &lt;fit[+]&gt; EARTH</code></pre>
 <p>Next, we add the recursive ensemble to the modeltime table, which organizes one or more models prior to forecasting.</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_table.html">modeltime_table</a></span><span class="op">(</span>
     <span class="va">recursive_ensemble</span>
 <span class="op">)</span>
@@ -311,7 +311,7 @@
 #&gt;       &lt;int&gt; &lt;list&gt;         &lt;chr&gt;                              
 #&gt; 1         1 &lt;ensemble [2]&gt; RECURSIVE ENSEMBLE (MEAN): 2 MODELS</code></pre>
 <p>Finally, we predict over our dataset and visualize the predictions:</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_tbl</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_forecast.html">modeltime_forecast</a></span><span class="op">(</span>
         new_data    <span class="op">=</span> <span class="va">future_data</span>,
@@ -329,9 +329,9 @@
 <blockquote>
 <p>Use panel ensembles to batch forecast multimple time series</p>
 </blockquote>
-<p>This is a more complex extension of the previous example for forecasting multiple time series in batches. We'll showcase a Weighted Ensemble with XGBoost and GLMNET.</p>
+<p>This is a more complex extension of the previous example for forecasting multiple time series in batches. We’ll showcase a Weighted Ensemble with XGBoost and GLMNET.</p>
 <p>First, we select a forecast horizon of 24 days and extend the data frame with the function <code><a href="https://rdrr.io/pkg/timetk/man/future_frame.html">future_frame()</a></code>. We do this to create a future dataset, which we can distinguish because its values will be NA.</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">FORECAST_HORIZON</span> <span class="op">&lt;-</span> <span class="fl">24</span>
 
 <span class="va">m4_extended</span> <span class="op">&lt;-</span> <span class="va">m4_monthly</span> <span class="op">%&gt;%</span>
@@ -342,7 +342,7 @@
     <span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Then we create a <strong><em>Transformer Function</em></strong> that will be in charge of generating the lags for each time series up to each forecasting horizon. Note that this time we use <strong>grouped lags</strong> to generate lags by group. This is important when we have multiple time series. Make sure to ungroup after the lagging process.</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lag_transformer_grouped</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">{</span>
     <span class="va">data</span> <span class="op">%&gt;%</span>
         <span class="fu">group_by</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -350,7 +350,7 @@
         <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 <p>Then, we apply the function and divide the data into training and future set:</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">m4_lags</span> <span class="op">&lt;-</span> <span class="va">m4_extended</span> <span class="op">%&gt;%</span>
     <span class="fu">lag_transformer_grouped</span><span class="op">(</span><span class="op">)</span>
 
@@ -375,7 +375,7 @@
 #&gt; #   value_lag19 &lt;dbl&gt;, value_lag20 &lt;dbl&gt;, value_lag21 &lt;dbl&gt;, value_lag22 &lt;dbl&gt;,
 #&gt; #   value_lag23 &lt;dbl&gt;, value_lag24 &lt;dbl&gt;</code></pre>
 <p>We split into training data and future data.</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">m4_lags</span> <span class="op">%&gt;%</span>
     <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span>
 
@@ -384,9 +384,9 @@
 <p>Next, we are going to create two models that we will then join into an ensemble.</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>The first model is an Elastic Net (GLMNET) model:</strong> An elastic net applies is an improved version of linear regression that applies a penalty to the lagged regressors preventing bad lags from dominating the results. This can show an improvement versus a standard Linear Regression.</p></li>
-<li><p><strong>The second model is an XGBOOST model:</strong> An xgboost model is a tree-based algorithm that is very different in how it models vs a linear model. It's much better for non-linear data (e.g. seasonality).</p></li>
+<li><p><strong>The second model is an XGBOOST model:</strong> An xgboost model is a tree-based algorithm that is very different in how it models vs a linear model. It’s much better for non-linear data (e.g. seasonality).</p></li>
 </ol>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_fit_glmnet</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span>penalty <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">set_engine</span><span class="op">(</span><span class="st">"glmnet"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">fit</span><span class="op">(</span><span class="va">value</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">train_data</span><span class="op">)</span>
@@ -394,12 +394,12 @@
 <span class="va">model_fit_xgboost</span> <span class="op">&lt;-</span> <span class="fu">boost_tree</span><span class="op">(</span><span class="st">"regression"</span>, learn_rate <span class="op">=</span> <span class="fl">0.35</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">set_engine</span><span class="op">(</span><span class="st">"xgboost"</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">fit</span><span class="op">(</span><span class="va">value</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">train_data</span><span class="op">)</span></code></pre></div>
-<p>The next step is to create an ensemble. We'll use a Weighted Ensemble (<code><a href="../reference/ensemble_weighted.html">ensemble_weighted()</a></code>) with a 60/40 loading. Right after that we use the <code><a href="https://rdrr.io/pkg/modeltime/man/recursive.html">recursive()</a></code> function to create the recursive model. Unlike the previous example:</p>
+<p>The next step is to create an ensemble. We’ll use a Weighted Ensemble (<code><a href="../reference/ensemble_weighted.html">ensemble_weighted()</a></code>) with a 60/40 loading. Right after that we use the <code><a href="https://rdrr.io/pkg/modeltime/man/recursive.html">recursive()</a></code> function to create the recursive model. Unlike the previous example:</p>
 <ul>
-<li>We have to pass to the recursive function the argument <code>id</code> specifying ID's for each time series group</li>
+<li>We have to pass to the recursive function the argument <code>id</code> specifying ID’s for each time series group</li>
 <li>We have to use the <code><a href="https://rdrr.io/pkg/modeltime/man/panel_tail.html">panel_tail()</a></code> function to create the train_tail by group.</li>
 </ul>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">recursive_ensemble_panel</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_table.html">modeltime_table</a></span><span class="op">(</span>
     <span class="va">model_fit_glmnet</span>,
     <span class="va">model_fit_xgboost</span>
@@ -424,7 +424,7 @@
 #&gt; 1         1 &lt;fit[+]&gt; GLMNET            0.4
 #&gt; 2         2 &lt;fit[+]&gt; XGBOOST           0.6</code></pre>
 <p>Next, we add the recursive ensemble to the modeltime table, which organizes one or more models prior to forecasting.</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_table.html">modeltime_table</a></span><span class="op">(</span>
     <span class="va">recursive_ensemble_panel</span>
 <span class="op">)</span>
@@ -436,7 +436,7 @@
 #&gt;       &lt;int&gt; &lt;list&gt;         &lt;chr&gt;                                  
 #&gt; 1         1 &lt;ensemble [2]&gt; RECURSIVE ENSEMBLE (WEIGHTED): 2 MODELS</code></pre>
 <p>Finally, we forecast over our dataset and visualize the forecast.</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_tbl</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_forecast.html">modeltime_forecast</a></span><span class="op">(</span>
         new_data    <span class="op">=</span> <span class="va">future_data</span>,
@@ -454,7 +454,7 @@
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
 <a href="#summary" class="anchor"></a>Summary</h1>
-<p>Recursive modeling can be applied to ensembles. But, this is just a small portion of everything that can be done.... If you want to get all the details, read on!</p>
+<p>Recursive modeling can be applied to ensembles. But, this is just a small portion of everything that can be done…. If you want to get all the details, read on!</p>
 <div id="take-the-high-performance-forecasting-course" class="section level2">
 <h2 class="hasAnchor">
 <a href="#take-the-high-performance-forecasting-course" class="anchor"></a>Take the High-Performance Forecasting Course</h2>
@@ -467,7 +467,7 @@
 <h3 class="hasAnchor">
 <a href="#time-series-is-changing" class="anchor"></a>Time Series is Changing</h3>
 <p>Time series is changing. <strong>Businesses now need 10,000+ time series forecasts every day.</strong> This is what I call a <em>High-Performance Time Series Forecasting System (HPTSF)</em> - Accurate, Robust, and Scalable Forecasting.</p>
-<p><strong>High-Performance Forecasting Systems will save companies by improving accuracy and scalability.</strong> Imagine what will happen to your career if you can provide your organization a "High-Performance Time Series Forecasting System" (HPTSF System).</p>
+<p><strong>High-Performance Forecasting Systems will save companies by improving accuracy and scalability.</strong> Imagine what will happen to your career if you can provide your organization a “High-Performance Time Series Forecasting System” (HPTSF System).</p>
 </div>
 <div id="how-to-learn-high-performance-time-series-forecasting" class="section level3">
 <h3 class="hasAnchor">
