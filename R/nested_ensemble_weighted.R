@@ -170,7 +170,7 @@ ensemble_nested_weighted_parallel <- function(object,
     metric_set_tbl <- tibble::as_tibble(metric_set)
 
     direction <- metric_set_tbl %>%
-        dplyr::filter(metric == metric) %>%
+        dplyr::filter(metric == !!metric) %>%
         dplyr::pull(direction) %>%
         purrr::pluck(1)
 
@@ -455,10 +455,9 @@ ensemble_nested_weighted_sequential <- function(object,
     metric_set_tbl <- tibble::as_tibble(metric_set)
 
     direction <- metric_set_tbl %>%
-        dplyr::filter(metric == metric) %>%
+        dplyr::filter(metric == !!metric) %>%
         dplyr::pull(direction) %>%
         purrr::pluck(1)
-
 
     # SETUP LOGGING ENV ----
     logging_env <- rlang::env(
