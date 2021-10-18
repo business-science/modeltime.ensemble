@@ -90,7 +90,7 @@ Modeltime Nested Forecasting Workflow." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.ensemble</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -224,7 +224,7 @@ Modeltime Nested Forecasting Workflow.</p>
   <span class='va'>object</span>,
   <span class='va'>loadings</span>,
   scale_loadings <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  loading_method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"lowest_rmse"</span>, <span class='st'>"sequential"</span><span class='op'>)</span>,
+  metric <span class='op'>=</span> <span class='st'>"rmse"</span>,
   keep_submodels <span class='op'>=</span> <span class='cn'>TRUE</span>,
   model_ids <span class='op'>=</span> <span class='cn'>NULL</span>,
   control <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/modeltime/man/control_modeltime.html'>control_nested_fit</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -247,14 +247,10 @@ Modeltime Nested Forecasting Workflow.</p>
 to proportionally weight the submodels.</p></td>
     </tr>
     <tr>
-      <th>loading_method</th>
-      <td><p>Instructs on how to apply the loadings:</p><ul>
-<li><p>"lowest_rmse" (default): A loading vector will be applied such that
-the first loading is applied to the algorithm with the lowest Root Mean Squared Error (RMSE).
-The next loading will be applied to the algorithm ranking second for lowest RMSE.</p></li>
-<li><p>"sequential": A loading vector will be applied to algorithms based on the order of the
-algorithm's appearance. This method tends to be less powerful than lowest RMSE.</p></li>
-</ul></td>
+      <th>metric</th>
+      <td><p>The accuracy metric to rank models by the test accuracy table.
+Loadings are then applied in the order from best to worst models.
+Default: <code>"rmse"</code>.</p></td>
     </tr>
     <tr>
       <th>keep_submodels</th>
