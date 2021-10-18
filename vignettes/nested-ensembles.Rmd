@@ -283,7 +283,7 @@ Next, we can give a go at a weighted ensemble with the `ensemble_nested_weighted
 
 - `loadings`: This parameter allows us to weight models differently. Providing `c(2,1)` places a 2-to-1 weighting on the two submodels.
 
-- `loading_method`: We've selected "lowest_rmse", which will rank the models by each ID, placing the model with the lowest RMSE error with the first loading, and the model with the second lowest RMSE the second loading. 
+- `metric`: This parameter is determined by the __accuracy table.__ The default is to use the "rmse" column. The loadings are then applied to the best "rmse".
 
 - `model_ids`: This is a filtering mechanism to help us isolate which model ID's that we want to include as submodels. We want to exclude Model ID 3, because this is our Ensemble Average (MEAN) model.
 
@@ -292,10 +292,10 @@ Next, we can give a go at a weighted ensemble with the `ensemble_nested_weighted
 ```{r, message=TRUE}
 nested_ensemble_2_tbl <- nested_ensemble_1_tbl %>%
     ensemble_nested_weighted(
-        loadings       = c(2,1),  
-        loading_method = "lowest_rmse",
-        model_ids      = c(1,2), 
-        control        = control_nested_fit(allow_par = FALSE, verbose = TRUE)
+        loadings        = c(2,1),  
+        metric          = "rmse",
+        model_ids       = c(1,2), 
+        control         = control_nested_fit(allow_par = FALSE, verbose = TRUE)
     ) 
 
 nested_ensemble_2_tbl

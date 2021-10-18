@@ -8,7 +8,7 @@ ensemble_nested_weighted(
   object,
   loadings,
   scale_loadings = TRUE,
-  loading_method = c("lowest_rmse", "sequential"),
+  metric = "rmse",
   keep_submodels = TRUE,
   model_ids = NULL,
   control = control_nested_fit()
@@ -22,14 +22,9 @@ ensemble_nested_weighted(
 \item{scale_loadings}{If TRUE, divides by the sum of the loadings
 to proportionally weight the submodels.}
 
-\item{loading_method}{Instructs on how to apply the loadings:
-\itemize{
-\item "lowest_rmse" (default): A loading vector will be applied such that
-the first loading is applied to the algorithm with the lowest Root Mean Squared Error (RMSE).
-The next loading will be applied to the algorithm ranking second for lowest RMSE.
-\item "sequential": A loading vector will be applied to algorithms based on the order of the
-algorithm's appearance. This method tends to be less powerful than lowest RMSE.
-}}
+\item{metric}{The accuracy metric to rank models by the test accuracy table.
+Loadings are then applied in the order from best to worst models.
+Default: \code{"rmse"}.}
 
 \item{keep_submodels}{Whether or not to keep the submodels in the
 nested modeltime table results}

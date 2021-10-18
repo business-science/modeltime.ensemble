@@ -1,13 +1,13 @@
-#  modeltime.ensemble 0.4.2.9000 (Development Version)
+#  modeltime.ensemble 1.0.0
 
-## NEW Nested Modeltime
+## NEW Nested Modeltime Ensembles
 
 - `ensemble_nested_weighted()`: Apply weighted ensembles iteratively
 - `ensemble_nested_average()`: Apply average ensembles iteratively
 
 ## New Vignette
 
-- Nested Ensembles
+- [Nested Ensembles](https://business-science.github.io/modeltime.ensemble/articles/nested-ensembles.html)
 
 # modeltime.ensemble 0.4.2
 

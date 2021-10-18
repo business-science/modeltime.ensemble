@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 ![](http://cranlogs.r-pkg.org/badges/modeltime.ensemble?color=brightgreen)
 ![](http://cranlogs.r-pkg.org/badges/grand-total/modeltime.ensemble?color=brightgreen)
 [![R-CMD-check](https://github.com/business-science/modeltime.ensemble/workflows/R-CMD-check/badge.svg)](https://github.com/business-science/modeltime.ensemble/actions)
-[![Codecov test coverage](https://codecov.io/gh/business-science/modeltime.ensemble/branch/master/graph/badge.svg)](https://codecov.io/gh/business-science/modeltime.ensemble?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/business-science/modeltime.ensemble/branch/master/graph/badge.svg)](https://app.codecov.io/gh/business-science/modeltime.ensemble?branch=master)
 <!-- badges: end -->
 
 

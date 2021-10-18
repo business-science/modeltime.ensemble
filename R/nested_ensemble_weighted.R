@@ -7,14 +7,9 @@
 #'
 #' @inheritParams ensemble_nested_average
 #' @inheritParams ensemble_weighted
-#' @param loading_method Instructs on how to apply the loadings:
-#'
-#' - "lowest_rmse" (default): A loading vector will be applied such that
-#'  the first loading is applied to the algorithm with the lowest Root Mean Squared Error (RMSE).
-#'  The next loading will be applied to the algorithm ranking second for lowest RMSE.
-#'
-#' - "sequential": A loading vector will be applied to algorithms based on the order of the
-#'  algorithm's appearance. This method tends to be less powerful than lowest RMSE.
+#' @param metric The accuracy metric to rank models by the test accuracy table.
+#'  Loadings are then applied in the order from best to worst models.
+#'  Default: `"rmse"`.
 #'
 #'
 #' @details
@@ -88,10 +83,17 @@
 ensemble_nested_weighted <- function(object,
                                      loadings,
                                      scale_loadings = TRUE,
-                                     loading_method = c("lowest_rmse", "sequential"),
+                                     metric = "rmse",
                                      keep_submodels = TRUE,
                                      model_ids = NULL,
                                      control = control_nested_fit()) {
+
+    # Check metric is in metric set
+    metric_set_tbl <- tibble::as_tibble(attr(object, "metric_set"))
+    if (!metric %in% metric_set_tbl$metric) {
+        available_metrics_text <- stringr::str_c(metric_set_tbl$metric, collapse = ", ")
+        rlang::abort(stringr::glue("`metric = {metric}` is not one of the available metrics. Choose from one of: {available_metrics_text}}"))
+    }
 
     UseMethod("ensemble_nested_weighted", object)
 
@@ -101,7 +103,7 @@ ensemble_nested_weighted <- function(object,
 ensemble_nested_weighted.nested_mdl_time <- function(object,
                                                      loadings,
                                                      scale_loadings = TRUE,
-                                                     loading_method = c("lowest_rmse", "sequential"),
+                                                     metric = "rmse",
                                                      keep_submodels = TRUE,
                                                      model_ids = NULL,
                                                      control = control_nested_fit()) {
@@ -109,23 +111,23 @@ ensemble_nested_weighted.nested_mdl_time <- function(object,
     # Parallel or Sequential
     if ((control$cores > 1) && control$allow_par) {
         ret <- ensemble_nested_weighted_parallel(
-            object         = object,
-            loadings       = loadings,
-            scale_loadings = scale_loadings,
-            loading_method = loading_method,
-            keep_submodels = keep_submodels,
-            model_ids      = model_ids,
-            control        = control
+            object          = object,
+            loadings        = loadings,
+            scale_loadings  = scale_loadings,
+            metric          = metric,
+            keep_submodels  = keep_submodels,
+            model_ids       = model_ids,
+            control         = control
         )
     } else {
         ret <- ensemble_nested_weighted_sequential(
-            object         = object,
-            loadings       = loadings,
-            scale_loadings = scale_loadings,
-            loading_method = loading_method,
-            keep_submodels = keep_submodels,
-            model_ids      = model_ids,
-            control        = control
+            object          = object,
+            loadings        = loadings,
+            scale_loadings  = scale_loadings,
+            metric          = metric,
+            keep_submodels  = keep_submodels,
+            model_ids       = model_ids,
+            control         = control
         )
     }
 
@@ -136,7 +138,7 @@ ensemble_nested_weighted.nested_mdl_time <- function(object,
 ensemble_nested_weighted_parallel <- function(object,
                                               loadings,
                                               scale_loadings = TRUE,
-                                              loading_method = c("lowest_rmse", "sequential"),
+                                              metric = "rmse",
                                               keep_submodels = TRUE,
                                               model_ids = NULL,
                                               control = control_nested_fit()) {
@@ -163,7 +165,14 @@ ensemble_nested_weighted_parallel <- function(object,
 
     conf_interval <- attr(object, "conf_interval")
 
-    metric_set    <- attr(object, "metric_set")
+    metric_set <- attr(object, "metric_set")
+
+    metric_set_tbl <- tibble::as_tibble(metric_set)
+
+    direction <- metric_set_tbl %>%
+        dplyr::filter(metric == metric) %>%
+        dplyr::pull(direction) %>%
+        purrr::pluck(1)
 
     # SETUP ITERABLES ----
 
@@ -201,12 +210,24 @@ ensemble_nested_weighted_parallel <- function(object,
                 dplyr::filter(.model_id %in% model_ids)
         }
 
-        # Sort loadings if needed
-        if (loading_method == "lowest_rmse") {
+        # Sort loadings
+        if (direction == "minimize") {
             loadings <- ensem %>%
-                modeltime::modeltime_accuracy() %>%
+                modeltime::modeltime_accuracy(metric_set = metric_set) %>%
                 tibble::rowid_to_column("..rowid") %>%
-                dplyr::arrange(rmse) %>%
+
+                dplyr::arrange(!! as.name(metric)) %>%
+
+                dplyr::mutate(.loadings = loadings) %>%
+                dplyr::arrange(..rowid) %>%
+                dplyr::pull(.loadings)
+        } else {
+            loadings <- ensem %>%
+                modeltime::modeltime_accuracy(metric_set = metric_set) %>%
+                tibble::rowid_to_column("..rowid") %>%
+
+                dplyr::arrange(dplyr::desc(!! as.name(metric))) %>%
+
                 dplyr::mutate(.loadings = loadings) %>%
                 dplyr::arrange(..rowid) %>%
                 dplyr::pull(.loadings)
@@ -380,7 +401,8 @@ ensemble_nested_weighted_parallel <- function(object,
 ensemble_nested_weighted_sequential <- function(object,
                                                 loadings,
                                                 scale_loadings = TRUE,
-                                                loading_method = c("lowest_rmse", "sequential"),
+                                                metric = "rmse",
+                                                minimize_metric = TRUE,
                                                 keep_submodels = TRUE,
                                                 model_ids = NULL,
                                                 control = control_nested_fit()) {
@@ -405,7 +427,15 @@ ensemble_nested_weighted_sequential <- function(object,
     s_expr <- rlang::sym(".splits")
 
     conf_interval <- attr(object, "conf_interval")
-    metric_set    <- attr(object, "metric_set")
+
+    metric_set <- attr(object, "metric_set")
+
+    metric_set_tbl <- tibble::as_tibble(metric_set)
+
+    direction <- metric_set_tbl %>%
+        dplyr::filter(metric == metric) %>%
+        dplyr::pull(direction) %>%
+        purrr::pluck(1)
 
 
     # SETUP LOGGING ENV ----
@@ -438,12 +468,25 @@ ensemble_nested_weighted_sequential <- function(object,
                         dplyr::filter(.model_id %in% model_ids)
                 }
 
-                # Sort loadings if needed
-                if (loading_method == "lowest_rmse") {
+                # Sort loadings
+                if (direction == "minimize") {
                     loadings <- ensem %>%
-                        modeltime::modeltime_accuracy() %>%
+                        modeltime::modeltime_accuracy(metric_set = metric_set) %>%
                         tibble::rowid_to_column("..rowid") %>%
-                        dplyr::arrange(rmse) %>%
+
+                        dplyr::arrange(!! as.name(metric)) %>%
+
+                        dplyr::mutate(.loadings = loadings) %>%
+                        dplyr::arrange(..rowid) %>%
+                        dplyr::pull(.loadings)
+
+                } else {
+                    loadings <- ensem %>%
+                        modeltime::modeltime_accuracy(metric_set = metric_set) %>%
+                        tibble::rowid_to_column("..rowid") %>%
+
+                        dplyr::arrange(dplyr::desc(!! as.name(metric))) %>%
+
                         dplyr::mutate(.loadings = loadings) %>%
                         dplyr::arrange(..rowid) %>%
                         dplyr::pull(.loadings)

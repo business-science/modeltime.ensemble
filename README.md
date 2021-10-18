@@ -10,7 +10,7 @@
 ![](http://cranlogs.r-pkg.org/badges/grand-total/modeltime.ensemble?color=brightgreen)
 [![R-CMD-check](https://github.com/business-science/modeltime.ensemble/workflows/R-CMD-check/badge.svg)](https://github.com/business-science/modeltime.ensemble/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/business-science/modeltime.ensemble/branch/master/graph/badge.svg)](https://codecov.io/gh/business-science/modeltime.ensemble?branch=master)
+coverage](https://codecov.io/gh/business-science/modeltime.ensemble/branch/master/graph/badge.svg)](https://app.codecov.io/gh/business-science/modeltime.ensemble?branch=master)
 <!-- badges: end -->
 
 > Ensemble Algorithms for Time Series Forecasting with Modeltime
@@ -62,7 +62,7 @@ Create a *Modeltime Table* using the `modeltime` package.
 ``` r
 m750_models
 #> # Modeltime Table
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>   .model_id .model     .model_desc            
 #>       <int> <list>     <chr>                  
 #> 1         1 <workflow> ARIMA(0,1,1)(0,1,1)[12]
@@ -83,7 +83,7 @@ ensemble_fit
 #> Ensemble of 3 Models (MEAN)
 #> 
 #> # Modeltime Table
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>   .model_id .model     .model_desc            
 #>       <int> <list>     <chr>                  
 #> 1         1 <workflow> ARIMA(0,1,1)(0,1,1)[12]
