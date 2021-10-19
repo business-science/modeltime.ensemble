@@ -179,35 +179,27 @@ ensemble_nested_average_parallel <- function(object,
         id                  = id_vec,
         .inorder            = TRUE,
         .packages           = control$packages,
+        .export             = c("generate_ensemble_average"),
         .verbose            = FALSE
     ) %op% {
 
         # Make Ensemble -----
+        safe_ensem_avg <- purrr::safely(generate_ensemble_average, otherwise = NULL, quiet = TRUE)
 
-        # Isolate model ids
-        ensem <- x
-        if (!is.null(model_ids)) {
-            ensem <- x %>%
-                dplyr::filter(.model_id %in% model_ids)
-        }
+        ret_list <- safe_ensem_avg(x, model_ids = model_ids, type = type)
 
-        # Filter out NULL models
-        ensem <- ensem %>%
-            dplyr::filter(!purrr::map_lgl(.model, is.null))
+        ret <- ret_list %>% purrr::pluck("result")
 
-        # Filter model_ids
-        if (!is.null(model_ids)) {
-            ensem <- ensem %>%
-                dplyr::filter(.model_id %in% model_ids)
-        }
+        err <- ret_list %>% purrr::pluck("error", 1)
 
-        ensem <- ensem %>% ensemble_average(type = type)
+        mod_id <- max(x$.model_id) + 1
 
-        new_mod_id <- max(x$.model_id) + 1
-
-        ret <- modeltime_table(ensem) %>%
-            dplyr::mutate(.model_id = new_mod_id)
-
+        error_tbl <- tibble::tibble(
+            !! id_text := id,
+            .model_id   = mod_id,
+            .model_desc = "ENSEMBLE AVERAGE",
+            .error_desc = ifelse(is.null(err), NA_character_, err)
+        )
 
         # Add calibration
         suppressMessages({
@@ -288,7 +280,7 @@ ensemble_nested_average_parallel <- function(object,
         return(list(
             mdl_time_tbl = ret,
             acc_tbl      = acc_tbl,
-            # error_list   = error_list,
+            error_tbl    = error_tbl,
             fcast_tbl    = fcast_tbl
         ))
 
@@ -297,7 +289,7 @@ ensemble_nested_average_parallel <- function(object,
     # CONSOLIDATE RESULTS
 
     mdl_time_list <- ret %>% purrr::map(purrr::pluck("mdl_time_tbl"))
-    # error_list    <- ret %>% purrr::map(purrr::pluck("error_list"))
+    error_list    <- ret %>% purrr::map(purrr::pluck("error_tbl"))
     acc_list      <- ret %>% purrr::map(purrr::pluck("acc_tbl"))
     fcast_list    <- ret %>% purrr::map(purrr::pluck("fcast_tbl"))
 
@@ -306,11 +298,12 @@ ensemble_nested_average_parallel <- function(object,
     nested_modeltime <- object %>%
         dplyr::mutate(.modeltime_tables = mdl_time_list)
 
-    # error_tbl <- error_list %>% dplyr::bind_rows()
-    # if (nrow(error_tbl) > 0) {
-    #     error_tbl <- error_tbl %>%
-    #         tidyr::drop_na(.error_desc)
-    # }
+    error_tbl <- error_list %>% dplyr::bind_rows()
+    if (nrow(error_tbl) > 0) {
+        rlang::warn("Some models had errors during fitting. Use `extract_nested_error_report()` to review errors.")
+        error_tbl <- attr(nested_modeltime, "error_tbl") %>%
+            dplyr::bind_rows(error_tbl)
+    }
 
     acc_tbl   <- acc_list %>% dplyr::bind_rows()
     fcast_tbl <- fcast_list %>% dplyr::bind_rows()
@@ -341,17 +334,9 @@ ensemble_nested_average_parallel <- function(object,
 
     # STRUCTURE ----
 
-    # attr(nested_modeltime, "error_tbl")           <- error_tbl
+    attr(nested_modeltime, "error_tbl")           <- error_tbl
     attr(nested_modeltime, "accuracy_tbl")        <- acc_tbl
     attr(nested_modeltime, "test_forecast_tbl")   <- fcast_tbl
-
-
-
-
-    # if (nrow(attr(nested_modeltime, "error_tbl")) > 0) {
-    #     rlang::warn("Some models had errors during fitting. Use `extract_nested_error_report()` to review errors.")
-    # }
-
 
     return(nested_modeltime)
 

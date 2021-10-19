@@ -285,7 +285,7 @@ testthat::test_that("Nested Ensembles Work - parallel", {
         ensemble_nested_average(
             type           = "mean",
             keep_submodels = TRUE,
-            control = control_nested_fit(allow_par = TRUE)
+            control = control_nested_fit(allow_par = TRUE, verbose = TRUE)
         )
 
     model_table <- nested_ensemble_1_tbl %>%
