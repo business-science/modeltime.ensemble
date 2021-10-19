@@ -298,7 +298,10 @@ ensemble_nested_average_parallel <- function(object,
     nested_modeltime <- object %>%
         dplyr::mutate(.modeltime_tables = mdl_time_list)
 
-    error_tbl <- error_list %>% dplyr::bind_rows()
+    error_tbl <- error_list %>%
+        dplyr::bind_rows() %>%
+        tidyr::drop_na(.error_desc)
+
     if (nrow(error_tbl) > 0) {
         rlang::warn("Some models had errors during fitting. Use `extract_nested_error_report()` to review errors.")
         error_tbl <- attr(nested_modeltime, "error_tbl") %>%
@@ -413,6 +416,8 @@ ensemble_nested_average_sequential <- function(object,
                     .model_desc = "ENSEMBLE AVERAGE",
                     .error_desc = ifelse(is.null(err), NA_character_, err)
                 )
+                logging_env$error_tbl <- dplyr::bind_rows(logging_env$error_tbl, error_tbl)
+
 
                 if (control$verbose) {
                     if (!is.null(err)) {
@@ -421,9 +426,6 @@ ensemble_nested_average_sequential <- function(object,
                         cli::cli_alert_success("Model {mod_id} Passed {error_tbl$.model_desc}.")
                     }
                 }
-
-                logging_env$error_tbl <- dplyr::bind_rows(logging_env$error_tbl, error_tbl)
-
 
                 # Add calibration
                 suppressMessages({
@@ -529,7 +531,8 @@ ensemble_nested_average_sequential <- function(object,
 
     acc_tbl   <- logging_env$acc_tbl
     fcast_tbl <- logging_env$fcast_tbl
-    err_tbl   <- logging_env$error_tbl
+    err_tbl   <- logging_env$error_tbl %>%
+        tidyr::drop_na(.error_desc)
 
     if (nrow(err_tbl) > 0) {
         rlang::warn("Some models had errors during fitting. Use `extract_nested_error_report()` to review errors.")

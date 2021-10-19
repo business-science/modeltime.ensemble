@@ -198,75 +198,35 @@ ensemble_nested_weighted_parallel <- function(object,
         id                  = id_vec,
         .inorder            = TRUE,
         .packages           = control$packages,
+        .export             = c("generate_ensemble_weighted"),
         .verbose            = FALSE
     ) %op% {
 
         # Make Ensemble -----
+        safe_ensemble_weighted <- purrr::safely(generate_ensemble_weighted, otherwise = NULL, quiet = TRUE)
 
-        # Isolate model ids
-        ensem <- x
-        if (!is.null(model_ids)) {
-            ensem <- x %>%
-                dplyr::filter(.model_id %in% model_ids)
-        }
+        ret_list <- safe_ensemble_weighted(
+            modeltime_table = x,
+            model_ids       = model_ids,
+            loadings        = loadings,
+            scale_loadings  = scale_loadings,
+            metric          = metric,
+            metric_set      = metric_set,
+            direction       = direction
+        )
 
-        # Filter out NULL models
-        ensem <- ensem %>%
-            dplyr::filter(!purrr::map_lgl(.model, is.null))
+        ret <- ret_list %>% purrr::pluck("result")
 
-        # Check Loadings
-        loading_len  <- length(loadings)
-        submodel_len <- nrow(ensem)
+        err <- ret_list %>% purrr::pluck("error", 1)
 
-        if (submodel_len == 0) rlang::abort("No submodels detected.")
+        mod_id <- max(x$.model_id) + 1
 
-        # Trim loadings if necessary
-        if (submodel_len < loading_len) {
-            loadings <- loadings[1:submodel_len]
-        }
-
-        # Extend loadings if necessary
-        if (loading_len < submodel_len) {
-            loadings <- c(loadings, rep(0, submodel_len - loading_len))
-        }
-
-        # Sort loadings
-        if (direction == "minimize") {
-            loadings <- ensem %>%
-                modeltime::modeltime_accuracy(metric_set = metric_set) %>%
-                tibble::rowid_to_column("..rowid") %>%
-
-                dplyr::arrange(!! as.name(metric)) %>%
-                dplyr::slice(1:length(loadings)) %>%
-
-                dplyr::mutate(.loadings = loadings) %>%
-                dplyr::arrange(..rowid) %>%
-                dplyr::pull(.loadings)
-        } else {
-            loadings <- ensem %>%
-                modeltime::modeltime_accuracy(metric_set = metric_set) %>%
-                tibble::rowid_to_column("..rowid") %>%
-
-                dplyr::arrange(dplyr::desc(!! as.name(metric))) %>%
-                dplyr::slice(1:length(loadings)) %>%
-
-                dplyr::mutate(.loadings = loadings) %>%
-                dplyr::arrange(..rowid) %>%
-                dplyr::pull(.loadings)
-        }
-
-        # Make Ensem
-        ensem <- ensem %>%
-            ensemble_weighted(
-                loadings       = loadings,
-                scale_loadings = scale_loadings
-            )
-
-        new_mod_id <- max(x$.model_id) + 1
-
-        ret <- modeltime_table(ensem) %>%
-            dplyr::mutate(.model_id = new_mod_id)
-
+        error_tbl <- tibble::tibble(
+            !! id_text := id,
+            .model_id   = mod_id,
+            .model_desc = "ENSEMBLE WEIGHTED",
+            .error_desc = ifelse(is.null(err), NA_character_, err)
+        )
 
         # Add calibration
         suppressMessages({
@@ -347,7 +307,7 @@ ensemble_nested_weighted_parallel <- function(object,
         return(list(
             mdl_time_tbl = ret,
             acc_tbl      = acc_tbl,
-            # error_list   = error_list,
+            error_tbl    = error_tbl,
             fcast_tbl    = fcast_tbl
         ))
 
@@ -356,7 +316,7 @@ ensemble_nested_weighted_parallel <- function(object,
     # CONSOLIDATE RESULTS
 
     mdl_time_list <- ret %>% purrr::map(purrr::pluck("mdl_time_tbl"))
-    # error_list    <- ret %>% purrr::map(purrr::pluck("error_list"))
+    error_list    <- ret %>% purrr::map(purrr::pluck("error_tbl"))
     acc_list      <- ret %>% purrr::map(purrr::pluck("acc_tbl"))
     fcast_list    <- ret %>% purrr::map(purrr::pluck("fcast_tbl"))
 
@@ -365,11 +325,15 @@ ensemble_nested_weighted_parallel <- function(object,
     nested_modeltime <- object %>%
         dplyr::mutate(.modeltime_tables = mdl_time_list)
 
-    # error_tbl <- error_list %>% dplyr::bind_rows()
-    # if (nrow(error_tbl) > 0) {
-    #     error_tbl <- error_tbl %>%
-    #         tidyr::drop_na(.error_desc)
-    # }
+    error_tbl <- error_list %>%
+        dplyr::bind_rows() %>%
+        tidyr::drop_na(.error_desc)
+
+    if (nrow(error_tbl) > 0) {
+        rlang::warn("Some models had errors during fitting. Use `extract_nested_error_report()` to review errors.")
+        error_tbl <- attr(nested_modeltime, "error_tbl") %>%
+            dplyr::bind_rows(error_tbl)
+    }
 
     acc_tbl   <- acc_list %>% dplyr::bind_rows()
     fcast_tbl <- fcast_list %>% dplyr::bind_rows()
@@ -401,17 +365,9 @@ ensemble_nested_weighted_parallel <- function(object,
 
     # STRUCTURE ----
 
-    # attr(nested_modeltime, "error_tbl")           <- error_tbl
+    attr(nested_modeltime, "error_tbl")           <- error_tbl
     attr(nested_modeltime, "accuracy_tbl")        <- acc_tbl
     attr(nested_modeltime, "test_forecast_tbl")   <- fcast_tbl
-
-
-
-
-    # if (nrow(attr(nested_modeltime, "error_tbl")) > 0) {
-    #     rlang::warn("Some models had errors during fitting. Use `extract_nested_error_report()` to review errors.")
-    # }
-
 
     return(nested_modeltime)
 
@@ -424,7 +380,6 @@ ensemble_nested_weighted_sequential <- function(object,
                                                 loadings,
                                                 scale_loadings = TRUE,
                                                 metric = "rmse",
-                                                minimize_metric = TRUE,
                                                 keep_submodels = TRUE,
                                                 model_ids = NULL,
                                                 control = control_nested_fit()) {
@@ -449,8 +404,7 @@ ensemble_nested_weighted_sequential <- function(object,
     s_expr <- rlang::sym(".splits")
 
     conf_interval <- attr(object, "conf_interval")
-
-    metric_set <- attr(object, "metric_set")
+    metric_set    <- attr(object, "metric_set")
 
     metric_set_tbl <- tibble::as_tibble(metric_set)
 
@@ -462,7 +416,8 @@ ensemble_nested_weighted_sequential <- function(object,
     # SETUP LOGGING ENV ----
     logging_env <- rlang::env(
         fcast_tbl = tibble::tibble(),
-        acc_tbl   = tibble::tibble()
+        acc_tbl   = tibble::tibble(),
+        error_tbl = tibble::tibble()
 
     )
 
@@ -481,72 +436,40 @@ ensemble_nested_weighted_sequential <- function(object,
                 if (control$verbose) cli::cli_alert_info(stringr::str_glue("[{i}/{n_ids}] Starting Modeltime Table: ID {id}..."))
 
                 # Make Ensemble -----
+                safe_ensemble_weighted <- purrr::safely(generate_ensemble_weighted, otherwise = NULL, quiet = TRUE)
 
-                # Isolate model ids
-                ensem <- x
-                if (!is.null(model_ids)) {
-                    ensem <- x %>%
-                        dplyr::filter(.model_id %in% model_ids)
+                ret_list <- safe_ensemble_weighted(
+                    modeltime_table = x,
+                    model_ids       = model_ids,
+                    loadings        = loadings,
+                    scale_loadings  = scale_loadings,
+                    metric          = metric,
+                    metric_set      = metric_set,
+                    direction       = direction
+                )
+
+                ret <- ret_list %>% purrr::pluck("result")
+
+                err <- ret_list %>% purrr::pluck("error", 1)
+
+                mod_id <- max(x$.model_id) + 1
+
+                error_tbl <- tibble::tibble(
+                    !! id_text := id,
+                    .model_id   = mod_id,
+                    .model_desc = "ENSEMBLE WEIGHTED",
+                    .error_desc = ifelse(is.null(err), NA_character_, err)
+                )
+                logging_env$error_tbl <- dplyr::bind_rows(logging_env$error_tbl, error_tbl)
+
+                if (control$verbose) {
+                    if (!is.null(err)) {
+                        cli::cli_alert_danger("Model {mod_id} Failed {error_tbl$.model_desc}: {err}")
+                    } else {
+                        cli::cli_alert_success("Model {mod_id} Passed {error_tbl$.model_desc}.")
+                    }
                 }
 
-                # Filter out NULL models
-                ensem <- ensem %>%
-                    dplyr::filter(!purrr::map_lgl(.model, is.null))
-
-                # Check Loadings
-                loading_len  <- length(loadings)
-                submodel_len <- nrow(ensem)
-
-                if (submodel_len == 0) rlang::abort("No submodels detected.")
-
-                # Trim loadings if necessary
-                if (submodel_len < loading_len) {
-                    loadings <- loadings[1:submodel_len]
-                }
-
-                # Extend loadings if necessary
-                if (loading_len < submodel_len) {
-                    loadings <- c(loadings, rep(0, submodel_len - loading_len))
-                }
-
-                # Sort loadings
-                if (direction == "minimize") {
-                    loadings <- ensem %>%
-                        modeltime::modeltime_accuracy(metric_set = metric_set) %>%
-                        tibble::rowid_to_column("..rowid") %>%
-
-                        dplyr::arrange(!! as.name(metric)) %>%
-                        dplyr::slice(1:length(loadings)) %>%
-
-                        dplyr::mutate(.loadings = loadings) %>%
-                        dplyr::arrange(..rowid) %>%
-                        dplyr::pull(.loadings)
-                } else {
-                    loadings <- ensem %>%
-                        modeltime::modeltime_accuracy(metric_set = metric_set) %>%
-                        tibble::rowid_to_column("..rowid") %>%
-
-                        dplyr::arrange(dplyr::desc(!! as.name(metric))) %>%
-                        dplyr::slice(1:length(loadings)) %>%
-
-                        dplyr::mutate(.loadings = loadings) %>%
-                        dplyr::arrange(..rowid) %>%
-                        dplyr::pull(.loadings)
-                }
-
-
-
-                # Make Ensem
-                ensem <- ensem %>%
-                    ensemble_weighted(
-                        loadings       = loadings,
-                        scale_loadings = scale_loadings
-                    )
-
-                new_mod_id <- max(x$.model_id) + 1
-
-                ret <- modeltime_table(ensem) %>%
-                    dplyr::mutate(.model_id = new_mod_id)
 
                 # Add calibration
                 suppressMessages({
@@ -652,6 +575,16 @@ ensemble_nested_weighted_sequential <- function(object,
 
     acc_tbl   <- logging_env$acc_tbl
     fcast_tbl <- logging_env$fcast_tbl
+    err_tbl   <- logging_env$error_tbl %>%
+        tidyr::drop_na(.error_desc)
+
+    if (nrow(err_tbl) > 0) {
+        rlang::warn("Some models had errors during fitting. Use `extract_nested_error_report()` to review errors.")
+
+        err_tbl <- attr(nested_modeltime, "error_tbl") %>%
+            dplyr::bind_rows(err_tbl)
+
+    }
 
     if (keep_submodels) {
         acc_tbl_old <- attr(object, "accuracy_tbl")
@@ -664,15 +597,92 @@ ensemble_nested_weighted_sequential <- function(object,
             dplyr::arrange(!! as.name(id_text), .key, .model_id)
     }
 
-    # attr(nested_modeltime, "error_tbl")           <- logging_env$error_tbl %>% tidyr::drop_na(.error_desc)
+    attr(nested_modeltime, "error_tbl")         <- err_tbl
     attr(nested_modeltime, "accuracy_tbl")      <- acc_tbl
     attr(nested_modeltime, "test_forecast_tbl") <- fcast_tbl
 
 
-    # if (nrow(attr(nested_modeltime, "error_tbl")) > 0) {
-    #     rlang::warn("Some models had errors during fitting. Use `extract_nested_error_report()` to review errors.")
-    # }
-
-
     return(nested_modeltime)
+}
+
+
+# HELPERS ----
+
+generate_ensemble_weighted <- function(modeltime_table, model_ids,
+                                       loadings, scale_loadings,
+                                       metric, metric_set, direction) {
+
+    # Make Ensemble -----
+
+    # stop("this is a test.")
+    x     <- modeltime_table
+
+    # Isolate model ids
+    ensem <- x
+    if (!is.null(model_ids)) {
+        ensem <- x %>%
+            dplyr::filter(.model_id %in% model_ids)
+    }
+
+    # Filter out NULL models
+    ensem <- ensem %>%
+        dplyr::filter(!purrr::map_lgl(.model, is.null))
+
+    # Check Loadings
+    loading_len  <- length(loadings)
+    submodel_len <- nrow(ensem)
+
+    if (submodel_len == 0) rlang::abort("No submodels detected.")
+
+    # Trim loadings if necessary
+    if (submodel_len < loading_len) {
+        loadings <- loadings[1:submodel_len]
+    }
+
+    # Extend loadings if necessary
+    if (loading_len < submodel_len) {
+        loadings <- c(loadings, rep(0, submodel_len - loading_len))
+    }
+
+    # Sort loadings
+    if (direction == "minimize") {
+        loadings <- ensem %>%
+            modeltime::modeltime_accuracy(metric_set = metric_set) %>%
+            tibble::rowid_to_column("..rowid") %>%
+
+            dplyr::arrange(!! as.name(metric)) %>%
+            dplyr::slice(1:length(loadings)) %>%
+
+            dplyr::mutate(.loadings = loadings) %>%
+            dplyr::arrange(..rowid) %>%
+            dplyr::pull(.loadings)
+    } else {
+        loadings <- ensem %>%
+            modeltime::modeltime_accuracy(metric_set = metric_set) %>%
+            tibble::rowid_to_column("..rowid") %>%
+
+            dplyr::arrange(dplyr::desc(!! as.name(metric))) %>%
+            dplyr::slice(1:length(loadings)) %>%
+
+            dplyr::mutate(.loadings = loadings) %>%
+            dplyr::arrange(..rowid) %>%
+            dplyr::pull(.loadings)
+    }
+
+
+
+    # Make Ensem
+    ensem <- ensem %>%
+        ensemble_weighted(
+            loadings       = loadings,
+            scale_loadings = scale_loadings
+        )
+
+    new_mod_id <- max(x$.model_id) + 1
+
+    ret <- modeltime_table(ensem) %>%
+        dplyr::mutate(.model_id = new_mod_id)
+
+    return(ret)
+
 }

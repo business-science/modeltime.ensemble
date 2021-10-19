@@ -104,10 +104,10 @@ testthat::test_that("Nested Ensembles Work - sequential", {
     # * TEST LOADINGS TOO LONG ----
     nested_ensemble_2_tbl <- nested_ensemble_1_tbl %>%
         ensemble_nested_weighted(
-            loadings       = c(2,1,0,0),
+            loadings       = c(2,1,1,0),
             metric         = "rsq",
 
-            model_ids      = c(1,2),
+            model_ids      = c(1,2,3),
             control        = control_nested_fit(allow_par = FALSE, verbose = TRUE)
         )
 
