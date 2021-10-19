@@ -392,7 +392,8 @@ ensemble_nested_average_sequential <- function(object,
     # SETUP LOGGING ENV ----
     logging_env <- rlang::env(
         fcast_tbl = tibble::tibble(),
-        acc_tbl   = tibble::tibble()
+        acc_tbl   = tibble::tibble(),
+        error_tbl = tibble::tibble()
 
     )
 
@@ -411,32 +412,33 @@ ensemble_nested_average_sequential <- function(object,
                 if (control$verbose) cli::cli_alert_info(stringr::str_glue("[{i}/{n_ids}] Starting Modeltime Table: ID {id}..."))
 
                 # Make Ensemble -----
+                safe_ensem_avg <- purrr::safely(generate_ensemble_average, otherwise = NULL, quiet = TRUE)
 
-                # Isolate model ids
-                ensem <- x
-                if (!is.null(model_ids)) {
-                    ensem <- x %>%
-                        dplyr::filter(.model_id %in% model_ids)
+                ret_list <- safe_ensem_avg(x, model_ids = model_ids, type = type)
+
+                ret <- ret_list %>% purrr::pluck("result")
+
+                err <- ret_list %>% purrr::pluck("error", 1)
+
+                mod_id <- max(x$.model_id) + 1
+
+                error_tbl <- tibble::tibble(
+                    !! id_text := id,
+                    .model_id   = mod_id,
+                    .model_desc = "ENSEMBLE AVERAGE",
+                    .error_desc = ifelse(is.null(err), NA_character_, err)
+                )
+
+                if (control$verbose) {
+                    if (!is.null(err)) {
+                        cli::cli_alert_danger("Model {mod_id} Failed {error_tbl$.model_desc}: {err}")
+                    } else {
+                        cli::cli_alert_success("Model {mod_id} Passed {error_tbl$.model_desc}.")
+                    }
                 }
 
-                # Filter out NULL models
-                ensem <- ensem %>%
-                    dplyr::filter(!purrr::map_lgl(.model, is.null))
+                logging_env$error_tbl <- dplyr::bind_rows(logging_env$error_tbl, error_tbl)
 
-                print(ensem)
-
-                # Filter model_ids
-                if (!is.null(model_ids)) {
-                    ensem <- ensem %>%
-                        dplyr::filter(.model_id %in% model_ids)
-                }
-
-                ensem <- ensem %>% ensemble_average(type = type)
-
-                new_mod_id <- max(x$.model_id) + 1
-
-                ret <- modeltime_table(ensem) %>%
-                    dplyr::mutate(.model_id = new_mod_id)
 
                 # Add calibration
                 suppressMessages({
@@ -542,6 +544,15 @@ ensemble_nested_average_sequential <- function(object,
 
     acc_tbl   <- logging_env$acc_tbl
     fcast_tbl <- logging_env$fcast_tbl
+    err_tbl   <- logging_env$error_tbl
+
+    if (nrow(err_tbl) > 0) {
+        rlang::warn("Some models had errors during fitting. Use `extract_nested_error_report()` to review errors.")
+
+        err_tbl <- attr(nested_modeltime, "error_tbl") %>%
+            dplyr::bind_rows(err_tbl)
+
+    }
 
     if (keep_submodels) {
         acc_tbl_old <- attr(object, "accuracy_tbl")
@@ -554,15 +565,43 @@ ensemble_nested_average_sequential <- function(object,
             dplyr::arrange(!! as.name(id_text), .key, .model_id)
     }
 
-    # attr(nested_modeltime, "error_tbl")           <- logging_env$error_tbl %>% tidyr::drop_na(.error_desc)
+    attr(nested_modeltime, "error_tbl")         <- err_tbl
     attr(nested_modeltime, "accuracy_tbl")      <- acc_tbl
     attr(nested_modeltime, "test_forecast_tbl") <- fcast_tbl
 
 
-    # if (nrow(attr(nested_modeltime, "error_tbl")) > 0) {
-    #     rlang::warn("Some models had errors during fitting. Use `extract_nested_error_report()` to review errors.")
-    # }
-
-
     return(nested_modeltime)
+}
+
+# HELPERS ----
+
+generate_ensemble_average <- function(modeltime_table, model_ids, type) {
+
+    # stop("this is a test.")
+    x     <- modeltime_table
+
+    ensem <- x
+    if (!is.null(model_ids)) {
+        ensem <- ensem %>%
+            dplyr::filter(.model_id %in% model_ids)
+    }
+
+    # Filter out NULL models
+    ensem <- ensem %>%
+        dplyr::filter(!purrr::map_lgl(.model, is.null))
+
+    # Filter model_ids
+    if (!is.null(model_ids)) {
+        ensem <- ensem %>%
+            dplyr::filter(.model_id %in% model_ids)
+    }
+
+    ensem <- ensem %>% ensemble_average(type = type)
+
+    new_mod_id <- max(x$.model_id) + 1
+
+    ret <- modeltime_table(ensem) %>%
+        dplyr::mutate(.model_id = new_mod_id)
+
+    return(ret)
 }

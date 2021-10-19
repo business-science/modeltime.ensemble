@@ -79,7 +79,8 @@ testthat::test_that("Nested Ensembles Work - sequential", {
     nested_ensemble_1_tbl <- nested_modeltime_tbl %>%
         ensemble_nested_average(
             type           = "mean",
-            keep_submodels = TRUE
+            keep_submodels = TRUE,
+            control = control_nested_fit(verbose = TRUE)
         )
 
     model_table <- nested_ensemble_1_tbl %>%
