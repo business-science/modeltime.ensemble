@@ -4,7 +4,7 @@ Stage 1: Sub-Model's are Trained &amp;amp; Predicted using modeltime.resample::m
 Stage 2: A Meta-learner (model_spec) is trained on Out-of-Sample Sub-Model
 Predictions using ensemble_model_spec().
 
-"><title>Creates a Stacked Ensemble Model from a Model Spec — ensemble_model_spec • modeltime.ensemble</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Roboto-0.4.0/font.css" rel="stylesheet"><link href="../deps/_Montserrat-0.4.0/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Creates a Stacked Ensemble Model from a Model Spec — ensemble_model_spec"><meta property="og:description" content="A 2-stage stacking regressor that follows:
+"><title>Creates a Stacked Ensemble Model from a Model Spec — ensemble_model_spec • modeltime.ensemble</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Roboto-0.4.0/font.css" rel="stylesheet"><link href="../deps/_Montserrat-0.4.0/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet"><meta property="og:title" content="Creates a Stacked Ensemble Model from a Model Spec — ensemble_model_spec"><meta property="og:description" content="A 2-stage stacking regressor that follows:
 Stage 1: Sub-Model's are Trained &amp;amp; Predicted using modeltime.resample::modeltime_fit_resamples().
 Stage 2: A Meta-learner (model_spec) is trained on Out-of-Sample Sub-Model
 Predictions using ensemble_model_spec().
@@ -245,7 +245,7 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3.736 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3.646 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Step 2: Metalearner ----</span></span>
@@ -288,7 +288,7 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span>  -2684.9718       0.4702      -0.0196       0.7962  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.343 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.345 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">ensemble_fit_lm</span></span>
@@ -361,9 +361,9 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Model Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        penalty mixture .metric .estimator  mean     n std_err .config           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.000<span style="text-decoration: underline;">000</span>011<span style="text-decoration: underline;">2</span>   0.828 rmse    standard    156.     5    12.3 Preprocessor1_Mod…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   penalty mixture .metric .estimator  mean     n std_err .config             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  0.088<span style="text-decoration: underline;">3</span>   0.887 rmse    standard    157.     5    14.8 Preprocessor1_Model2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Prediction Error Comparison:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
@@ -386,60 +386,60 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ── Model ───────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Call:  glmnet::glmnet(x = maybe_matrix(x), y = y, family = "gaussian",      alpha = ~0.82762620212161) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call:  glmnet::glmnet(x = maybe_matrix(x), y = y, family = "gaussian",      alpha = ~0.886604565475136) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Df  %Dev Lambda</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   0  0.00 666.80</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1 12.85 607.60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   2 24.64 553.60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   2 35.35 504.40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   3 44.57 459.60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   3 52.55 418.80</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   3 59.27 381.60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   3 64.92 347.70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   3 69.68 316.80</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10  3 73.67 288.70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11  3 77.02 263.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12  3 79.83 239.60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13  3 82.19 218.40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14  3 84.16 199.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15  3 85.82 181.30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16  3 87.21 165.20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17  3 88.37 150.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18  3 89.35 137.10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19  3 90.16 125.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20  3 90.85 113.90</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21  3 91.42 103.70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22  3 91.90  94.52</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23  3 92.30  86.12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24  3 92.64  78.47</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25  3 92.92  71.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26  3 93.15  65.15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27  3 93.35  59.36</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28  3 93.51  54.09</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29  3 93.65  49.28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30  3 93.77  44.91</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31  3 93.86  40.92</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32  3 93.94  37.28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33  3 94.01  33.97</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34  3 94.07  30.95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35  3 94.11  28.20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36  3 94.15  25.70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37  3 94.18  23.41</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38  3 94.21  21.33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39  3 94.23  19.44</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40  3 94.25  17.71</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41  3 94.27  16.14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42  3 94.28  14.70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43  3 94.29  13.40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44  3 94.30  12.21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45  3 94.31  11.12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46  3 94.32  10.14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   0  0.00 622.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1 13.61 567.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   2 25.40 516.80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   2 36.30 470.90</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   2 45.47 429.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   3 53.40 390.90</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   3 60.11 356.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   3 65.72 324.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   3 70.43 295.70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  3 74.36 269.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11  3 77.65 245.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12  3 80.40 223.70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13  3 82.70 203.80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14  3 84.63 185.70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15  3 86.23 169.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16  3 87.57 154.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17  3 88.70 140.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18  3 89.63 128.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19  3 90.41 116.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20  3 91.07 106.30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21  3 91.61  96.84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22  3 92.07  88.23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23  3 92.45  80.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24  3 92.76  73.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25  3 93.03  66.75</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26  3 93.25  60.82</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27  3 93.43  55.41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28  3 93.58  50.49</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29  3 93.71  46.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30  3 93.82  41.92</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31  3 93.91  38.19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32  3 93.98  34.80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33  3 94.04  31.71</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34  3 94.09  28.89</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35  3 94.14  26.33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36  3 94.17  23.99</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37  3 94.20  21.86</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38  3 94.23  19.91</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39  3 94.25  18.15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40  3 94.26  16.53</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41  3 94.28  15.06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42  3 94.29  13.73</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43  3 94.30  12.51</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44  3 94.31  11.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45  3 94.32  10.38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46  3 94.32   9.46</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> and 10 more lines.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3.876 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4.016 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">ensemble_fit_glmnet</span></span>
