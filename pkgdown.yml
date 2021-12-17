@@ -1,9 +1,9 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
+pkgdown: 2.0.1
 pkgdown_sha: ~
 articles:
   getting-started-with-modeltime-ensemble: getting-started-with-modeltime-ensemble.html
   nested-ensembles: nested-ensembles.html
   recursive-ensembles: recursive-ensembles.html
-last_built: 2021-10-19T17:15Z
+last_built: 2021-12-17T03:12Z
 
