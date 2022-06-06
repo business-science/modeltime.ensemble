@@ -15,8 +15,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Roboto-0.4.0/font.css" rel="stylesheet">
-<link href="../deps/_Montserrat-0.4.0/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Roboto-0.4.1/font.css" rel="stylesheet">
+<link href="../deps/_Montserrat-0.4.1/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
@@ -41,14 +41,14 @@
     
     <a class="navbar-brand me-2" href="../index.html">modeltime.ensemble</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="../index.html">
@@ -127,6 +127,9 @@
     
   </div>
 </nav><div class="container template-article">
+
+
+
 <script src="getting-started-with-modeltime-ensemble_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Getting Started with Modeltime Ensemble</h1>
@@ -143,9 +146,9 @@
 </blockquote>
 <p>A <code>modeltime</code> extension that that implements <strong><em>ensemble forecasting methods</em></strong> including model averaging, weighted averaging, and stacking. Let’s go through a guided tour to kick the tires on <code>modeltime.ensemble</code>.</p>
 <p><img src="stacking.jpg" width="100%" style="display: block; margin: auto;"></p>
-<div class="section level1">
-<h1 id="time-series-ensemble-forecasting-example">Time Series Ensemble Forecasting Example<a class="anchor" aria-label="anchor" href="#time-series-ensemble-forecasting-example"></a>
-</h1>
+<div class="section level2">
+<h2 id="time-series-ensemble-forecasting-example">Time Series Ensemble Forecasting Example<a class="anchor" aria-label="anchor" href="#time-series-ensemble-forecasting-example"></a>
+</h2>
 <p>We’ll perform the simplest type of forecasting: <strong>Using a simple average of the forecasted models.</strong></p>
 <p>Note that <code>modeltime.ensemble</code> has capabilities for more sophisticated model ensembling using:</p>
 <ul>
@@ -155,9 +158,9 @@
 <li>
 <strong>Stacking</strong> using an Elastic Net regression model (meta-learning)</li>
 </ul>
-<div class="section level2">
-<h2 id="libraries">Libraries<a class="anchor" aria-label="anchor" href="#libraries"></a>
-</h2>
+<div class="section level3">
+<h3 id="libraries">Libraries<a class="anchor" aria-label="anchor" href="#libraries"></a>
+</h3>
 <p>Load libraries to complete this short tutorial.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Time Series ML</span>
@@ -171,43 +174,43 @@
 
 <span class="va">interactive</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="collect-the-data">Collect the Data<a class="anchor" aria-label="anchor" href="#collect-the-data"></a>
-</h2>
+<div class="section level3">
+<h3 id="collect-the-data">Collect the Data<a class="anchor" aria-label="anchor" href="#collect-the-data"></a>
+</h3>
 <p>We’ll use the <code>m750</code> dataset that comes with <code>modeltime.ensemble</code>. We can visualize the dataset.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">m750</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/timetk/man/plot_time_series.html" class="external-link">plot_time_series</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">value</span>, .color_var <span class="op">=</span> <span class="va">id</span>, .interactive <span class="op">=</span> <span class="va">interactive</span><span class="op">)</span></code></pre></div>
+    <span class="fu"><a href="https://business-science.github.io/timetk/reference/plot_time_series.html" class="external-link">plot_time_series</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">value</span>, .color_var <span class="op">=</span> <span class="va">id</span>, .interactive <span class="op">=</span> <span class="va">interactive</span><span class="op">)</span></code></pre></div>
 <p><img src="getting-started-with-modeltime-ensemble_files/figure-html/unnamed-chunk-3-1.png" width="95%" style="display: block; margin: auto;"></p>
 </div>
 </div>
-<div class="section level1">
-<h1 id="perform-train-test-splitting">Perform Train / Test Splitting<a class="anchor" aria-label="anchor" href="#perform-train-test-splitting"></a>
-</h1>
+<div class="section level2">
+<h2 id="perform-train-test-splitting">Perform Train / Test Splitting<a class="anchor" aria-label="anchor" href="#perform-train-test-splitting"></a>
+</h2>
 <p>We’ll split into a training and testing set.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">splits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/timetk/man/time_series_split.html" class="external-link">time_series_split</a></span><span class="op">(</span><span class="va">m750</span>, assess <span class="op">=</span> <span class="st">"2 years"</span>, cumulative <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">splits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/timetk/reference/time_series_split.html" class="external-link">time_series_split</a></span><span class="op">(</span><span class="va">m750</span>, assess <span class="op">=</span> <span class="st">"2 years"</span>, cumulative <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="va">splits</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/timetk/man/tk_time_series_cv_plan.html" class="external-link">tk_time_series_cv_plan</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/timetk/man/plot_time_series_cv_plan.html" class="external-link">plot_time_series_cv_plan</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">value</span>, .interactive <span class="op">=</span> <span class="va">interactive</span><span class="op">)</span></code></pre></div>
+    <span class="fu"><a href="https://business-science.github.io/timetk/reference/tk_time_series_cv_plan.html" class="external-link">tk_time_series_cv_plan</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://business-science.github.io/timetk/reference/plot_time_series_cv_plan.html" class="external-link">plot_time_series_cv_plan</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">value</span>, .interactive <span class="op">=</span> <span class="va">interactive</span><span class="op">)</span></code></pre></div>
 <p><img src="getting-started-with-modeltime-ensemble_files/figure-html/unnamed-chunk-4-1.png" width="95%" style="display: block; margin: auto;"></p>
 </div>
-<div class="section level1">
-<h1 id="modeling">Modeling<a class="anchor" aria-label="anchor" href="#modeling"></a>
-</h1>
-<p>Once the data has been collected, we can move into modeling.</p>
 <div class="section level2">
-<h2 id="recipe">Recipe<a class="anchor" aria-label="anchor" href="#recipe"></a>
+<h2 id="modeling">Modeling<a class="anchor" aria-label="anchor" href="#modeling"></a>
 </h2>
+<p>Once the data has been collected, we can move into modeling.</p>
+<div class="section level3">
+<h3 id="recipe">Recipe<a class="anchor" aria-label="anchor" href="#recipe"></a>
+</h3>
 <p>We’ll create a Feature Engineering Recipe that can be applied to the data to create features that machine learning models can key in on. This will be most useful for the <strong>Elastic Net (Model 3).</strong></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">recipe_spec</span> <span class="op">&lt;-</span> <span class="fu">recipe</span><span class="op">(</span><span class="va">value</span> <span class="op">~</span> <span class="va">date</span>, <span class="fu">training</span><span class="op">(</span><span class="va">splits</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/timetk/man/step_timeseries_signature.html" class="external-link">step_timeseries_signature</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://business-science.github.io/timetk/reference/step_timeseries_signature.html" class="external-link">step_timeseries_signature</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">step_rm</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">matches</a></span><span class="op">(</span><span class="st">"(.iso$)|(.xts$)"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">step_normalize</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">matches</a></span><span class="op">(</span><span class="st">"(index.num$)|(_year$)"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">step_dummy</span><span class="op">(</span><span class="fu">all_nominal</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/timetk/man/step_fourier.html" class="external-link">step_fourier</a></span><span class="op">(</span><span class="va">date</span>, K <span class="op">=</span> <span class="fl">1</span>, period <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>
+    <span class="fu"><a href="https://business-science.github.io/timetk/reference/step_fourier.html" class="external-link">step_fourier</a></span><span class="op">(</span><span class="va">date</span>, K <span class="op">=</span> <span class="fl">1</span>, period <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>
 
 <span class="va">recipe_spec</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">prep</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">juice</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 282 × 42</span></span>
@@ -231,12 +234,12 @@
 <span class="co">#&gt; <span style="color: #949494;">#   date_month.lbl_02 &lt;dbl&gt;, date_month.lbl_03 &lt;dbl&gt;, date_month.lbl_04 &lt;dbl&gt;,</span></span>
 <span class="co">#&gt; <span style="color: #949494;">#   date_month.lbl_05 &lt;dbl&gt;, date_month.lbl_06 &lt;dbl&gt;, …</span></span></code></pre>
 </div>
-<div class="section level2">
-<h2 id="model-1---auto-arima">Model 1 - Auto ARIMA<a class="anchor" aria-label="anchor" href="#model-1---auto-arima"></a>
-</h2>
+<div class="section level3">
+<h3 id="model-1---auto-arima">Model 1 - Auto ARIMA<a class="anchor" aria-label="anchor" href="#model-1---auto-arima"></a>
+</h3>
 <p>First, we’ll make an ARIMA model using Auto ARIMA.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model_spec_arima</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/arima_reg.html" class="external-link">arima_reg</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<code class="sourceCode R"><span class="va">model_spec_arima</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/modeltime/reference/arima_reg.html" class="external-link">arima_reg</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">set_engine</span><span class="op">(</span><span class="st">"auto_arima"</span><span class="op">)</span>
 
 <span class="va">wflw_fit_arima</span> <span class="op">&lt;-</span> <span class="fu">workflow</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -244,12 +247,12 @@
     <span class="fu">add_recipe</span><span class="op">(</span><span class="va">recipe_spec</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">step_rm</span><span class="op">(</span><span class="fu">all_predictors</span><span class="op">(</span><span class="op">)</span>, <span class="op">-</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">fit</span><span class="op">(</span><span class="fu">training</span><span class="op">(</span><span class="va">splits</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="model-2---prophet">Model 2 - Prophet<a class="anchor" aria-label="anchor" href="#model-2---prophet"></a>
-</h2>
+<div class="section level3">
+<h3 id="model-2---prophet">Model 2 - Prophet<a class="anchor" aria-label="anchor" href="#model-2---prophet"></a>
+</h3>
 <p>Next, we’ll make a Prophet Model.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model_spec_prophet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/prophet_reg.html" class="external-link">prophet_reg</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<code class="sourceCode R"><span class="va">model_spec_prophet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/modeltime/reference/prophet_reg.html" class="external-link">prophet_reg</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">set_engine</span><span class="op">(</span><span class="st">"prophet"</span><span class="op">)</span>
 
 <span class="va">wflw_fit_prophet</span> <span class="op">&lt;-</span> <span class="fu">workflow</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -257,9 +260,9 @@
     <span class="fu">add_recipe</span><span class="op">(</span><span class="va">recipe_spec</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">step_rm</span><span class="op">(</span><span class="fu">all_predictors</span><span class="op">(</span><span class="op">)</span>, <span class="op">-</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">fit</span><span class="op">(</span><span class="fu">training</span><span class="op">(</span><span class="va">splits</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="model-3---elastic-net">Model 3 - Elastic Net<a class="anchor" aria-label="anchor" href="#model-3---elastic-net"></a>
-</h2>
+<div class="section level3">
+<h3 id="model-3---elastic-net">Model 3 - Elastic Net<a class="anchor" aria-label="anchor" href="#model-3---elastic-net"></a>
+</h3>
 <p>Third, we’ll make an Elastic Net Model using <code>glmnet</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_spec_glmnet</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span>
@@ -274,16 +277,16 @@
     <span class="fu">fit</span><span class="op">(</span><span class="fu">training</span><span class="op">(</span><span class="va">splits</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="modeltime-workflow-for-ensemble-forecasting">Modeltime Workflow for Ensemble Forecasting<a class="anchor" aria-label="anchor" href="#modeltime-workflow-for-ensemble-forecasting"></a>
-</h1>
-<p>With the models created, we can can create an <strong>Ensemble Average Model using a simple Mean Average.</strong></p>
 <div class="section level2">
-<h2 id="step-1---create-a-modeltime-table">Step 1 - Create a Modeltime Table<a class="anchor" aria-label="anchor" href="#step-1---create-a-modeltime-table"></a>
+<h2 id="modeltime-workflow-for-ensemble-forecasting">Modeltime Workflow for Ensemble Forecasting<a class="anchor" aria-label="anchor" href="#modeltime-workflow-for-ensemble-forecasting"></a>
 </h2>
+<p>With the models created, we can can create an <strong>Ensemble Average Model using a simple Mean Average.</strong></p>
+<div class="section level3">
+<h3 id="step-1---create-a-modeltime-table">Step 1 - Create a Modeltime Table<a class="anchor" aria-label="anchor" href="#step-1---create-a-modeltime-table"></a>
+</h3>
 <p>Create a <em>Modeltime Table</em> using the <code>modeltime</code> package.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">m750_models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_table.html" class="external-link">modeltime_table</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">m750_models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/modeltime/reference/modeltime_table.html" class="external-link">modeltime_table</a></span><span class="op">(</span>
     <span class="va">wflw_fit_arima</span>,
     <span class="va">wflw_fit_prophet</span>,
     <span class="va">wflw_fit_glmnet</span>
@@ -298,9 +301,9 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         2 <span style="color: #949494;">&lt;workflow&gt;</span> PROPHET                </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         3 <span style="color: #949494;">&lt;workflow&gt;</span> GLMNET</span></code></pre>
 </div>
-<div class="section level2">
-<h2 id="step-2---make-an-ensemble">Step 2 - Make an Ensemble<a class="anchor" aria-label="anchor" href="#step-2---make-an-ensemble"></a>
-</h2>
+<div class="section level3">
+<h3 id="step-2---make-an-ensemble">Step 2 - Make an Ensemble<a class="anchor" aria-label="anchor" href="#step-2---make-an-ensemble"></a>
+</h3>
 <p>Then use <code><a href="../reference/ensemble_average.html">ensemble_average()</a></code> to turn that Modeltime Table into a <strong><em>Modeltime Ensemble.</em></strong> This is a <em>fitted ensemble specification</em> containing the ingredients to forecast future data and be refitted on data sets using the 3 submodels.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ensemble_fit</span> <span class="op">&lt;-</span> <span class="va">m750_models</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -318,60 +321,60 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         2 <span style="color: #949494;">&lt;workflow&gt;</span> PROPHET                </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         3 <span style="color: #949494;">&lt;workflow&gt;</span> GLMNET</span></code></pre>
 </div>
-<div class="section level2">
-<h2 id="step-3---forecast-the-test-data">Step 3 - Forecast! (the Test Data)<a class="anchor" aria-label="anchor" href="#step-3---forecast-the-test-data"></a>
-</h2>
+<div class="section level3">
+<h3 id="step-3---forecast-the-test-data">Step 3 - Forecast! (the Test Data)<a class="anchor" aria-label="anchor" href="#step-3---forecast-the-test-data"></a>
+</h3>
 <p>To forecast, just follow the <a href="https://business-science.github.io/modeltime/articles/getting-started-with-modeltime.html" class="external-link">Modeltime Workflow</a>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Calibration</span>
-<span class="va">calibration_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_table.html" class="external-link">modeltime_table</a></span><span class="op">(</span>
+<span class="va">calibration_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/modeltime/reference/modeltime_table.html" class="external-link">modeltime_table</a></span><span class="op">(</span>
     <span class="va">ensemble_fit</span>
 <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_calibrate.html" class="external-link">modeltime_calibrate</a></span><span class="op">(</span><span class="fu">testing</span><span class="op">(</span><span class="va">m750_splits</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu"><a href="https://business-science.github.io/modeltime/reference/modeltime_calibrate.html" class="external-link">modeltime_calibrate</a></span><span class="op">(</span><span class="fu">testing</span><span class="op">(</span><span class="va">m750_splits</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Forecast vs Test Set</span>
 <span class="va">calibration_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_forecast.html" class="external-link">modeltime_forecast</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://business-science.github.io/modeltime/reference/modeltime_forecast.html" class="external-link">modeltime_forecast</a></span><span class="op">(</span>
         new_data    <span class="op">=</span> <span class="fu">testing</span><span class="op">(</span><span class="va">m750_splits</span><span class="op">)</span>,
         actual_data <span class="op">=</span> <span class="va">m750</span>
     <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/plot_modeltime_forecast.html" class="external-link">plot_modeltime_forecast</a></span><span class="op">(</span>.interactive <span class="op">=</span> <span class="va">interactive</span><span class="op">)</span></code></pre></div>
+    <span class="fu"><a href="https://business-science.github.io/modeltime/reference/plot_modeltime_forecast.html" class="external-link">plot_modeltime_forecast</a></span><span class="op">(</span>.interactive <span class="op">=</span> <span class="va">interactive</span><span class="op">)</span></code></pre></div>
 <p><img src="getting-started-with-modeltime-ensemble_files/figure-html/unnamed-chunk-11-1.png" width="95%" style="display: block; margin: auto;"></p>
 </div>
-<div class="section level2">
-<h2 id="step-4---refit-on-full-data-forecast-future">Step 4 - Refit on Full Data &amp; Forecast Future<a class="anchor" aria-label="anchor" href="#step-4---refit-on-full-data-forecast-future"></a>
-</h2>
-<p>Once satisfied with our ensemble model, we can <code><a href="https://rdrr.io/pkg/modeltime/man/modeltime_refit.html" class="external-link">modeltime_refit()</a></code> on the full data set and forecast forward gaining the confidence intervals in the process.</p>
+<div class="section level3">
+<h3 id="step-4---refit-on-full-data-forecast-future">Step 4 - Refit on Full Data &amp; Forecast Future<a class="anchor" aria-label="anchor" href="#step-4---refit-on-full-data-forecast-future"></a>
+</h3>
+<p>Once satisfied with our ensemble model, we can <code><a href="https://business-science.github.io/modeltime/reference/modeltime_refit.html" class="external-link">modeltime_refit()</a></code> on the full data set and forecast forward gaining the confidence intervals in the process.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">refit_tbl</span> <span class="op">&lt;-</span> <span class="va">calibration_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_refit.html" class="external-link">modeltime_refit</a></span><span class="op">(</span><span class="va">m750</span><span class="op">)</span>
+    <span class="fu"><a href="https://business-science.github.io/modeltime/reference/modeltime_refit.html" class="external-link">modeltime_refit</a></span><span class="op">(</span><span class="va">m750</span><span class="op">)</span>
 
 <span class="va">refit_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_forecast.html" class="external-link">modeltime_forecast</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://business-science.github.io/modeltime/reference/modeltime_forecast.html" class="external-link">modeltime_forecast</a></span><span class="op">(</span>
         h <span class="op">=</span> <span class="st">"2 years"</span>,
         actual_data <span class="op">=</span> <span class="va">m750</span>
     <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/plot_modeltime_forecast.html" class="external-link">plot_modeltime_forecast</a></span><span class="op">(</span>.interactive <span class="op">=</span> <span class="va">interactive</span><span class="op">)</span></code></pre></div>
+    <span class="fu"><a href="https://business-science.github.io/modeltime/reference/plot_modeltime_forecast.html" class="external-link">plot_modeltime_forecast</a></span><span class="op">(</span>.interactive <span class="op">=</span> <span class="va">interactive</span><span class="op">)</span></code></pre></div>
 <p><img src="getting-started-with-modeltime-ensemble_files/figure-html/unnamed-chunk-12-1.png" width="95%" style="display: block; margin: auto;"></p>
 <p>This was a very short tutorial on the simplest type of forecasting, but there’s a lot more to learn.</p>
 </div>
-<div class="section level2">
-<h2 id="take-the-high-performance-forecasting-course">Take the High-Performance Forecasting Course<a class="anchor" aria-label="anchor" href="#take-the-high-performance-forecasting-course"></a>
-</h2>
+<div class="section level3">
+<h3 id="take-the-high-performance-forecasting-course">Take the High-Performance Forecasting Course<a class="anchor" aria-label="anchor" href="#take-the-high-performance-forecasting-course"></a>
+</h3>
 <blockquote>
 <p>Become the forecasting expert for your organization</p>
 </blockquote>
 <p><a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/" target="_blank" class="external-link"><img src="https://www.filepicker.io/api/file/bKyqVAi5Qi64sS05QYLk" alt="High-Performance Time Series Forecasting Course" width="100%" style="box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);"></a></p>
 <p><a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/" class="external-link"><em>High-Performance Time Series Course</em></a></p>
-<div class="section level3">
-<h3 id="time-series-is-changing">Time Series is Changing<a class="anchor" aria-label="anchor" href="#time-series-is-changing"></a>
-</h3>
+<div class="section level4">
+<h4 id="time-series-is-changing">Time Series is Changing<a class="anchor" aria-label="anchor" href="#time-series-is-changing"></a>
+</h4>
 <p>Time series is changing. <strong>Businesses now need 10,000+ time series forecasts every day.</strong> This is what I call a <em>High-Performance Time Series Forecasting System (HPTSF)</em> - Accurate, Robust, and Scalable Forecasting.</p>
 <p><strong>High-Performance Forecasting Systems will save companies by improving accuracy and scalability.</strong> Imagine what will happen to your career if you can provide your organization a “High-Performance Time Series Forecasting System” (HPTSF System).</p>
 </div>
-<div class="section level3">
-<h3 id="how-to-learn-high-performance-time-series-forecasting">How to Learn High-Performance Time Series Forecasting<a class="anchor" aria-label="anchor" href="#how-to-learn-high-performance-time-series-forecasting"></a>
-</h3>
+<div class="section level4">
+<h4 id="how-to-learn-high-performance-time-series-forecasting">How to Learn High-Performance Time Series Forecasting<a class="anchor" aria-label="anchor" href="#how-to-learn-high-performance-time-series-forecasting"></a>
+</h4>
 <p>I teach how to build a HPTFS System in my <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting" class="external-link"><strong>High-Performance Time Series Forecasting Course</strong></a>. You will learn:</p>
 <ul>
 <li>
@@ -412,7 +415,7 @@ Become the Time Series Expert for your organization.
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer>

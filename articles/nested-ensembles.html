@@ -15,8 +15,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Roboto-0.4.0/font.css" rel="stylesheet">
-<link href="../deps/_Montserrat-0.4.0/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Roboto-0.4.1/font.css" rel="stylesheet">
+<link href="../deps/_Montserrat-0.4.1/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
@@ -41,14 +41,14 @@
     
     <a class="navbar-brand me-2" href="../index.html">modeltime.ensemble</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="../index.html">
@@ -127,6 +127,9 @@
     
   </div>
 </nav><div class="container template-article">
+
+
+
 <script src="nested-ensembles_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Iterative Forecasting with Nested Ensembles</h1>
@@ -147,14 +150,14 @@
 <li><p><strong>Iterative Forecasting:</strong> Best for accuracy using a Nested Data Structure. Takes longer than global model (more resources due to for-loop iteration), but can yield great results.</p></li>
 </ol>
 <p>We’ve incorporated a new approach called <strong><em>“nested forecasting”</em></strong> to help perform <em>Iterative Forecasting</em>.</p>
-<div class="section level2">
-<h2 id="what-is-nested-forecasting">What is Nested Forecasting?<a class="anchor" aria-label="anchor" href="#what-is-nested-forecasting"></a>
-</h2>
+<div class="section level3">
+<h3 id="what-is-nested-forecasting">What is Nested Forecasting?<a class="anchor" aria-label="anchor" href="#what-is-nested-forecasting"></a>
+</h3>
 <p>The core idea of <strong>nested forecasting</strong> is to convert a dataset containing <strong>many time series groups</strong> into a nested data set, then fit <strong>many models</strong> to each of the nested datasets. The result is an iterative forecasting process that generates Nested Modeltime Tables with all of the forecast attributes needed to make decisions.</p>
 </div>
-<div class="section level2">
-<h2 id="what-is-nested-ensembling">What is Nested Ensembling?<a class="anchor" aria-label="anchor" href="#what-is-nested-ensembling"></a>
-</h2>
+<div class="section level3">
+<h3 id="what-is-nested-ensembling">What is Nested Ensembling?<a class="anchor" aria-label="anchor" href="#what-is-nested-ensembling"></a>
+</h3>
 <p><strong>Nested ensembling</strong> applies the concept of ensembling, which is generally averaging many individual models (called submodels) to produce a more stable model that sometimes improves over the best individual model.</p>
 <p>We can <strong>apply the ensembling techniques to iterative or nested forecasting</strong>. In this tutorial, we will show you how to perform:</p>
 <ul>
@@ -163,13 +166,13 @@
 </ul>
 <p>Let’s go!</p>
 </div>
-<div class="section level1">
-<h1 id="nested-ensemble-tutorial">Nested Ensemble Tutorial<a class="anchor" aria-label="anchor" href="#nested-ensemble-tutorial"></a>
-</h1>
-<p>We’ll showcase <strong>nested ensembling</strong> for iterative forecasting in this short tutorial.</p>
 <div class="section level2">
-<h2 id="libraries">Libraries<a class="anchor" aria-label="anchor" href="#libraries"></a>
+<h2 id="nested-ensemble-tutorial">Nested Ensemble Tutorial<a class="anchor" aria-label="anchor" href="#nested-ensemble-tutorial"></a>
 </h2>
+<p>We’ll showcase <strong>nested ensembling</strong> for iterative forecasting in this short tutorial.</p>
+<div class="section level3">
+<h3 id="libraries">Libraries<a class="anchor" aria-label="anchor" href="#libraries"></a>
+</h3>
 <p>Load the following libraries.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org" class="external-link">tidymodels</a></span><span class="op">)</span>
@@ -179,9 +182,9 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/timetk" class="external-link">timetk</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com/" class="external-link">gt</a></span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
-</h2>
+<div class="section level3">
+<h3 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
+</h3>
 <p>Read in the Walmart Sales Weekly data (comes with <code>timetk</code>).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_tbl</span> <span class="op">&lt;-</span> <span class="va">walmart_sales_weekly</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -208,35 +211,35 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/timetk/man/plot_time_series.html" class="external-link">plot_time_series</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">value</span>, .facet_ncol <span class="op">=</span> <span class="fl">1</span>, .interactive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://business-science.github.io/timetk/reference/plot_time_series.html" class="external-link">plot_time_series</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">value</span>, .facet_ncol <span class="op">=</span> <span class="fl">1</span>, .interactive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p><img src="nested-ensembles_files/figure-html/unnamed-chunk-4-1.png" width="95%" style="display: block; margin: auto;"></p>
 </div>
-<div class="section level2">
-<h2 id="prepare-the-data-in-nested-format">Prepare the Data in Nested Format<a class="anchor" aria-label="anchor" href="#prepare-the-data-in-nested-format"></a>
-</h2>
+<div class="section level3">
+<h3 id="prepare-the-data-in-nested-format">Prepare the Data in Nested Format<a class="anchor" aria-label="anchor" href="#prepare-the-data-in-nested-format"></a>
+</h3>
 <p>The most critical stage in <strong>“Nested Forecasting”</strong> is data preparation, making sure that the input to the nested forecasting workflow is in the appropriate structure. We’ve included several functions to help that involve a bit of forethought that can be broken into 3 steps:</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Extending each of the times series:</strong> How far into the future do you need to predict for each time series? See <code><a href="https://rdrr.io/pkg/modeltime/man/prep_nested.html" class="external-link">extend_timeseries()</a></code>.</p></li>
-<li><p><strong>Nesting by the grouping variable:</strong> This is where you create the nested structure. You’ll identify the ID column that separates each time series, and the number of timestamps to include in the “.future_data” and optionally “.actual_data”. Typically, you’ll select the same <code>.length_future</code> as your extension from the previous step. See <code><a href="https://rdrr.io/pkg/modeltime/man/prep_nested.html" class="external-link">nest_timeseries()</a></code>.</p></li>
-<li><p><strong>Train/Test Set Splitting:</strong> Finally, you’ll take your <code>.actual_data</code> and convert into train/test splits that can be used for accuracy and confidence interval estimation. See <code><a href="https://rdrr.io/pkg/modeltime/man/prep_nested.html" class="external-link">split_nested_timeseries()</a></code>.</p></li>
+<li><p><strong>Extending each of the times series:</strong> How far into the future do you need to predict for each time series? See <code><a href="https://business-science.github.io/modeltime/reference/prep_nested.html" class="external-link">extend_timeseries()</a></code>.</p></li>
+<li><p><strong>Nesting by the grouping variable:</strong> This is where you create the nested structure. You’ll identify the ID column that separates each time series, and the number of timestamps to include in the “.future_data” and optionally “.actual_data”. Typically, you’ll select the same <code>.length_future</code> as your extension from the previous step. See <code><a href="https://business-science.github.io/modeltime/reference/prep_nested.html" class="external-link">nest_timeseries()</a></code>.</p></li>
+<li><p><strong>Train/Test Set Splitting:</strong> Finally, you’ll take your <code>.actual_data</code> and convert into train/test splits that can be used for accuracy and confidence interval estimation. See <code><a href="https://business-science.github.io/modeltime/reference/prep_nested.html" class="external-link">split_nested_timeseries()</a></code>.</p></li>
 </ol>
 <p>Here are the 3-steps in action:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nested_data_tbl</span> <span class="op">&lt;-</span> <span class="va">data_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="co"># Step 1: Extend</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/prep_nested.html" class="external-link">extend_timeseries</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://business-science.github.io/modeltime/reference/prep_nested.html" class="external-link">extend_timeseries</a></span><span class="op">(</span>
         .id_var        <span class="op">=</span> <span class="va">id</span>,
         .date_var      <span class="op">=</span> <span class="va">date</span>,
         .length_future <span class="op">=</span> <span class="fl">52</span>
     <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="co"># Step 2: Nest</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/prep_nested.html" class="external-link">nest_timeseries</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://business-science.github.io/modeltime/reference/prep_nested.html" class="external-link">nest_timeseries</a></span><span class="op">(</span>
         .id_var        <span class="op">=</span> <span class="va">id</span>,
         .length_future <span class="op">=</span> <span class="fl">52</span>,
         .length_actual <span class="op">=</span> <span class="fl">52</span><span class="op">*</span><span class="fl">2</span>
     <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="co"># Step 3: Split Train/Test</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/prep_nested.html" class="external-link">split_nested_timeseries</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://business-science.github.io/modeltime/reference/prep_nested.html" class="external-link">split_nested_timeseries</a></span><span class="op">(</span>
         .length_test <span class="op">=</span> <span class="fl">52</span>
     <span class="op">)</span>
 
@@ -247,47 +250,47 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1_1   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span></span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1_3   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span></span></code></pre>
 </div>
-<div class="section level2">
-<h2 id="nested-modeltime-workflow">Nested Modeltime Workflow<a class="anchor" aria-label="anchor" href="#nested-modeltime-workflow"></a>
-</h2>
+<div class="section level3">
+<h3 id="nested-modeltime-workflow">Nested Modeltime Workflow<a class="anchor" aria-label="anchor" href="#nested-modeltime-workflow"></a>
+</h3>
 <p>Next, we move into the <strong>Nested Modeltime Workflow</strong> now that nested data has been created. The Nested Modeltime Workflow includes 3 steps:</p>
 <ol style="list-style-type: decimal">
 <li>
 <p><strong>Modeling Fitting:</strong> This is the training stage where we fit to <em>training data</em>. The <em>test forecast</em> is generated from this step.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Create tidymodels workflows.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/modeltime/man/modeltime_nested_fit.html" class="external-link">modeltime_nested_fit()</a></code>: Used to fit the submodels to the training data.</p></li>
+<li><p><code><a href="https://business-science.github.io/modeltime/reference/modeltime_nested_fit.html" class="external-link">modeltime_nested_fit()</a></code>: Used to fit the submodels to the training data.</p></li>
 <li><p><code><a href="../reference/ensemble_nested_average.html">ensemble_nested_average()</a></code> or <code><a href="../reference/ensemble_nested_weighted.html">ensemble_nested_weighted()</a></code>: Used to make ensembles from the submodels.</p></li>
 </ol>
 </li>
-<li><p><strong>Model Evaluation and Selection:</strong> This is where we review model performance and select the best model by minimizing or maximizing an error metric. See <code><a href="https://rdrr.io/pkg/modeltime/man/modeltime_nested_select_best.html" class="external-link">modeltime_nested_select_best()</a></code>.</p></li>
-<li><p><strong>Model Refitting:</strong> This is the final fitting stage where we fit to <em>actual data</em>. The <em>future forecast</em> is generated from this step. See <code><a href="https://rdrr.io/pkg/modeltime/man/modeltime_nested_refit.html" class="external-link">modeltime_nested_refit()</a></code>.</p></li>
+<li><p><strong>Model Evaluation and Selection:</strong> This is where we review model performance and select the best model by minimizing or maximizing an error metric. See <code><a href="https://business-science.github.io/modeltime/reference/modeltime_nested_select_best.html" class="external-link">modeltime_nested_select_best()</a></code>.</p></li>
+<li><p><strong>Model Refitting:</strong> This is the final fitting stage where we fit to <em>actual data</em>. The <em>future forecast</em> is generated from this step. See <code><a href="https://business-science.github.io/modeltime/reference/modeltime_nested_refit.html" class="external-link">modeltime_nested_refit()</a></code>.</p></li>
 </ol>
-<div class="section level3">
-<h3 id="step-1a-create-tidymodels-workflows">Step 1A: Create Tidymodels Workflows<a class="anchor" aria-label="anchor" href="#step-1a-create-tidymodels-workflows"></a>
-</h3>
-<p>First, we create <code>tidymodels</code> workflows for the various models that you intend to create.</p>
 <div class="section level4">
-<h4 id="prophet">Prophet<a class="anchor" aria-label="anchor" href="#prophet"></a>
+<h4 id="step-1a-create-tidymodels-workflows">Step 1A: Create Tidymodels Workflows<a class="anchor" aria-label="anchor" href="#step-1a-create-tidymodels-workflows"></a>
 </h4>
-<p>A common modeling method is prophet, that can be created using <code><a href="https://rdrr.io/pkg/modeltime/man/prophet_reg.html" class="external-link">prophet_reg()</a></code>. We’ll create a workflow. Note that we use the <code>extract_nested_train_split(nested_data_tbl)</code> to help us build preprocessing features.</p>
+<p>First, we create <code>tidymodels</code> workflows for the various models that you intend to create.</p>
+<div class="section level5">
+<h5 id="prophet">Prophet<a class="anchor" aria-label="anchor" href="#prophet"></a>
+</h5>
+<p>A common modeling method is prophet, that can be created using <code><a href="https://business-science.github.io/modeltime/reference/prophet_reg.html" class="external-link">prophet_reg()</a></code>. We’ll create a workflow. Note that we use the <code>extract_nested_train_split(nested_data_tbl)</code> to help us build preprocessing features.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rec_prophet</span> <span class="op">&lt;-</span> <span class="fu">recipe</span><span class="op">(</span><span class="va">value</span> <span class="op">~</span> <span class="va">date</span>, <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/log_extractors.html" class="external-link">extract_nested_train_split</a></span><span class="op">(</span><span class="va">nested_data_tbl</span><span class="op">)</span><span class="op">)</span> 
+<code class="sourceCode R"><span class="va">rec_prophet</span> <span class="op">&lt;-</span> <span class="fu">recipe</span><span class="op">(</span><span class="va">value</span> <span class="op">~</span> <span class="va">date</span>, <span class="fu"><a href="https://business-science.github.io/modeltime/reference/log_extractors.html" class="external-link">extract_nested_train_split</a></span><span class="op">(</span><span class="va">nested_data_tbl</span><span class="op">)</span><span class="op">)</span> 
 
 <span class="va">wflw_prophet</span> <span class="op">&lt;-</span> <span class="fu">workflow</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">add_model</span><span class="op">(</span>
-        <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/prophet_reg.html" class="external-link">prophet_reg</a></span><span class="op">(</span><span class="st">"regression"</span>, seasonality_yearly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
+        <span class="fu"><a href="https://business-science.github.io/modeltime/reference/prophet_reg.html" class="external-link">prophet_reg</a></span><span class="op">(</span><span class="st">"regression"</span>, seasonality_yearly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
             <span class="fu">set_engine</span><span class="op">(</span><span class="st">"prophet"</span><span class="op">)</span>
     <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">add_recipe</span><span class="op">(</span><span class="va">rec_prophet</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="xgboost">XGBoost<a class="anchor" aria-label="anchor" href="#xgboost"></a>
-</h4>
+<div class="section level5">
+<h5 id="xgboost">XGBoost<a class="anchor" aria-label="anchor" href="#xgboost"></a>
+</h5>
 <p>Next, we can use a machine learning method that can get good results: XGBoost. We will add a few extra features in the recipe feature engineering step to generate features that tend to get better modeling results. Note that we use the <code>extract_nested_train_split(nested_data_tbl)</code> to help us build preprocessing features.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rec_xgb</span> <span class="op">&lt;-</span> <span class="fu">recipe</span><span class="op">(</span><span class="va">value</span> <span class="op">~</span> <span class="va">.</span>, <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/log_extractors.html" class="external-link">extract_nested_train_split</a></span><span class="op">(</span><span class="va">nested_data_tbl</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/timetk/man/step_timeseries_signature.html" class="external-link">step_timeseries_signature</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<code class="sourceCode R"><span class="va">rec_xgb</span> <span class="op">&lt;-</span> <span class="fu">recipe</span><span class="op">(</span><span class="va">value</span> <span class="op">~</span> <span class="va">.</span>, <span class="fu"><a href="https://business-science.github.io/modeltime/reference/log_extractors.html" class="external-link">extract_nested_train_split</a></span><span class="op">(</span><span class="va">nested_data_tbl</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://business-science.github.io/timetk/reference/step_timeseries_signature.html" class="external-link">step_timeseries_signature</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">step_rm</span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">step_zv</span><span class="op">(</span><span class="fu">all_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">step_dummy</span><span class="op">(</span><span class="fu">all_nominal_predictors</span><span class="op">(</span><span class="op">)</span>, one_hot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
@@ -297,12 +300,12 @@
     <span class="fu">add_recipe</span><span class="op">(</span><span class="va">rec_xgb</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div class="section level3">
-<h3 id="step-1b-nested-modeltime-tables">Step 1B: Nested Modeltime Tables<a class="anchor" aria-label="anchor" href="#step-1b-nested-modeltime-tables"></a>
-</h3>
-<p>With a couple of modeling workflows in hand, we are now ready to test them on each of the time series. We start by using the <code><a href="https://rdrr.io/pkg/modeltime/man/modeltime_nested_fit.html" class="external-link">modeltime_nested_fit()</a></code> function, which iteratively fits each model to each of the nested time series train/test “.splits” column.</p>
+<div class="section level4">
+<h4 id="step-1b-nested-modeltime-tables">Step 1B: Nested Modeltime Tables<a class="anchor" aria-label="anchor" href="#step-1b-nested-modeltime-tables"></a>
+</h4>
+<p>With a couple of modeling workflows in hand, we are now ready to test them on each of the time series. We start by using the <code><a href="https://business-science.github.io/modeltime/reference/modeltime_nested_fit.html" class="external-link">modeltime_nested_fit()</a></code> function, which iteratively fits each model to each of the nested time series train/test “.splits” column.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nested_modeltime_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_nested_fit.html" class="external-link">modeltime_nested_fit</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">nested_modeltime_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/modeltime/reference/modeltime_nested_fit.html" class="external-link">modeltime_nested_fit</a></span><span class="op">(</span>
   <span class="co"># Nested data </span>
   nested_data <span class="op">=</span> <span class="va">nested_data_tbl</span>,
   
@@ -318,14 +321,14 @@
 <span class="co">#&gt; </span></code></pre>
 <pre><code><span class="co">#&gt; <span style="color: #555555;">Trained on: .splits | Model Errors: [0]</span></span></code></pre>
 <pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="co">#&gt;   id    .actual_data       .future_data      .splits         .modeltime_tables  </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1_1   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> <span style="color: #949494;">&lt;mdl_time_tbl [2 ×</span>…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1_3   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> <span style="color: #949494;">&lt;mdl_time_tbl [2 ×</span>…</span></code></pre>
+<span class="co">#&gt;   id    .actual_data       .future_data      .splits         .modeltime_tables</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1_1   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> &lt;mdl_time_tbl&gt;   </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1_3   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> &lt;mdl_time_tbl&gt;</span></code></pre>
 <p>This adds a new column with <code>.modeltime_tables</code> for each of the data sets and has created several <strong>logged attributes</strong> that are part of the “Nested Modeltime Table”. We also can see that the models were trained on “.splits” and none of the models had any errors.</p>
-<div class="section level4">
-<h4 id="accuracy-check">Accuracy Check<a class="anchor" aria-label="anchor" href="#accuracy-check"></a>
-</h4>
+<div class="section level5">
+<h5 id="accuracy-check">Accuracy Check<a class="anchor" aria-label="anchor" href="#accuracy-check"></a>
+</h5>
 <p>This is kind of advanced, but because our accuracy functions (<code>table_modeltime_accuracy(.interactive = FALSE)</code>) produce static <code>gt</code> table, we can make a function to highlight rows by group.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tab_style_by_group</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span>, <span class="va">style</span><span class="op">)</span> <span class="op">{</span>
@@ -349,19 +352,19 @@
 <p>And now we can see which models are the winners, performing the best by group with the lowest RMSE (root mean squared error).</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nested_modeltime_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/log_extractors.html" class="external-link">extract_nested_test_accuracy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://business-science.github.io/modeltime/reference/log_extractors.html" class="external-link">extract_nested_test_accuracy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/table_modeltime_accuracy.html" class="external-link">table_modeltime_accuracy</a></span><span class="op">(</span>.interactive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://business-science.github.io/modeltime/reference/table_modeltime_accuracy.html" class="external-link">table_modeltime_accuracy</a></span><span class="op">(</span>.interactive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu">tab_style_by_group</span><span class="op">(</span>
     <span class="va">rmse</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">rmse</span><span class="op">)</span>,
     style <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cell_fill.html" class="external-link">cell_fill</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"lightblue"</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
-<div id="jhlofpxejf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="saetnpankk" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#jhlofpxejf .gt_table {
+#saetnpankk .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -386,7 +389,7 @@
   border-left-color: #D3D3D3;
 }
 
-#jhlofpxejf .gt_heading {
+#saetnpankk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -398,33 +401,37 @@
   border-right-color: #D3D3D3;
 }
 
-#jhlofpxejf .gt_title {
+#saetnpankk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#jhlofpxejf .gt_subtitle {
+#saetnpankk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
   padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#jhlofpxejf .gt_bottom_border {
+#saetnpankk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jhlofpxejf .gt_col_headings {
+#saetnpankk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -439,7 +446,7 @@
   border-right-color: #D3D3D3;
 }
 
-#jhlofpxejf .gt_col_heading {
+#saetnpankk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -459,7 +466,7 @@
   overflow-x: hidden;
 }
 
-#jhlofpxejf .gt_column_spanner_outer {
+#saetnpankk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -471,15 +478,15 @@
   padding-right: 4px;
 }
 
-#jhlofpxejf .gt_column_spanner_outer:first-child {
+#saetnpankk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jhlofpxejf .gt_column_spanner_outer:last-child {
+#saetnpankk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jhlofpxejf .gt_column_spanner {
+#saetnpankk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -491,8 +498,11 @@
   width: 100%;
 }
 
-#jhlofpxejf .gt_group_heading {
-  padding: 8px;
+#saetnpankk .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -513,7 +523,7 @@
   vertical-align: middle;
 }
 
-#jhlofpxejf .gt_empty_group_heading {
+#saetnpankk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -528,15 +538,15 @@
   vertical-align: middle;
 }
 
-#jhlofpxejf .gt_from_md > :first-child {
+#saetnpankk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jhlofpxejf .gt_from_md > :last-child {
+#saetnpankk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jhlofpxejf .gt_row {
+#saetnpankk .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -555,7 +565,7 @@
   overflow-x: hidden;
 }
 
-#jhlofpxejf .gt_stub {
+#saetnpankk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -564,10 +574,29 @@
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#jhlofpxejf .gt_summary_row {
+#saetnpankk .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#saetnpankk .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#saetnpankk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -577,17 +606,26 @@
   padding-right: 5px;
 }
 
-#jhlofpxejf .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#saetnpankk .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#jhlofpxejf .gt_grand_summary_row {
+#saetnpankk .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#saetnpankk .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#saetnpankk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -597,7 +635,7 @@
   padding-right: 5px;
 }
 
-#jhlofpxejf .gt_first_grand_summary_row {
+#saetnpankk .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -607,11 +645,11 @@
   border-top-color: #D3D3D3;
 }
 
-#jhlofpxejf .gt_striped {
+#saetnpankk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jhlofpxejf .gt_table_body {
+#saetnpankk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -620,7 +658,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#jhlofpxejf .gt_footnotes {
+#saetnpankk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -634,13 +672,16 @@
   border-right-color: #D3D3D3;
 }
 
-#jhlofpxejf .gt_footnote {
+#saetnpankk .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#jhlofpxejf .gt_sourcenotes {
+#saetnpankk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -654,44 +695,80 @@
   border-right-color: #D3D3D3;
 }
 
-#jhlofpxejf .gt_sourcenote {
+#saetnpankk .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#jhlofpxejf .gt_left {
+#saetnpankk .gt_left {
   text-align: left;
 }
 
-#jhlofpxejf .gt_center {
+#saetnpankk .gt_center {
   text-align: center;
 }
 
-#jhlofpxejf .gt_right {
+#saetnpankk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jhlofpxejf .gt_font_normal {
+#saetnpankk .gt_font_normal {
   font-weight: normal;
 }
 
-#jhlofpxejf .gt_font_bold {
+#saetnpankk .gt_font_bold {
   font-weight: bold;
 }
 
-#jhlofpxejf .gt_font_italic {
+#saetnpankk .gt_font_italic {
   font-style: italic;
 }
 
-#jhlofpxejf .gt_super {
+#saetnpankk .gt_super {
   font-size: 65%;
 }
 
-#jhlofpxejf .gt_footnote_marks {
+#saetnpankk .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#saetnpankk .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
-  font-size: 65%;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#saetnpankk .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#saetnpankk .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#saetnpankk .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#saetnpankk .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
 <table class="table gt_table">
@@ -713,7 +790,7 @@
 <tr class="gt_group_heading_row">
 <td colspan="9" class="gt_group_heading">1_1</td>
     </tr>
-<tr>
+<tr class="gt_row_group_first">
 <td class="gt_row gt_right">1</td>
 <td class="gt_row gt_left">PROPHET</td>
 <td class="gt_row gt_left">Test</td>
@@ -738,7 +815,7 @@
 <tr class="gt_group_heading_row">
 <td colspan="9" class="gt_group_heading">1_3</td>
     </tr>
-<tr>
+<tr class="gt_row_group_first">
 <td class="gt_row gt_right" style="background-color: #ADD8E6;">1</td>
 <td class="gt_row gt_left" style="background-color: #ADD8E6;">PROPHET</td>
 <td class="gt_row gt_left" style="background-color: #ADD8E6;">Test</td>
@@ -765,13 +842,13 @@
 </div>
 </div>
 </div>
-<div class="section level3">
-<h3 id="step-1c-make-ensembles">Step 1C: Make Ensembles<a class="anchor" aria-label="anchor" href="#step-1c-make-ensembles"></a>
-</h3>
-<p>Now that we’ve fitted submodels, our goal is to <strong>improve on the submodels by leveraging ensembles.</strong></p>
 <div class="section level4">
-<h4 id="average-ensemble">Average Ensemble<a class="anchor" aria-label="anchor" href="#average-ensemble"></a>
+<h4 id="step-1c-make-ensembles">Step 1C: Make Ensembles<a class="anchor" aria-label="anchor" href="#step-1c-make-ensembles"></a>
 </h4>
+<p>Now that we’ve fitted submodels, our goal is to <strong>improve on the submodels by leveraging ensembles.</strong></p>
+<div class="section level5">
+<h5 id="average-ensemble">Average Ensemble<a class="anchor" aria-label="anchor" href="#average-ensemble"></a>
+</h5>
 <p>We’ll give a go at an <strong>average ensemble</strong> using a simple mean with the <code><a href="../reference/ensemble_nested_average.html">ensemble_nested_average()</a></code> function. We select <code>type = "mean"</code> for simple average (another option is median ensemble, which is better when you have models with large spikes).</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nested_ensemble_1_tbl</span> <span class="op">&lt;-</span> <span class="va">nested_modeltime_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -783,26 +860,26 @@
 <span class="va">nested_ensemble_1_tbl</span></code></pre></div>
 <pre><code><span class="co">#&gt; # Nested Modeltime Table</span>
 <span class="co">#&gt;   <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="co">#&gt;   id    .actual_data       .future_data      .splits         .modeltime_tables  </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1_1   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> <span style="color: #949494;">&lt;mdl_time_tbl [3 ×</span>…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1_3   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> <span style="color: #949494;">&lt;mdl_time_tbl [3 ×</span>…</span></code></pre>
+<span class="co">#&gt;   id    .actual_data       .future_data      .splits         .modeltime_tables</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1_1   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> &lt;mdl_time_tbl&gt;   </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1_3   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> &lt;mdl_time_tbl&gt;</span></code></pre>
 <p>We can check the accuracy again. This time the Ensemble (MEAN) outperforms both the prophet and xgboost submodels.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nested_ensemble_1_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/log_extractors.html" class="external-link">extract_nested_test_accuracy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://business-science.github.io/modeltime/reference/log_extractors.html" class="external-link">extract_nested_test_accuracy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/table_modeltime_accuracy.html" class="external-link">table_modeltime_accuracy</a></span><span class="op">(</span>.interactive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://business-science.github.io/modeltime/reference/table_modeltime_accuracy.html" class="external-link">table_modeltime_accuracy</a></span><span class="op">(</span>.interactive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu">tab_style_by_group</span><span class="op">(</span>
     <span class="va">rmse</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">rmse</span><span class="op">)</span>,
     style <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cell_fill.html" class="external-link">cell_fill</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"lightblue"</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
-<div id="lgtxrtsvpz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="hychlrzihi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#lgtxrtsvpz .gt_table {
+#hychlrzihi .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -827,7 +904,7 @@
   border-left-color: #D3D3D3;
 }
 
-#lgtxrtsvpz .gt_heading {
+#hychlrzihi .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -839,33 +916,37 @@
   border-right-color: #D3D3D3;
 }
 
-#lgtxrtsvpz .gt_title {
+#hychlrzihi .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#lgtxrtsvpz .gt_subtitle {
+#hychlrzihi .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
   padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#lgtxrtsvpz .gt_bottom_border {
+#hychlrzihi .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lgtxrtsvpz .gt_col_headings {
+#hychlrzihi .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -880,7 +961,7 @@
   border-right-color: #D3D3D3;
 }
 
-#lgtxrtsvpz .gt_col_heading {
+#hychlrzihi .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -900,7 +981,7 @@
   overflow-x: hidden;
 }
 
-#lgtxrtsvpz .gt_column_spanner_outer {
+#hychlrzihi .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -912,15 +993,15 @@
   padding-right: 4px;
 }
 
-#lgtxrtsvpz .gt_column_spanner_outer:first-child {
+#hychlrzihi .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lgtxrtsvpz .gt_column_spanner_outer:last-child {
+#hychlrzihi .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lgtxrtsvpz .gt_column_spanner {
+#hychlrzihi .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -932,8 +1013,11 @@
   width: 100%;
 }
 
-#lgtxrtsvpz .gt_group_heading {
-  padding: 8px;
+#hychlrzihi .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -954,7 +1038,7 @@
   vertical-align: middle;
 }
 
-#lgtxrtsvpz .gt_empty_group_heading {
+#hychlrzihi .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -969,15 +1053,15 @@
   vertical-align: middle;
 }
 
-#lgtxrtsvpz .gt_from_md > :first-child {
+#hychlrzihi .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lgtxrtsvpz .gt_from_md > :last-child {
+#hychlrzihi .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lgtxrtsvpz .gt_row {
+#hychlrzihi .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -996,7 +1080,7 @@
   overflow-x: hidden;
 }
 
-#lgtxrtsvpz .gt_stub {
+#hychlrzihi .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1005,10 +1089,29 @@
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#lgtxrtsvpz .gt_summary_row {
+#hychlrzihi .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#hychlrzihi .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#hychlrzihi .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1018,17 +1121,26 @@
   padding-right: 5px;
 }
 
-#lgtxrtsvpz .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#hychlrzihi .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#lgtxrtsvpz .gt_grand_summary_row {
+#hychlrzihi .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#hychlrzihi .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hychlrzihi .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1038,7 +1150,7 @@
   padding-right: 5px;
 }
 
-#lgtxrtsvpz .gt_first_grand_summary_row {
+#hychlrzihi .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1048,11 +1160,11 @@
   border-top-color: #D3D3D3;
 }
 
-#lgtxrtsvpz .gt_striped {
+#hychlrzihi .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lgtxrtsvpz .gt_table_body {
+#hychlrzihi .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1061,7 +1173,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#lgtxrtsvpz .gt_footnotes {
+#hychlrzihi .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1075,13 +1187,16 @@
   border-right-color: #D3D3D3;
 }
 
-#lgtxrtsvpz .gt_footnote {
+#hychlrzihi .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#lgtxrtsvpz .gt_sourcenotes {
+#hychlrzihi .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1095,44 +1210,80 @@
   border-right-color: #D3D3D3;
 }
 
-#lgtxrtsvpz .gt_sourcenote {
+#hychlrzihi .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#lgtxrtsvpz .gt_left {
+#hychlrzihi .gt_left {
   text-align: left;
 }
 
-#lgtxrtsvpz .gt_center {
+#hychlrzihi .gt_center {
   text-align: center;
 }
 
-#lgtxrtsvpz .gt_right {
+#hychlrzihi .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lgtxrtsvpz .gt_font_normal {
+#hychlrzihi .gt_font_normal {
   font-weight: normal;
 }
 
-#lgtxrtsvpz .gt_font_bold {
+#hychlrzihi .gt_font_bold {
   font-weight: bold;
 }
 
-#lgtxrtsvpz .gt_font_italic {
+#hychlrzihi .gt_font_italic {
   font-style: italic;
 }
 
-#lgtxrtsvpz .gt_super {
+#hychlrzihi .gt_super {
   font-size: 65%;
 }
 
-#lgtxrtsvpz .gt_footnote_marks {
+#hychlrzihi .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#hychlrzihi .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
-  font-size: 65%;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#hychlrzihi .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#hychlrzihi .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#hychlrzihi .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#hychlrzihi .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
 <table class="table gt_table">
@@ -1154,7 +1305,7 @@
 <tr class="gt_group_heading_row">
 <td colspan="9" class="gt_group_heading">1_1</td>
     </tr>
-<tr>
+<tr class="gt_row_group_first">
 <td class="gt_row gt_right">1</td>
 <td class="gt_row gt_left">PROPHET</td>
 <td class="gt_row gt_left">Test</td>
@@ -1190,7 +1341,7 @@
 <tr class="gt_group_heading_row">
 <td colspan="9" class="gt_group_heading">1_3</td>
     </tr>
-<tr>
+<tr class="gt_row_group_first">
 <td class="gt_row gt_right">1</td>
 <td class="gt_row gt_left">PROPHET</td>
 <td class="gt_row gt_left">Test</td>
@@ -1227,15 +1378,15 @@
 </table>
 </div>
 </div>
-<div class="section level4">
-<h4 id="weighted-ensemble">Weighted Ensemble<a class="anchor" aria-label="anchor" href="#weighted-ensemble"></a>
-</h4>
+<div class="section level5">
+<h5 id="weighted-ensemble">Weighted Ensemble<a class="anchor" aria-label="anchor" href="#weighted-ensemble"></a>
+</h5>
 <p>Next, we can give a go at a weighted ensemble with the <code><a href="../reference/ensemble_nested_weighted.html">ensemble_nested_weighted()</a></code> function. A few key points about the arguments:</p>
 <ul>
 <li><p><code>loadings</code>: This parameter allows us to weight models differently. Providing <code>c(2,1)</code> places a 2-to-1 weighting on the two submodels.</p></li>
 <li><p><code>metric</code>: This parameter is determined by the <strong>accuracy table.</strong> The default is to use the “rmse” column. The loadings are then applied to the best (lowest) “rmse” first. The best model will have 2/3 (66% weight) loading and the second best will have 1/3 (33% weight).</p></li>
 <li><p><code>model_ids</code>: This is a filtering mechanism to help us isolate which model ID’s that we want to include as submodels. We want to exclude Model ID 3, because this is our Ensemble Average (MEAN) model.</p></li>
-<li><p><code>control</code>: This uses <code><a href="https://rdrr.io/pkg/modeltime/man/control_modeltime.html" class="external-link">control_nested_fit()</a></code> to control aspects of the fitting process like running in Parallel vs Sequential and outputting verbose to provide additional information during the fitting process.</p></li>
+<li><p><code>control</code>: This uses <code><a href="https://business-science.github.io/modeltime/reference/control_modeltime.html" class="external-link">control_nested_fit()</a></code> to control aspects of the fitting process like running in Parallel vs Sequential and outputting verbose to provide additional information during the fitting process.</p></li>
 </ul>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nested_ensemble_2_tbl</span> <span class="op">&lt;-</span> <span class="va">nested_ensemble_1_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -1243,7 +1394,7 @@
         loadings        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>,  
         metric          <span class="op">=</span> <span class="st">"rmse"</span>,
         model_ids       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, 
-        control         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/control_modeltime.html" class="external-link">control_nested_fit</a></span><span class="op">(</span>allow_par <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+        control         <span class="op">=</span> <span class="fu"><a href="https://business-science.github.io/modeltime/reference/control_modeltime.html" class="external-link">control_nested_fit</a></span><span class="op">(</span>allow_par <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
     <span class="op">)</span> </code></pre></div>
 <pre><code><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> [1/2] Starting Modeltime Table: ID 1_1...</span></code></pre>
 <pre><code><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Model 4 Passed ENSEMBLE WEIGHTED.</span></code></pre>
@@ -1251,34 +1402,33 @@
 <pre><code><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> [2/2] Starting Modeltime Table: ID 1_3...</span></code></pre>
 <pre><code><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Model 4 Passed ENSEMBLE WEIGHTED.</span></code></pre>
 <pre><code><span class="co">#&gt; <span style="color: #00BB00;">✔</span> [2/2] Finished Modeltime Table: ID 1_3</span></code></pre>
-<pre><code><span class="co">#&gt; </span></code></pre>
-<pre><code><span class="co">#&gt; Finished in: 1.189709 secs.</span></code></pre>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<pre><code><span class="co">#&gt; Finished in: 2.119466 secs.</span></code></pre>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nested_ensemble_2_tbl</span></code></pre></div>
 <pre><code><span class="co">#&gt; # Nested Modeltime Table</span>
 <span class="co">#&gt; </span></code></pre>
 <pre><code><span class="co">#&gt; <span style="color: #555555;">Trained on: .splits | Model Errors: [0]</span></span></code></pre>
 <pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="co">#&gt;   id    .actual_data       .future_data      .splits         .modeltime_tables  </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1_1   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> <span style="color: #949494;">&lt;mdl_time_tbl [4 ×</span>…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1_3   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> <span style="color: #949494;">&lt;mdl_time_tbl [4 ×</span>…</span></code></pre>
+<span class="co">#&gt;   id    .actual_data       .future_data      .splits         .modeltime_tables</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1_1   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> &lt;mdl_time_tbl&gt;   </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1_3   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> &lt;mdl_time_tbl&gt;</span></code></pre>
 <p>Next, let’s check the accuracy on the new ensemble. The Weighted Ensemble has improved the 1_1 time series, but not the 1_3 time series.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nested_ensemble_2_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/log_extractors.html" class="external-link">extract_nested_test_accuracy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://business-science.github.io/modeltime/reference/log_extractors.html" class="external-link">extract_nested_test_accuracy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/table_modeltime_accuracy.html" class="external-link">table_modeltime_accuracy</a></span><span class="op">(</span>.interactive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://business-science.github.io/modeltime/reference/table_modeltime_accuracy.html" class="external-link">table_modeltime_accuracy</a></span><span class="op">(</span>.interactive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu">tab_style_by_group</span><span class="op">(</span>
     <span class="va">rmse</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">rmse</span><span class="op">)</span>,
     style <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cell_fill.html" class="external-link">cell_fill</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"lightblue"</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
-<div id="avecqrupqi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="wqaursjffm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#avecqrupqi .gt_table {
+#wqaursjffm .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1303,7 +1453,7 @@
   border-left-color: #D3D3D3;
 }
 
-#avecqrupqi .gt_heading {
+#wqaursjffm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1315,33 +1465,37 @@
   border-right-color: #D3D3D3;
 }
 
-#avecqrupqi .gt_title {
+#wqaursjffm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#avecqrupqi .gt_subtitle {
+#wqaursjffm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
   padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#avecqrupqi .gt_bottom_border {
+#wqaursjffm .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#avecqrupqi .gt_col_headings {
+#wqaursjffm .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1356,7 +1510,7 @@
   border-right-color: #D3D3D3;
 }
 
-#avecqrupqi .gt_col_heading {
+#wqaursjffm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1376,7 +1530,7 @@
   overflow-x: hidden;
 }
 
-#avecqrupqi .gt_column_spanner_outer {
+#wqaursjffm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1388,15 +1542,15 @@
   padding-right: 4px;
 }
 
-#avecqrupqi .gt_column_spanner_outer:first-child {
+#wqaursjffm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#avecqrupqi .gt_column_spanner_outer:last-child {
+#wqaursjffm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#avecqrupqi .gt_column_spanner {
+#wqaursjffm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1408,8 +1562,11 @@
   width: 100%;
 }
 
-#avecqrupqi .gt_group_heading {
-  padding: 8px;
+#wqaursjffm .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1430,7 +1587,7 @@
   vertical-align: middle;
 }
 
-#avecqrupqi .gt_empty_group_heading {
+#wqaursjffm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1445,15 +1602,15 @@
   vertical-align: middle;
 }
 
-#avecqrupqi .gt_from_md > :first-child {
+#wqaursjffm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#avecqrupqi .gt_from_md > :last-child {
+#wqaursjffm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#avecqrupqi .gt_row {
+#wqaursjffm .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1472,7 +1629,7 @@
   overflow-x: hidden;
 }
 
-#avecqrupqi .gt_stub {
+#wqaursjffm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1481,10 +1638,29 @@
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#avecqrupqi .gt_summary_row {
+#wqaursjffm .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#wqaursjffm .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#wqaursjffm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1494,17 +1670,26 @@
   padding-right: 5px;
 }
 
-#avecqrupqi .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#wqaursjffm .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#avecqrupqi .gt_grand_summary_row {
+#wqaursjffm .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#wqaursjffm .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wqaursjffm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1514,7 +1699,7 @@
   padding-right: 5px;
 }
 
-#avecqrupqi .gt_first_grand_summary_row {
+#wqaursjffm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1524,11 +1709,11 @@
   border-top-color: #D3D3D3;
 }
 
-#avecqrupqi .gt_striped {
+#wqaursjffm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#avecqrupqi .gt_table_body {
+#wqaursjffm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1537,7 +1722,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#avecqrupqi .gt_footnotes {
+#wqaursjffm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1551,13 +1736,16 @@
   border-right-color: #D3D3D3;
 }
 
-#avecqrupqi .gt_footnote {
+#wqaursjffm .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#avecqrupqi .gt_sourcenotes {
+#wqaursjffm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1571,44 +1759,80 @@
   border-right-color: #D3D3D3;
 }
 
-#avecqrupqi .gt_sourcenote {
+#wqaursjffm .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#avecqrupqi .gt_left {
+#wqaursjffm .gt_left {
   text-align: left;
 }
 
-#avecqrupqi .gt_center {
+#wqaursjffm .gt_center {
   text-align: center;
 }
 
-#avecqrupqi .gt_right {
+#wqaursjffm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#avecqrupqi .gt_font_normal {
+#wqaursjffm .gt_font_normal {
   font-weight: normal;
 }
 
-#avecqrupqi .gt_font_bold {
+#wqaursjffm .gt_font_bold {
   font-weight: bold;
 }
 
-#avecqrupqi .gt_font_italic {
+#wqaursjffm .gt_font_italic {
   font-style: italic;
 }
 
-#avecqrupqi .gt_super {
+#wqaursjffm .gt_super {
   font-size: 65%;
 }
 
-#avecqrupqi .gt_footnote_marks {
+#wqaursjffm .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#wqaursjffm .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
-  font-size: 65%;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#wqaursjffm .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#wqaursjffm .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#wqaursjffm .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#wqaursjffm .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
 <table class="table gt_table">
@@ -1630,7 +1854,7 @@
 <tr class="gt_group_heading_row">
 <td colspan="9" class="gt_group_heading">1_1</td>
     </tr>
-<tr>
+<tr class="gt_row_group_first">
 <td class="gt_row gt_right">1</td>
 <td class="gt_row gt_left">PROPHET</td>
 <td class="gt_row gt_left">Test</td>
@@ -1677,7 +1901,7 @@
 <tr class="gt_group_heading_row">
 <td colspan="9" class="gt_group_heading">1_3</td>
     </tr>
-<tr>
+<tr class="gt_row_group_first">
 <td class="gt_row gt_right">1</td>
 <td class="gt_row gt_left">PROPHET</td>
 <td class="gt_row gt_left">Test</td>
@@ -1726,31 +1950,31 @@
 </div>
 </div>
 </div>
-<div class="section level3">
-<h3 id="step-2-select-best">Step 2: Select Best<a class="anchor" aria-label="anchor" href="#step-2-select-best"></a>
-</h3>
-<p>Using the accuracy data, we can pick a metric and select the best model based on that metric. The available metrics are in the <code><a href="https://rdrr.io/pkg/modeltime/man/metric_sets.html" class="external-link">default_forecast_accuracy_metric_set()</a></code>. Make sure to select <code>minimize</code> based on the metric. The <code>filter_test_forecasts</code> parameter tells the function to filter the logged test forecasts to just the best.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="section level4">
+<h4 id="step-2-select-best">Step 2: Select Best<a class="anchor" aria-label="anchor" href="#step-2-select-best"></a>
+</h4>
+<p>Using the accuracy data, we can pick a metric and select the best model based on that metric. The available metrics are in the <code><a href="https://business-science.github.io/modeltime/reference/metric_sets.html" class="external-link">default_forecast_accuracy_metric_set()</a></code>. Make sure to select <code>minimize</code> based on the metric. The <code>filter_test_forecasts</code> parameter tells the function to filter the logged test forecasts to just the best.</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">best_nested_modeltime_tbl</span> <span class="op">&lt;-</span> <span class="va">nested_ensemble_2_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_nested_select_best.html" class="external-link">modeltime_nested_select_best</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://business-science.github.io/modeltime/reference/modeltime_nested_select_best.html" class="external-link">modeltime_nested_select_best</a></span><span class="op">(</span>
       metric                <span class="op">=</span> <span class="st">"rmse"</span>, 
       minimize              <span class="op">=</span> <span class="cn">TRUE</span>, 
       filter_test_forecasts <span class="op">=</span> <span class="cn">TRUE</span>
     <span class="op">)</span></code></pre></div>
-<div class="section level4">
-<h4 id="extract-nested-best-model-report">Extract Nested Best Model Report<a class="anchor" aria-label="anchor" href="#extract-nested-best-model-report"></a>
-</h4>
-<p>The best model selections can be accessed with <code><a href="https://rdrr.io/pkg/modeltime/man/log_extractors.html" class="external-link">extract_nested_best_model_report()</a></code>.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="section level5">
+<h5 id="extract-nested-best-model-report">Extract Nested Best Model Report<a class="anchor" aria-label="anchor" href="#extract-nested-best-model-report"></a>
+</h5>
+<p>The best model selections can be accessed with <code><a href="https://business-science.github.io/modeltime/reference/log_extractors.html" class="external-link">extract_nested_best_model_report()</a></code>.</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">best_nested_modeltime_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/log_extractors.html" class="external-link">extract_nested_best_model_report</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/table_modeltime_accuracy.html" class="external-link">table_modeltime_accuracy</a></span><span class="op">(</span>.interactive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<div id="pnhwblcpgs" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+  <span class="fu"><a href="https://business-science.github.io/modeltime/reference/log_extractors.html" class="external-link">extract_nested_best_model_report</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://business-science.github.io/modeltime/reference/table_modeltime_accuracy.html" class="external-link">table_modeltime_accuracy</a></span><span class="op">(</span>.interactive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<div id="mzoikfdweg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#pnhwblcpgs .gt_table {
+#mzoikfdweg .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1775,7 +1999,7 @@
   border-left-color: #D3D3D3;
 }
 
-#pnhwblcpgs .gt_heading {
+#mzoikfdweg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1787,33 +2011,37 @@
   border-right-color: #D3D3D3;
 }
 
-#pnhwblcpgs .gt_title {
+#mzoikfdweg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#pnhwblcpgs .gt_subtitle {
+#mzoikfdweg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
   padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#pnhwblcpgs .gt_bottom_border {
+#mzoikfdweg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pnhwblcpgs .gt_col_headings {
+#mzoikfdweg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1828,7 +2056,7 @@
   border-right-color: #D3D3D3;
 }
 
-#pnhwblcpgs .gt_col_heading {
+#mzoikfdweg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1848,7 +2076,7 @@
   overflow-x: hidden;
 }
 
-#pnhwblcpgs .gt_column_spanner_outer {
+#mzoikfdweg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1860,15 +2088,15 @@
   padding-right: 4px;
 }
 
-#pnhwblcpgs .gt_column_spanner_outer:first-child {
+#mzoikfdweg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pnhwblcpgs .gt_column_spanner_outer:last-child {
+#mzoikfdweg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pnhwblcpgs .gt_column_spanner {
+#mzoikfdweg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1880,8 +2108,11 @@
   width: 100%;
 }
 
-#pnhwblcpgs .gt_group_heading {
-  padding: 8px;
+#mzoikfdweg .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1902,7 +2133,7 @@
   vertical-align: middle;
 }
 
-#pnhwblcpgs .gt_empty_group_heading {
+#mzoikfdweg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1917,15 +2148,15 @@
   vertical-align: middle;
 }
 
-#pnhwblcpgs .gt_from_md > :first-child {
+#mzoikfdweg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pnhwblcpgs .gt_from_md > :last-child {
+#mzoikfdweg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pnhwblcpgs .gt_row {
+#mzoikfdweg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1944,7 +2175,7 @@
   overflow-x: hidden;
 }
 
-#pnhwblcpgs .gt_stub {
+#mzoikfdweg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1953,10 +2184,29 @@
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#pnhwblcpgs .gt_summary_row {
+#mzoikfdweg .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#mzoikfdweg .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#mzoikfdweg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1966,17 +2216,26 @@
   padding-right: 5px;
 }
 
-#pnhwblcpgs .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#mzoikfdweg .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#pnhwblcpgs .gt_grand_summary_row {
+#mzoikfdweg .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#mzoikfdweg .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mzoikfdweg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1986,7 +2245,7 @@
   padding-right: 5px;
 }
 
-#pnhwblcpgs .gt_first_grand_summary_row {
+#mzoikfdweg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1996,11 +2255,11 @@
   border-top-color: #D3D3D3;
 }
 
-#pnhwblcpgs .gt_striped {
+#mzoikfdweg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pnhwblcpgs .gt_table_body {
+#mzoikfdweg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2009,7 +2268,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#pnhwblcpgs .gt_footnotes {
+#mzoikfdweg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2023,13 +2282,16 @@
   border-right-color: #D3D3D3;
 }
 
-#pnhwblcpgs .gt_footnote {
+#mzoikfdweg .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#pnhwblcpgs .gt_sourcenotes {
+#mzoikfdweg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2043,44 +2305,80 @@
   border-right-color: #D3D3D3;
 }
 
-#pnhwblcpgs .gt_sourcenote {
+#mzoikfdweg .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#pnhwblcpgs .gt_left {
+#mzoikfdweg .gt_left {
   text-align: left;
 }
 
-#pnhwblcpgs .gt_center {
+#mzoikfdweg .gt_center {
   text-align: center;
 }
 
-#pnhwblcpgs .gt_right {
+#mzoikfdweg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pnhwblcpgs .gt_font_normal {
+#mzoikfdweg .gt_font_normal {
   font-weight: normal;
 }
 
-#pnhwblcpgs .gt_font_bold {
+#mzoikfdweg .gt_font_bold {
   font-weight: bold;
 }
 
-#pnhwblcpgs .gt_font_italic {
+#mzoikfdweg .gt_font_italic {
   font-style: italic;
 }
 
-#pnhwblcpgs .gt_super {
+#mzoikfdweg .gt_super {
   font-size: 65%;
 }
 
-#pnhwblcpgs .gt_footnote_marks {
+#mzoikfdweg .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#mzoikfdweg .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
-  font-size: 65%;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#mzoikfdweg .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#mzoikfdweg .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#mzoikfdweg .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#mzoikfdweg .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
 <table class="table gt_table">
@@ -2128,34 +2426,34 @@
 </table>
 </div>
 </div>
-<div class="section level4">
-<h4 id="extract-nested-best-test-forecasts">Extract Nested Best Test Forecasts<a class="anchor" aria-label="anchor" href="#extract-nested-best-test-forecasts"></a>
-</h4>
+<div class="section level5">
+<h5 id="extract-nested-best-test-forecasts">Extract Nested Best Test Forecasts<a class="anchor" aria-label="anchor" href="#extract-nested-best-test-forecasts"></a>
+</h5>
 <p>Once we’ve selected the best models, we can easily visualize the best forecasts by time series. Note that the nested test forecast logs have been modified to isolate the best models.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">best_nested_modeltime_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/log_extractors.html" class="external-link">extract_nested_test_forecast</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://business-science.github.io/modeltime/reference/log_extractors.html" class="external-link">extract_nested_test_forecast</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/plot_modeltime_forecast.html" class="external-link">plot_modeltime_forecast</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://business-science.github.io/modeltime/reference/plot_modeltime_forecast.html" class="external-link">plot_modeltime_forecast</a></span><span class="op">(</span>
     .facet_ncol  <span class="op">=</span> <span class="fl">1</span>,
     .interactive <span class="op">=</span> <span class="cn">FALSE</span>
   <span class="op">)</span></code></pre></div>
 <p><img src="nested-ensembles_files/figure-html/unnamed-chunk-17-1.png" width="95%" style="display: block; margin: auto;"></p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="step-3-refitting-and-future-forecast">Step 3: Refitting and Future Forecast<a class="anchor" aria-label="anchor" href="#step-3-refitting-and-future-forecast"></a>
-</h3>
+<div class="section level4">
+<h4 id="step-3-refitting-and-future-forecast">Step 3: Refitting and Future Forecast<a class="anchor" aria-label="anchor" href="#step-3-refitting-and-future-forecast"></a>
+</h4>
 <p>With the best models in hand, we can make our future forecasts by refitting the models to the full dataset.</p>
 <ul>
 <li><p>If the best models have been selected, the only the best models will be refit.</p></li>
 <li><p>If best models have not been selected, then all models will be refit.</p></li>
 </ul>
-<p>We’ve selected our best models, and will move forward with refitting and future forecast logging using the <code><a href="https://rdrr.io/pkg/modeltime/man/modeltime_nested_refit.html" class="external-link">modeltime_nested_refit()</a></code> function.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<p>We’ve selected our best models, and will move forward with refitting and future forecast logging using the <code><a href="https://business-science.github.io/modeltime/reference/modeltime_nested_refit.html" class="external-link">modeltime_nested_refit()</a></code> function.</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nested_modeltime_refit_tbl</span> <span class="op">&lt;-</span> <span class="va">best_nested_modeltime_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/modeltime_nested_refit.html" class="external-link">modeltime_nested_refit</a></span><span class="op">(</span>
-        control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/control_modeltime.html" class="external-link">control_nested_refit</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+    <span class="fu"><a href="https://business-science.github.io/modeltime/reference/modeltime_nested_refit.html" class="external-link">modeltime_nested_refit</a></span><span class="op">(</span>
+        control <span class="op">=</span> <span class="fu"><a href="https://business-science.github.io/modeltime/reference/control_modeltime.html" class="external-link">control_nested_refit</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
     <span class="op">)</span></code></pre></div>
 <pre><code><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> [1/2] Starting Modeltime Table: ID 1_1...</span></code></pre>
 <pre><code><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Model 4 Passed ENSEMBLE (WEIGHTED): 2 MODELS.</span></code></pre>
@@ -2163,28 +2461,27 @@
 <pre><code><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> [2/2] Starting Modeltime Table: ID 1_3...</span></code></pre>
 <pre><code><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Model 3 Passed ENSEMBLE (MEAN): 2 MODELS.</span></code></pre>
 <pre><code><span class="co">#&gt; <span style="color: #00BB00;">✔</span> [2/2] Finished Modeltime Table: ID 1_3</span></code></pre>
-<pre><code><span class="co">#&gt; </span></code></pre>
-<pre><code><span class="co">#&gt; Finished in: 2.008639 secs.</span></code></pre>
+<pre><code><span class="co">#&gt; Finished in: 2.053168 secs.</span></code></pre>
 <p>We can see that the nested modeltime table appears the same, but has now been trained on <code>.actual_data</code>.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nested_modeltime_refit_tbl</span></code></pre></div>
 <pre><code><span class="co">#&gt; # Nested Modeltime Table</span>
 <span class="co">#&gt; </span></code></pre>
 <pre><code><span class="co">#&gt; <span style="color: #555555;">Trained on: .actual_data | Model Errors: [0]</span></span></code></pre>
 <pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="co">#&gt;   id    .actual_data       .future_data      .splits         .modeltime_tables  </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1_1   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> <span style="color: #949494;">&lt;mdl_time_tbl [1 ×</span>…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1_3   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> <span style="color: #949494;">&lt;mdl_time_tbl [1 ×</span>…</span></code></pre>
-<div class="section level4">
-<h4 id="extract-nested-future-forecast">Extract Nested Future Forecast<a class="anchor" aria-label="anchor" href="#extract-nested-future-forecast"></a>
-</h4>
+<span class="co">#&gt;   id    .actual_data       .future_data      .splits         .modeltime_tables</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1_1   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> &lt;mdl_time_tbl&gt;   </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1_3   <span style="color: #949494;">&lt;tibble [104 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [52 × 2]&gt;</span> <span style="color: #949494;">&lt;split [52|52]&gt;</span> &lt;mdl_time_tbl&gt;</span></code></pre>
+<div class="section level5">
+<h5 id="extract-nested-future-forecast">Extract Nested Future Forecast<a class="anchor" aria-label="anchor" href="#extract-nested-future-forecast"></a>
+</h5>
 <p>After the refitting process completes, we can now access the future forecast, which is logged.</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nested_modeltime_refit_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/log_extractors.html" class="external-link">extract_nested_future_forecast</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://business-science.github.io/modeltime/reference/log_extractors.html" class="external-link">extract_nested_future_forecast</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/modeltime/man/plot_modeltime_forecast.html" class="external-link">plot_modeltime_forecast</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://business-science.github.io/modeltime/reference/plot_modeltime_forecast.html" class="external-link">plot_modeltime_forecast</a></span><span class="op">(</span>
     .interactive <span class="op">=</span> <span class="cn">FALSE</span>,
     .facet_ncol  <span class="op">=</span> <span class="fl">2</span>
   <span class="op">)</span></code></pre></div>
@@ -2193,27 +2490,27 @@
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
-</h1>
-<p>Nested ensembling is a powerful technique that can improve forecasting accuracy. But, this is just a small portion of what can be done to take your forecasting to the next level… If you want to <strong>become a forecasting expert for your organization</strong>, then take the read on!</p>
 <div class="section level2">
-<h2 id="take-the-high-performance-forecasting-course">Take the High-Performance Forecasting Course<a class="anchor" aria-label="anchor" href="#take-the-high-performance-forecasting-course"></a>
+<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
+<p>Nested ensembling is a powerful technique that can improve forecasting accuracy. But, this is just a small portion of what can be done to take your forecasting to the next level… If you want to <strong>become a forecasting expert for your organization</strong>, then take the read on!</p>
+<div class="section level3">
+<h3 id="take-the-high-performance-forecasting-course">Take the High-Performance Forecasting Course<a class="anchor" aria-label="anchor" href="#take-the-high-performance-forecasting-course"></a>
+</h3>
 <blockquote>
 <p>Become the forecasting expert for your organization</p>
 </blockquote>
 <p><a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/" target="_blank" class="external-link"><img src="https://www.filepicker.io/api/file/bKyqVAi5Qi64sS05QYLk" alt="High-Performance Time Series Forecasting Course" width="100%" style="box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);"></a></p>
 <p><a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/" class="external-link"><em>High-Performance Time Series Course</em></a></p>
-<div class="section level3">
-<h3 id="time-series-is-changing">Time Series is Changing<a class="anchor" aria-label="anchor" href="#time-series-is-changing"></a>
-</h3>
+<div class="section level4">
+<h4 id="time-series-is-changing">Time Series is Changing<a class="anchor" aria-label="anchor" href="#time-series-is-changing"></a>
+</h4>
 <p>Time series is changing. <strong>Businesses now need 10,000+ time series forecasts every day.</strong> This is what I call a <em>High-Performance Time Series Forecasting System (HPTSF)</em> - Accurate, Robust, and Scalable Forecasting.</p>
 <p><strong>High-Performance Forecasting Systems will save companies by improving accuracy and scalability.</strong> Imagine what will happen to your career if you can provide your organization a “High-Performance Time Series Forecasting System” (HPTSF System).</p>
 </div>
-<div class="section level3">
-<h3 id="how-to-learn-high-performance-time-series-forecasting">How to Learn High-Performance Time Series Forecasting<a class="anchor" aria-label="anchor" href="#how-to-learn-high-performance-time-series-forecasting"></a>
-</h3>
+<div class="section level4">
+<h4 id="how-to-learn-high-performance-time-series-forecasting">How to Learn High-Performance Time Series Forecasting<a class="anchor" aria-label="anchor" href="#how-to-learn-high-performance-time-series-forecasting"></a>
+</h4>
 <p>I teach how to build a HPTFS System in my <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting" class="external-link"><strong>High-Performance Time Series Forecasting Course</strong></a>. You will learn:</p>
 <ul>
 <li>
@@ -2257,7 +2554,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer>
