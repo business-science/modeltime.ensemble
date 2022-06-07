@@ -16,8 +16,8 @@ BugReports: https://github.com/business-science/modeltime.ensemble/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: 
-    modeltime (>= 1.1.0),
-    modeltime.resample (>= 0.2.0),
+    modeltime (>= 1.2.2),
+    modeltime.resample (>= 0.2.1),
     R (>= 3.5)
 Imports: 
     tune (>= 0.1.2),
@@ -63,3 +63,5 @@ Suggests:
 RoxygenNote: 7.2.0
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
+Remotes:
+    business-science/modeltime
