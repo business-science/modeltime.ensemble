@@ -30,7 +30,9 @@ Creates an Ensemble Model using Mean/Median Averaging in the
 Modeltime Nested Forecasting Workflow.
 }
 \details{
-If we start with a nested modeltime table, we can add ensembles.\if{html}{\out{<div class="sourceCode r">}}\preformatted{nested_modeltime_tbl
+If we start with a nested modeltime table, we can add ensembles.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{nested_modeltime_tbl
 
 # Nested Modeltime Table
 Trained on: .splits | Model Errors: [0]
@@ -41,7 +43,9 @@ Trained on: .splits | Model Errors: [0]
 2 1_3   <tibble [104 x 2]> <tibble [52 x 2]> <split [52|52]> <mdl_time_tbl [2 x 5]>
 }\if{html}{\out{</div>}}
 
-An ensemble can be added to a Nested modeltime table.\if{html}{\out{<div class="sourceCode r">}}\preformatted{ensem <- nested_modeltime_tbl \%>\%
+An ensemble can be added to a Nested modeltime table.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{ensem <- nested_modeltime_tbl \%>\%
     ensemble_nested_average(
         type           = "mean",
         keep_submodels = TRUE,
@@ -49,19 +53,25 @@ An ensemble can be added to a Nested modeltime table.\if{html}{\out{<div class="
     )
 }\if{html}{\out{</div>}}
 
-We can then verify the model has been added.\if{html}{\out{<div class="sourceCode r">}}\preformatted{ensem \%>\% extract_nested_modeltime_table()
+We can then verify the model has been added.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{ensem \%>\% extract_nested_modeltime_table()
 }\if{html}{\out{</div>}}
 
-This produces an ensemble .model_id 3, which is an ensemble of the first two models.\preformatted{# A tibble: 4 x 6
+This produces an ensemble .model_id 3, which is an ensemble of the first two models.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{# A tibble: 4 x 6
   id    .model_id .model         .model_desc                 .type .calibration_data
   <fct>     <dbl> <list>         <chr>                       <chr> <list>
 1 1_1           1 <workflow>     PROPHET                     Test  <tibble [52 x 4]>
 2 1_1           2 <workflow>     XGBOOST                     Test  <tibble [52 x 4]>
 3 1_1           3 <ensemble [2]> ENSEMBLE (MEAN): 2 MODELS   Test  <tibble [52 x 4]>
-}
+}\if{html}{\out{</div>}}
 
 Additional ensembles can be added by simply adding onto the nested modeltime table.
-Notice that we make use of \code{model_ids} to make sure it only uses model id's 1 and 2.\if{html}{\out{<div class="sourceCode r">}}\preformatted{ensem_2 <- ensem \%>\%
+Notice that we make use of \code{model_ids} to make sure it only uses model id's 1 and 2.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{ensem_2 <- ensem \%>\%
     ensemble_nested_average(
         type           = "median",
         keep_submodels = TRUE,
@@ -70,7 +80,9 @@ Notice that we make use of \code{model_ids} to make sure it only uses model id's
     )
 }\if{html}{\out{</div>}}
 
-This returns a 4th model that is a median ensemble of the first two models.\preformatted{ensem_2 \%>\% extract_nested_modeltime_table()
+This returns a 4th model that is a median ensemble of the first two models.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ensem_2 \%>\% extract_nested_modeltime_table()
 # A tibble: 4 x 6
   id    .model_id .model         .model_desc                 .type .calibration_data
   <fct>     <dbl> <list>         <chr>                       <chr> <list>
@@ -78,5 +90,5 @@ This returns a 4th model that is a median ensemble of the first two models.\pref
 2 1_1           2 <workflow>     XGBOOST                     Test  <tibble [52 x 4]>
 3 1_1           3 <ensemble [2]> ENSEMBLE (MEAN): 2 MODELS   Test  <tibble [52 x 4]>
 4 1_1           4 <ensemble [2]> ENSEMBLE (MEDIAN): 2 MODELS Test  <tibble [52 x 4]>
-}
+}\if{html}{\out{</div>}}
 }

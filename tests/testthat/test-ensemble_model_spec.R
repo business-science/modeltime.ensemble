@@ -20,7 +20,7 @@ testthat::test_that("ensemble_model_spec", {
         step_normalize(matches("(index.num$)|(_year$)")) %>%
         step_dummy(all_nominal())
 
-    recipe_spec %>% prep() %>% juice() %>% glimpse()
+    # recipe_spec %>% prep() %>% juice() %>% glimpse()
 
     wflw_fit_arima <- workflow() %>%
         add_model(arima_reg() %>% set_engine("auto_arima")) %>%
@@ -205,8 +205,11 @@ testthat::test_that("ensemble_model_spec", {
     expect_equal(ncol(forecast_tbl), 7)
 
     # Refit
-    refit_tbl <- calibration_tbl %>%
-        modeltime_refit(m750)
+    suppressWarnings({
+        refit_tbl <- calibration_tbl %>%
+            modeltime_refit(m750)
+    })
+
 
     training_results_tbl <- refit_tbl %>%
         pluck(".model", 1, "model_tbl", ".model", 1, "fit", "fit", "fit", "data")
@@ -232,8 +235,10 @@ testthat::test_that("ensemble_model_spec", {
     accuracy_tbl <- multi_level_model_tbl %>%
         modeltime_accuracy(testing(m750_splits))
 
-    refit_tbl <- multi_level_model_tbl %>%
-        modeltime_refit(m750)
+    suppressWarnings({
+        refit_tbl <- multi_level_model_tbl %>%
+            modeltime_refit(m750)
+    })
 
     forecast_tbl <- refit_tbl %>%
         # dplyr::slice(3:4) %>%

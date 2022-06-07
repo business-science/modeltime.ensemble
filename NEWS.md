@@ -1,5 +1,9 @@
 #  modeltime.ensemble 1.0.0.9000
 
+### Fixes
+
+- Updates for `hardhat 1.0.0`
+
 #  modeltime.ensemble 1.0.0
 
 ## NEW Nested Modeltime Ensembles

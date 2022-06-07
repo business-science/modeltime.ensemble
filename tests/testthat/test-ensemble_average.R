@@ -40,7 +40,7 @@ rec_glmnet <- recipe(value ~ date, data = training(m750_splits)) %>%
     step_dummy(all_nominal_predictors(), one_hot = TRUE) %>%
     step_rm(date)
 
-rec_glmnet %>% prep() %>% juice() %>% glimpse()
+# rec_glmnet %>% prep() %>% juice() %>% glimpse()
 
 
 wflw_fit_glmnet <- workflow() %>%
@@ -96,7 +96,7 @@ test_that("ensemble_average(type = 'median')", {
     accuracy_tbl <- calibration_tbl %>% modeltime_accuracy()
 
     expect_false(is.na(accuracy_tbl$mae))
-    expect_true(accuracy_tbl$mae < 250)
+    expect_true(accuracy_tbl$mae < 300)
 
     # Forecast
     forecast_tbl <- calibration_tbl %>%
