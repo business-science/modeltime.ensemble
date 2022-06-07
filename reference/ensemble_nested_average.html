@@ -139,7 +139,8 @@ use in the ensemble.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>If we start with a nested modeltime table, we can add ensembles.</p><div class="sourceCode r"><pre><code>nested_modeltime_tbl
+    <p>If we start with a nested modeltime table, we can add ensembles.</p>
+<p></p><div class="sourceCode r"><pre><code>nested_modeltime_tbl
 
 # Nested Modeltime Table
 Trained on: .splits | Model Errors: [0]
@@ -149,39 +150,28 @@ Trained on: .splits | Model Errors: [0]
 1 1_1   &lt;tibble [104 x 2]&gt; &lt;tibble [52 x 2]&gt; &lt;split [52|52]&gt; &lt;mdl_time_tbl [2 x 5]&gt;
 2 1_3   &lt;tibble [104 x 2]&gt; &lt;tibble [52 x 2]&gt; &lt;split [52|52]&gt; &lt;mdl_time_tbl [2 x 5]&gt;
 </code></pre><p></p></div>
-<p>An ensemble can be added to a Nested modeltime table.</p><div class="sourceCode r"><pre><code><span class="va">ensem</span> <span class="op">&lt;-</span> <span class="va">nested_modeltime_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<p>An ensemble can be added to a Nested modeltime table.</p>
+<p></p><div class="sourceCode r"><pre><code><span class="va">ensem</span> <span class="op">&lt;-</span> <span class="va">nested_modeltime_tbl</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="../reference/ensemble_nested_average.html">ensemble_nested_average</a></span><span class="op">(</span>
         type           <span class="op">=</span> <span class="st">"mean"</span>,
         keep_submodels <span class="op">=</span> <span class="cn">TRUE</span>,
         control        <span class="op">=</span> <span class="fu"><a href="https://business-science.github.io/modeltime/reference/control_modeltime.html" class="external-link">control_nested_fit</a></span><span class="op">(</span>allow_par <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
     <span class="op">)</span></code></pre><p></p></div>
-<p>We can then verify the model has been added.</p><div class="sourceCode r"><pre><code><span class="va">ensem</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://business-science.github.io/modeltime/reference/log_extractors.html" class="external-link">extract_nested_modeltime_table</a></span><span class="op">(</span><span class="op">)</span></code></pre><p></p></div>
-<p>This produces an ensemble .model_id 3, which is an ensemble of the first two models.</p><div class="sourceCode"><pre><code># A tibble: 4 x 6
-  id    .model_id .model         .model_desc                 .type .calibration_data
-  &lt;fct&gt;     &lt;dbl&gt; &lt;list&gt;         &lt;chr&gt;                       &lt;chr&gt; &lt;list&gt;
-1 1_1           1 &lt;workflow&gt;     PROPHET                     Test  &lt;tibble [52 x 4]&gt;
-2 1_1           2 &lt;workflow&gt;     XGBOOST                     Test  &lt;tibble [52 x 4]&gt;
-3 1_1           3 &lt;ensemble [2]&gt; ENSEMBLE (MEAN): 2 MODELS   Test  &lt;tibble [52 x 4]&gt;
-</code></pre></div>
-
+<p>We can then verify the model has been added.</p>
+<p></p><div class="sourceCode r"><pre><code><span class="va">ensem</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://business-science.github.io/modeltime/reference/log_extractors.html" class="external-link">extract_nested_modeltime_table</a></span><span class="op">(</span><span class="op">)</span></code></pre><p></p></div>
+<p>This produces an ensemble .model_id 3, which is an ensemble of the first two models.</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
 <p>Additional ensembles can be added by simply adding onto the nested modeltime table.
-Notice that we make use of <code>model_ids</code> to make sure it only uses model id's 1 and 2.</p><div class="sourceCode r"><pre><code><span class="va">ensem_2</span> <span class="op">&lt;-</span> <span class="va">ensem</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+Notice that we make use of <code>model_ids</code> to make sure it only uses model id's 1 and 2.</p>
+<p></p><div class="sourceCode r"><pre><code><span class="va">ensem_2</span> <span class="op">&lt;-</span> <span class="va">ensem</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="../reference/ensemble_nested_average.html">ensemble_nested_average</a></span><span class="op">(</span>
         type           <span class="op">=</span> <span class="st">"median"</span>,
         keep_submodels <span class="op">=</span> <span class="cn">TRUE</span>,
         model_ids      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,
         control        <span class="op">=</span> <span class="fu"><a href="https://business-science.github.io/modeltime/reference/control_modeltime.html" class="external-link">control_nested_fit</a></span><span class="op">(</span>allow_par <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
     <span class="op">)</span></code></pre><p></p></div>
-<p>This returns a 4th model that is a median ensemble of the first two models.</p><div class="sourceCode"><pre><code>ensem_2 %&gt;% extract_nested_modeltime_table()
-# A tibble: 4 x 6
-  id    .model_id .model         .model_desc                 .type .calibration_data
-  &lt;fct&gt;     &lt;dbl&gt; &lt;list&gt;         &lt;chr&gt;                       &lt;chr&gt; &lt;list&gt;
-1 1_1           1 &lt;workflow&gt;     PROPHET                     Test  &lt;tibble [52 x 4]&gt;
-2 1_1           2 &lt;workflow&gt;     XGBOOST                     Test  &lt;tibble [52 x 4]&gt;
-3 1_1           3 &lt;ensemble [2]&gt; ENSEMBLE (MEAN): 2 MODELS   Test  &lt;tibble [52 x 4]&gt;
-4 1_1           4 &lt;ensemble [2]&gt; ENSEMBLE (MEDIAN): 2 MODELS Test  &lt;tibble [52 x 4]&gt;
-</code></pre></div>
-
+<p>This returns a 4th model that is a median ensemble of the first two models.</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
