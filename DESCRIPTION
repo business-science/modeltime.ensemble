@@ -64,5 +64,5 @@ RoxygenNote: 7.2.0
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 Remotes:
-    business-science/modeltime
+    business-science/modeltime,
     business-science/modeltime.resample
