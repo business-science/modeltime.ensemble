@@ -1,7 +1,7 @@
 Package: modeltime.ensemble
 Type: Package
 Title: Ensemble Algorithms for Time Series Forecasting with Modeltime
-Version: 1.0.0.9000
+Version: 1.0.1
 Authors@R: c(
     person("Matt", "Dancho", email = "mdancho@business-science.io", role = c("aut", "cre")),
     person("Business Science", role = "cph")
@@ -63,6 +63,4 @@ Suggests:
 RoxygenNote: 7.2.0
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-Remotes:
-    business-science/modeltime,
-    business-science/modeltime.resample
+
