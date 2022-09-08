@@ -26,7 +26,7 @@ test_that("Accuracy & CI by ID", {
 
     wflw_xgb <- workflow() %>%
         add_model(
-            boost_tree() %>% set_engine("xgboost")
+            boost_tree(mode = "regression") %>% set_engine("xgboost")
         ) %>%
         add_recipe(rec_obj) %>%
         fit(training(splits))

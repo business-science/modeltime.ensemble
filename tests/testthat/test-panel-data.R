@@ -26,7 +26,7 @@ wflw_fit_prophet_boost <- workflow() %>%
 
 set.seed(123)
 wflw_fit_xgb <- workflow() %>%
-    add_model(boost_tree() %>% set_engine("xgboost")) %>%
+    add_model(boost_tree("regression") %>% set_engine("xgboost")) %>%
     add_recipe(recipe_spec %>% step_rm(date)) %>%
     fit(data_set)
 

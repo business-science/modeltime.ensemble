@@ -54,7 +54,7 @@ testthat::test_that("Nested Ensembles Work - sequential", {
     recipe_bad <- recipe(value ~ ., extract_nested_train_split(nested_data_tbl))
 
     wflw_bad <- workflow() %>%
-        add_model(boost_tree()) %>%
+        add_model(boost_tree("regression")) %>%
         add_recipe(recipe_bad)
 
 
@@ -259,7 +259,7 @@ testthat::test_that("Nested Ensembles Work - parallel", {
     recipe_bad <- recipe(value ~ ., extract_nested_train_split(nested_data_tbl))
 
     wflw_bad <- workflow() %>%
-        add_model(boost_tree()) %>%
+        add_model(boost_tree("regression")) %>%
         add_recipe(recipe_bad)
 
 

@@ -1,3 +1,7 @@
+# modeltime.ensemble 1.0.1.9000
+
+- Update tests for `workflows` mode = "regression"
+
 #  modeltime.ensemble 1.0.1
 
 ### Fixes
