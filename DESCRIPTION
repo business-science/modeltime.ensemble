@@ -16,7 +16,7 @@ BugReports: https://github.com/business-science/modeltime.ensemble/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: 
-    modeltime (>= 1.2.2),
+    modeltime (>= 1.2.3),
     modeltime.resample (>= 0.2.1),
     R (>= 3.5)
 Imports: 
