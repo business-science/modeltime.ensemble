@@ -1,3 +1,7 @@
+# modeltime.ensemble 1.0.3
+
+- Resubmit to CRAN  (following timetk archival)
+
 # modeltime.ensemble 1.0.2
 
 - Update tests for `workflows` mode = "regression"
