@@ -2,12 +2,58 @@ context("TEST: ensemble_weighted()")
 
 # TEST ENSEMBLE AVERAGE ----
 
+# USED FOR TESTS ----
+wflw_fit_arima <- workflow() %>%
+    add_model(
+        spec = arima_reg(seasonal_period = 12) %>% set_engine("auto_arima")
+    ) %>%
+    add_recipe(
+        recipe = recipe(value ~ date, data = training(m750_splits))
+    ) %>%
+    fit(training(m750_splits))
+
+wflw_fit_prophet <- workflow() %>%
+    add_model(
+        spec = prophet_reg() %>% set_engine("prophet")
+    ) %>%
+    add_recipe(
+        recipe = recipe(value ~ date, data = training(m750_splits))
+    ) %>%
+    fit(training(m750_splits))
+
+rec_glmnet <- recipe(value ~ date, data = training(m750_splits)) %>%
+    step_timeseries_signature(date) %>%
+    step_rm(matches("(iso$)|(xts$)|(am.pm)|(hour$)|(minute)|(second)")) %>%
+    step_zv(all_predictors()) %>%
+    step_normalize(all_numeric_predictors()) %>%
+    step_dummy(all_nominal_predictors(), one_hot = TRUE) %>%
+    step_rm(date)
+
+# rec_glmnet %>% prep() %>% juice() %>% glimpse()
+
+
+wflw_fit_glmnet <- workflow() %>%
+    add_model(
+        spec = linear_reg(penalty = 0.1) %>% set_engine("glmnet")
+    ) %>%
+    add_recipe(
+        recipe = rec_glmnet
+    ) %>%
+    fit(training(m750_splits))
+
+m750_models_2 <- modeltime_table(
+    wflw_fit_arima,
+    wflw_fit_prophet,
+    wflw_fit_glmnet
+)
+
+
 # Median ----
 test_that("ensemble_weighted()", {
 
     loadings <- c(3,2,1)
 
-    ensemble_fit_wt <- m750_models %>%
+    ensemble_fit_wt <- m750_models_2 %>%
         ensemble_weighted(loadings = loadings)
 
     # Structure
@@ -96,17 +142,17 @@ test_that("Checks/Errors: ensemble_weighted()", {
     expect_error(ensemble_weighted(1))
 
     # No loadings
-    expect_error(ensemble_weighted(m750_models))
+    expect_error(ensemble_weighted(m750_models_2))
 
     # Needs correct number of loadings
     expect_error({
-        m750_models %>%
+        m750_models_2 %>%
             ensemble_weighted(loadings = 1)
     })
 
     # Needs more than one model
     expect_error({
-        m750_models %>%
+        m750_models_2 %>%
             slice(1) %>%
             ensemble_weighted(loadings = 1:3)
     })

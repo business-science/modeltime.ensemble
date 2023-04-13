@@ -48,8 +48,8 @@ mdl_time_refit.mdl_time_ensemble_model_spec <- function(object, data, ..., contr
 
     # Meta-Learner Model Workflow
     wflw_fit  <- object$fit$fit
-    model_spec <- wflw_fit %>%
-        workflows::pull_workflow_spec()
+    # model_spec <- wflw_fit %>% workflows::pull_workflow_spec()
+    model_spec <- wflw_fit %>% workflows::extract_spec_parsnip()
 
     # Resample Data
     dot_list  <- rlang::dots_list(...)

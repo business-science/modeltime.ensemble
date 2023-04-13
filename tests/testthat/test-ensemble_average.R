@@ -3,17 +3,7 @@ context("TEST: ensemble_average()")
 
 library(testthat)
 
-# Machine Learning
-library(tidymodels)
-library(modeltime)
-library(modeltime.ensemble)
-library(modeltime.resample)
-
-# Core Packages
-library(tidyverse)
-library(timetk)
-library(lubridate)
-
+# USED FOR TESTS ----
 wflw_fit_arima <- workflow() %>%
     add_model(
         spec = arima_reg(seasonal_period = 12) %>% set_engine("auto_arima")
@@ -52,11 +42,12 @@ wflw_fit_glmnet <- workflow() %>%
     ) %>%
     fit(training(m750_splits))
 
-m750_models <- modeltime_table(
+m750_models_2 <- modeltime_table(
     wflw_fit_arima,
     wflw_fit_prophet,
     wflw_fit_glmnet
 )
+
 
 # TEST ENSEMBLE AVERAGE ----
 
@@ -65,7 +56,7 @@ test_that("ensemble_average(type = 'median')", {
 
     testthat::skip_on_cran()
 
-    ensemble_fit_median <- m750_models %>%
+    ensemble_fit_median <- m750_models_2 %>%
         ensemble_average(type = "median")
 
     # Structure
@@ -127,8 +118,17 @@ test_that("ensemble_average(type = 'median')", {
         modeltime_refit(m750, control = control_refit())
 
     # Refit in Parallel ----
+    parallel_start(2)
     refit_tbl <- calibration_tbl %>%
-        modeltime_refit(m750, control = control_refit(verbose = TRUE, allow_par = TRUE, cores = 2, packages = "modeltime.ensemble"))
+        modeltime_refit(
+            m750,
+            control = control_refit(
+                verbose = TRUE,
+                allow_par = TRUE,
+                cores = 2,
+                packages = "modeltime.ensemble")
+        )
+    parallel_stop()
 
     training_results_tbl <- refit_tbl %>%
         pluck(".model", 1, "model_tbl", ".model", 1, "fit", "fit", "fit", "data")
@@ -140,7 +140,7 @@ test_that("ensemble_average(type = 'median')", {
 # Mean ----
 test_that("ensemble_average(type = 'mean')", {
 
-    ensemble_fit_mean <- m750_models %>%
+    ensemble_fit_mean <- m750_models_2 %>%
         ensemble_average(type = "mean")
 
     # Structure
@@ -173,11 +173,11 @@ test_that("Checks/Errors: ensemble_average()", {
     expect_error(ensemble_average(1))
 
     # Incorrect Type
-    expect_error(ensemble_average(m750_models, type = "blah"))
+    expect_error(ensemble_average(m750_models_2, type = "blah"))
 
     # Needs more than 1 model
     expect_error({
-        m750_models %>%
+        m750_models_2 %>%
             dplyr::slice(1) %>%
             ensemble_average(type = "mean")
     })

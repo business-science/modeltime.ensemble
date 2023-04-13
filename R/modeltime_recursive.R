@@ -14,7 +14,8 @@ recursive.mdl_time_ensemble <- function(object, transform, train_tail, id = NULL
     # Workflow and Model Fit Objects store y_var (outcome) differently
     model_1 <- object$model_tbl$.model[[1]]
     if (inherits(model_1, "workflow")) {
-        mld                      <- model_1 %>% workflows::pull_workflow_mold()
+        # mld                      <- model_1 %>% workflows::pull_workflow_mold()
+        mld                      <- model_1 %>% workflows::extract_mold()
         object$spec[["y_var"]]   <- names(mld$outcomes)
     } else if (inherits(model_1, "model_fit")) {
         object$spec[["y_var"]]   <- object$model_tbl$.model[[1]]$preproc$y_var

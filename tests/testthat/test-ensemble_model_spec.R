@@ -1,5 +1,52 @@
 context("TEST: ensemble_model_spec()")
 
+# USED FOR TESTS ----
+wflw_fit_arima <- workflow() %>%
+    add_model(
+        spec = arima_reg(seasonal_period = 12) %>% set_engine("auto_arima")
+    ) %>%
+    add_recipe(
+        recipe = recipe(value ~ date, data = training(m750_splits))
+    ) %>%
+    fit(training(m750_splits))
+
+wflw_fit_prophet <- workflow() %>%
+    add_model(
+        spec = prophet_reg() %>% set_engine("prophet")
+    ) %>%
+    add_recipe(
+        recipe = recipe(value ~ date, data = training(m750_splits))
+    ) %>%
+    fit(training(m750_splits))
+
+rec_glmnet <- recipe(value ~ date, data = training(m750_splits)) %>%
+    step_timeseries_signature(date) %>%
+    step_rm(matches("(iso$)|(xts$)|(am.pm)|(hour$)|(minute)|(second)")) %>%
+    step_zv(all_predictors()) %>%
+    step_normalize(all_numeric_predictors()) %>%
+    step_dummy(all_nominal_predictors(), one_hot = TRUE) %>%
+    step_rm(date)
+
+# rec_glmnet %>% prep() %>% juice() %>% glimpse()
+
+
+wflw_fit_glmnet <- workflow() %>%
+    add_model(
+        spec = linear_reg(penalty = 0.1) %>% set_engine("glmnet")
+    ) %>%
+    add_recipe(
+        recipe = rec_glmnet
+    ) %>%
+    fit(training(m750_splits))
+
+m750_models_2 <- modeltime_table(
+    wflw_fit_arima,
+    wflw_fit_prophet,
+    wflw_fit_glmnet
+)
+
+
+
 # SETUP ----
 
 
@@ -38,17 +85,17 @@ testthat::test_that("ensemble_model_spec", {
         fit(training(m750_splits))
 
 
-    m750_models_resample <<- modeltime_table(
+    m750_models_2_resample <<- modeltime_table(
         wflw_fit_arima,
         wflw_fit_prophet,
         wflw_fit_lm
     ) %>%
         modeltime_fit_resamples(resamples_tscv, control = control_resamples(verbose = T))
 
-    m750_models_resample <<- m750_models %>%
+    m750_models_2_resample <<- m750_models_2 %>%
         modeltime_fit_resamples(resamples_tscv, control = control_resamples(verbose = T))
 
-    ensemble_fit_glmnet <<- m750_models_resample %>%
+    ensemble_fit_glmnet <<- m750_models_2_resample %>%
         ensemble_model_spec(
             model_spec = linear_reg(penalty = tune(), mixture = tune()) %>%
                 set_engine("glmnet"),
@@ -60,7 +107,7 @@ testthat::test_that("ensemble_model_spec", {
 
     # NO TUNING - LM ----
 
-    ensemble_fit_lm <- m750_models_resample %>%
+    ensemble_fit_lm <- m750_models_2_resample %>%
         ensemble_model_spec(
             model_spec = linear_reg() %>% set_engine("lm"),
             grid       = 3,
@@ -133,7 +180,7 @@ testthat::test_that("ensemble_model_spec", {
     expect_warning({
         # Expect warning when resamples are not provided
         refit_tbl <- calibration_tbl %>%
-            combine_modeltime_tables(m750_models) %>%
+            combine_modeltime_tables(m750_models_2) %>%
             modeltime_refit(m750)
     })
 
@@ -142,7 +189,7 @@ testthat::test_that("ensemble_model_spec", {
     # Refit - WITH RESAMPLES
 
     refit_tbl <- calibration_tbl %>%
-        combine_modeltime_tables(m750_models) %>%
+        combine_modeltime_tables(m750_models_2) %>%
         modeltime_refit(m750, resamples = full_resamples_tscv, control = control_refit(verbose = TRUE))
 
     future_tbl <- refit_tbl %>% modeltime_forecast(h = "2 years", actual_data = m750)
@@ -154,7 +201,7 @@ testthat::test_that("ensemble_model_spec", {
 
     # TUNING - GLMNET ----
 
-    ensemble_fit_glmnet <<- m750_models_resample %>%
+    ensemble_fit_glmnet <<- m750_models_2_resample %>%
         ensemble_model_spec(
             model_spec = linear_reg(penalty = tune(), mixture = tune()) %>%
                 set_engine("glmnet"),
@@ -221,7 +268,7 @@ testthat::test_that("ensemble_model_spec", {
 
 
     # Multi-Level Stacking
-    model_tbl <- m750_models %>%
+    model_tbl <- m750_models_2 %>%
         add_modeltime_model(ensemble_fit_glmnet)
 
     ensemble_fit_wt <- model_tbl %>%
@@ -230,7 +277,7 @@ testthat::test_that("ensemble_model_spec", {
     multi_level_model_tbl <- modeltime_table(
         ensemble_fit_wt
     ) %>%
-        combine_modeltime_tables(m750_models)
+        combine_modeltime_tables(m750_models_2)
 
     accuracy_tbl <- multi_level_model_tbl %>%
         modeltime_accuracy(testing(m750_splits))
@@ -261,17 +308,17 @@ test_that("Checks/Errors: ensemble_model_spec()", {
     expect_error(ensemble_model_spec(1))
 
     # No resamples
-    expect_error(ensemble_model_spec(m750_models))
+    expect_error(ensemble_model_spec(m750_models_2))
 
     # Needs 'model_spec'
     expect_error({
-        m750_models_resample %>%
+        m750_models_2_resample %>%
             ensemble_model_spec()
     })
 
     # Needs 'set_engine()'
     # expect_error({
-    #     m750_models_resample %>%
+    #     m750_models_2_resample %>%
     #         ensemble_model_spec(
     #             model_spec = linear_reg()
     #         )
@@ -279,7 +326,7 @@ test_that("Checks/Errors: ensemble_model_spec()", {
 
     # Needs more than one model
     expect_error({
-        m750_models_resample %>%
+        m750_models_2_resample %>%
             slice(1) %>%
             ensemble_model_spec(
                 model_spec = linear_reg() %>% set_engine("lm")
