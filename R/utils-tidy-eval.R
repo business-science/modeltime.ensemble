@@ -37,6 +37,8 @@
 #' \href{https://adv-r.hadley.nz/metaprogramming.html}{Metaprogramming
 #' section} of \href{https://adv-r.hadley.nz}{Advanced R}.
 #'
+#' @returns Nothing.
+#'
 #' @md
 #' @name tidyeval
 #' @keywords internal

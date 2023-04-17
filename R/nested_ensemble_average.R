@@ -13,6 +13,9 @@
 #'  use in the ensemble.
 #' @param control Controls various aspects of the ensembling process. See [control_nested_fit()].
 #'
+#' @returns
+#' The nested modeltime table with an ensemble model added.
+#'
 #' @details
 #'
 #' If we start with a nested modeltime table, we can add ensembles.

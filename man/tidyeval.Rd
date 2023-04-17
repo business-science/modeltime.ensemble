@@ -12,6 +12,9 @@
 \alias{as_name}
 \alias{as_label}
 \title{Tidy eval helpers}
+\value{
+Nothing.
+}
 \description{
 \itemize{
 \item \code{\link[rlang]{sym}()} creates a symbol from a string and

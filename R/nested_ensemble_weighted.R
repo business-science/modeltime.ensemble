@@ -11,6 +11,9 @@
 #'  Loadings are then applied in the order from best to worst models.
 #'  Default: `"rmse"`.
 #'
+#' @returns
+#' The nested modeltime table with an ensemble model added.
+#'
 #'
 #' @details
 #'

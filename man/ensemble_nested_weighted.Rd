@@ -34,6 +34,9 @@ use in the ensemble.}
 
 \item{control}{Controls various aspects of the ensembling process. See \code{\link[=control_nested_fit]{control_nested_fit()}}.}
 }
+\value{
+The nested modeltime table with an ensemble model added.
+}
 \description{
 Creates an Ensemble Model using Weighted Averaging in the
 Modeltime Nested Forecasting Workflow.
