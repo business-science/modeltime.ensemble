@@ -54,48 +54,48 @@ testthat::test_that("ensemble_model_spec", {
 
     skip_on_cran()
 
-    resamples_tscv <<- training(m750_splits) %>%
+    resamples_tscv <- training(m750_splits) %>%
         time_series_cv(assess = "2 years", initial = "5 years", skip = "2 years", slice_limit = 1)
 
-    full_resamples_tscv <<- m750 %>%
+    full_resamples_tscv <- m750 %>%
         time_series_cv(assess = "2 years", initial = "5 years", skip = "2 years", slice_limit = 1)
 
 
-    recipe_spec <- recipe(value ~ date, training(m750_splits)) %>%
-        step_timeseries_signature(date) %>%
-        step_rm(matches("(.iso$)|(.xts$)")) %>%
-        step_normalize(matches("(index.num$)|(_year$)")) %>%
-        step_dummy(all_nominal())
+    # recipe_spec <- recipe(value ~ date, training(m750_splits)) %>%
+    #     step_timeseries_signature(date) %>%
+    #     step_rm(matches("(.iso$)|(.xts$)")) %>%
+    #     step_normalize(matches("(index.num$)|(_year$)")) %>%
+    #     step_dummy(all_nominal())
 
     # recipe_spec %>% prep() %>% juice() %>% glimpse()
 
-    wflw_fit_arima <- workflow() %>%
-        add_model(arima_reg() %>% set_engine("auto_arima")) %>%
-        add_recipe(recipe_spec %>% step_rm(all_predictors(), -date)) %>%
-        fit(training(m750_splits))
+    # wflw_fit_arima <- workflow() %>%
+    #     add_model(arima_reg() %>% set_engine("auto_arima")) %>%
+    #     add_recipe(recipe_spec %>% step_rm(all_predictors(), -date)) %>%
+    #     fit(training(m750_splits))
+    #
+    # wflw_fit_prophet <- workflow() %>%
+    #     add_model(prophet_reg() %>% set_engine("prophet")) %>%
+    #     add_recipe(recipe_spec %>% step_rm(all_predictors(), -date)) %>%
+    #     fit(training(m750_splits))
+    #
+    # wflw_fit_lm <- workflow() %>%
+    #     add_model(linear_reg(penalty = 0.01, mixture = 0.5) %>% set_engine("glmnet")) %>%
+    #     add_recipe(recipe_spec %>% step_rm(date)) %>%
+    #     fit(training(m750_splits))
 
-    wflw_fit_prophet <- workflow() %>%
-        add_model(prophet_reg() %>% set_engine("prophet")) %>%
-        add_recipe(recipe_spec %>% step_rm(all_predictors(), -date)) %>%
-        fit(training(m750_splits))
 
-    wflw_fit_lm <- workflow() %>%
-        add_model(linear_reg(penalty = 0.01, mixture = 0.5) %>% set_engine("glmnet")) %>%
-        add_recipe(recipe_spec %>% step_rm(date)) %>%
-        fit(training(m750_splits))
+    # m750_models_2_resample <- modeltime_table(
+    #     wflw_fit_arima,
+    #     wflw_fit_prophet,
+    #     wflw_fit_lm
+    # ) %>%
+    #     modeltime_fit_resamples(resamples_tscv, control = control_resamples(verbose = T))
 
-
-    m750_models_2_resample <<- modeltime_table(
-        wflw_fit_arima,
-        wflw_fit_prophet,
-        wflw_fit_lm
-    ) %>%
+    m750_models_2_resample <- m750_models_2 %>%
         modeltime_fit_resamples(resamples_tscv, control = control_resamples(verbose = T))
 
-    m750_models_2_resample <<- m750_models_2 %>%
-        modeltime_fit_resamples(resamples_tscv, control = control_resamples(verbose = T))
-
-    ensemble_fit_glmnet <<- m750_models_2_resample %>%
+    ensemble_fit_glmnet <- m750_models_2_resample %>%
         ensemble_model_spec(
             model_spec = linear_reg(penalty = tune(), mixture = tune()) %>%
                 set_engine("glmnet"),
@@ -201,7 +201,7 @@ testthat::test_that("ensemble_model_spec", {
 
     # TUNING - GLMNET ----
 
-    ensemble_fit_glmnet <<- m750_models_2_resample %>%
+    ensemble_fit_glmnet <- m750_models_2_resample %>%
         ensemble_model_spec(
             model_spec = linear_reg(penalty = tune(), mixture = tune()) %>%
                 set_engine("glmnet"),
@@ -293,13 +293,9 @@ testthat::test_that("ensemble_model_spec", {
 
     expect_false(all(is.na(accuracy_tbl$mae)))
     expect_equal(nrow(forecast_tbl), 24*4 + nrow(m750))
-})
 
 
-# CHECKS / ERRORS ----
-test_that("Checks/Errors: ensemble_model_spec()", {
-
-    skip_on_cran()
+    # ERRORS ----
 
     # Object is Missing
     expect_error(ensemble_model_spec())
