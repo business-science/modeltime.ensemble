@@ -5,12 +5,13 @@
 
 <!-- badges: start -->
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/modeltime.ensemble)](https://cran.r-project.org/package=modeltime.ensemble)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/modeltime.ensemble)](https://cran.r-project.org/package=modeltime.ensemble)
 ![](http://cranlogs.r-pkg.org/badges/modeltime.ensemble?color=brightgreen)
 ![](http://cranlogs.r-pkg.org/badges/grand-total/modeltime.ensemble?color=brightgreen)
-[![R-CMD-check](https://github.com/business-science/modeltime.ensemble/workflows/R-CMD-check/badge.svg)](https://github.com/business-science/modeltime.ensemble/actions)
+[![R-CMD-check](https://github.com/business-science/modeltime.ensemble/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/business-science/modeltime.ensemble/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/business-science/modeltime.ensemble/branch/master/graph/badge.svg)](https://app.codecov.io/gh/business-science/modeltime.ensemble?branch=master)
+
 <!-- badges: end -->
 
 > Ensemble Algorithms for Time Series Forecasting with Modeltime
@@ -51,7 +52,7 @@ Load the following libraries.
 library(tidymodels)
 library(modeltime)
 library(modeltime.ensemble)
-library(tidyverse)
+library(dplyr)
 library(timetk)
 ```
 
@@ -80,7 +81,7 @@ ensemble_fit <- m750_models %>%
 
 ensemble_fit
 #> ── Modeltime Ensemble ───────────────────────────────────────────
-#> Ensemble of 3 Models (MEAN)
+#> Ensemble of 3 Models (MEAN) 
 #> 
 #> # Modeltime Table
 #> # A tibble: 3 × 3
@@ -130,23 +131,23 @@ The modeltime ecosystem is growing
 Modeltime is part of a **growing ecosystem** of Modeltime forecasting
 packages.
 
--   [Modeltime (Machine
-    Learning)](https://business-science.github.io/modeltime/)
+- [Modeltime (Machine
+  Learning)](https://business-science.github.io/modeltime/)
 
--   [Modeltime H2O
-    (AutoML)](https://business-science.github.io/modeltime.h2o/)
+- [Modeltime H2O
+  (AutoML)](https://business-science.github.io/modeltime.h2o/)
 
--   [Modeltime GluonTS (Deep
-    Learning)](https://business-science.github.io/modeltime.gluonts/)
+- [Modeltime GluonTS (Deep
+  Learning)](https://business-science.github.io/modeltime.gluonts/)
 
--   [Modeltime Ensemble (Blending
-    Forecasts)](https://business-science.github.io/modeltime.ensemble/)
+- [Modeltime Ensemble (Blending
+  Forecasts)](https://business-science.github.io/modeltime.ensemble/)
 
--   [Modeltime Resample
-    (Backtesting)](https://business-science.github.io/modeltime.resample/)
+- [Modeltime Resample
+  (Backtesting)](https://business-science.github.io/modeltime.resample/)
 
--   [Timetk (Feature Engineering, Data Wrangling, Time Series
-    Visualization)](https://business-science.github.io/timetk/)
+- [Timetk (Feature Engineering, Data Wrangling, Time Series
+  Visualization)](https://business-science.github.io/timetk/)
 
 ## Take the High-Performance Forecasting Course
 
@@ -176,17 +177,17 @@ Series Forecasting
 Course**](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting).
 You will learn:
 
--   **Time Series Machine Learning** (cutting-edge) with `Modeltime` -
-    30+ Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
--   **Deep Learning** with `GluonTS` (Competition Winners)
--   **Time Series Preprocessing**, Noise Reduction, & Anomaly Detection
--   **Feature engineering** using lagged variables & external regressors
--   **Hyperparameter Tuning**
--   **Time series cross-validation**
--   **Ensembling** Multiple Machine Learning & Univariate Modeling
-    Techniques (Competition Winner)
--   **Scalable Forecasting** - Forecast 1000+ time series in parallel
--   and more.
+- **Time Series Machine Learning** (cutting-edge) with `Modeltime` - 30+
+  Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
+- **Deep Learning** with `GluonTS` (Competition Winners)
+- **Time Series Preprocessing**, Noise Reduction, & Anomaly Detection
+- **Feature engineering** using lagged variables & external regressors
+- **Hyperparameter Tuning**
+- **Time series cross-validation**
+- **Ensembling** Multiple Machine Learning & Univariate Modeling
+  Techniques (Competition Winner)
+- **Scalable Forecasting** - Forecast 1000+ time series in parallel
+- and more.
 
 <p class="text-center" style="font-size:24px;">
 Become the Time Series Expert for your organization.
