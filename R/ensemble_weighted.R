@@ -119,9 +119,7 @@ print.mdl_time_ensemble_wt <- function(x, ...) {
 
     msg <- cli::format_inline("Ensemble of {x$n_models} Models (WEIGHTED)")
 
-    cat(msg)
-
-    cli::cat_line()
+    cat(msg, "\n\n")
 
     print(dplyr::left_join(x$model_tbl, x$fit$loadings_tbl, by = ".model_id"))
 

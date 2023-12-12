@@ -215,9 +215,7 @@ print.mdl_time_ensemble_model_spec <- function(x, ...) {
     desc <- x$fit$fit %>% modeltime::get_model_description()
     msg  <- cli::format_inline("Ensemble of {x$n_models} Models ({stringr::str_c(desc, ' STACK')})")
 
-    cat(msg)
-
-    cli::cat_line()
+    cat(msg, "\n\n")
 
     print(x$model_tbl)
 

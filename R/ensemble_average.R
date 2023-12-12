@@ -94,9 +94,7 @@ print.mdl_time_ensemble_avg <- function(x, ...) {
         msg <- cli::format_inline("Ensemble of {x$n_models} Models (MEDIAN)")
     }
 
-    cat(msg)
-
-    cli::cat_line()
+    cat(msg, "\n\n")
 
     print(x$model_tbl)
 
