@@ -4,7 +4,7 @@ context("TEST: RECURSIVE ENSEMBLES")
 # SINGLE / RECIPE / PARSNIP ----
 
 test_that("recursive ensemble 1 - single / recipe / parsnip", {
-
+    skip_if_not_installed("earth")
     FORECAST_HORIZON <- 24
 
     m750_extended <- m750 %>%
@@ -108,7 +108,7 @@ test_that("recursive ensemble 1 - single / recipe / parsnip", {
 # PANEL / FUNCTION / PARSNIP & WORKFLOW ----
 
 test_that("recursive ensemble 2 - panel / function / parsnip + workflow", {
-
+    skip_if_not_installed("earth")
     # Jumble the data to make sure it forecasts properly
     FORECAST_HORIZON <- 24
 
