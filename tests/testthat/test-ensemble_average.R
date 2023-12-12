@@ -54,7 +54,7 @@ m750_models_2 <- modeltime_table(
 # Median ----
 test_that("ensemble_average(type = 'median')", {
 
-    testthat::skip_on_cran()
+    skip_on_cran()
 
     ensemble_fit_median <- m750_models_2 %>%
         ensemble_average(type = "median")
