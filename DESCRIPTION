@@ -22,7 +22,7 @@ Depends:
 Imports: 
     tune (>= 0.1.2),
     rsample,
-    yardstick, 
+    yardstick,
     workflows (>= 0.2.1),
     parsnip (>= 0.1.6),
     recipes (>= 0.1.15),
@@ -31,7 +31,6 @@ Imports:
     dplyr (>= 1.0.0),
     tidyr,
     purrr,
-    glue,
     stringr,
     rlang (>= 0.1.2),
     cli,
@@ -43,20 +42,16 @@ Imports:
     foreach,
 Suggests:
     gt,
-    crayon,
     dials,
     glmnet,
-    progressr,
     utils,
     earth,
     testthat,
     tidymodels,
     xgboost,
-    tidyverse,
     lubridate,
     knitr,
-    rmarkdown,
-    qpdf
+    rmarkdown
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
