@@ -103,7 +103,7 @@ up parallelization using \code{tune} via one of the backends such as
 library(tidymodels)
 library(modeltime)
 library(modeltime.ensemble)
-library(tidyverse)
+library(dplyr)
 library(timetk)
 
 # Step 1: Make resample predictions for submodels

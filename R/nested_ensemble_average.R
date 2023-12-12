@@ -336,7 +336,7 @@ ensemble_nested_average_parallel <- function(object,
         utils::capture.output() %>%
         stringr::str_remove("Time difference of ")
 
-    if (control$verbose) cli::cli_inform(stringr::str_glue("Finished in: {time_elapsed}."))
+    if (control$verbose) cli::cli_inform("Finished in: {time_elapsed}.")
 
     # STRUCTURE ----
 

@@ -51,10 +51,9 @@ First, we need to load the necessary libraries:
 library(modeltime.ensemble)
 library(modeltime)
 library(tidymodels)
-library(earth)
 library(glmnet)
 library(xgboost)
-library(tidyverse)
+library(dplyr)
 library(lubridate)
 library(timetk)
 ```
@@ -91,7 +90,7 @@ We divide the data set into training dataset and future dataset:
 ```{r}
 train_data <- m750_lagged %>%
     filter(!is.na(value)) %>%
-    drop_na()
+    tidyr::drop_na()
 
 future_data <- m750_lagged %>%
     filter(is.na(value))
@@ -104,7 +103,7 @@ Next, we are going to create two models that we will then join into an ensemble.
 
 In a real scenario, we would typically do a pre-selection work where we would analyze more models and keep those with better performance to make the ensemble.
 
-```{r}
+```{r,eval=rlang::is_installed("earth")}
 model_fit_lm <- linear_reg() %>%
     set_engine("lm") %>%
     fit(value ~ ., data = train_data %>% select(-id))
@@ -204,7 +203,7 @@ We split into training data and future data.
 
 ```{r}
 train_data <- m4_lags %>%
-    drop_na()
+    tidyr::drop_na()
 
 future_data <- m4_lags %>%
     filter(is.na(value))

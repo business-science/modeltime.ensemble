@@ -83,7 +83,7 @@
 #' library(tidymodels)
 #' library(modeltime)
 #' library(modeltime.ensemble)
-#' library(tidyverse)
+#' library(dplyr)
 #' library(timetk)
 #'
 #' # Step 1: Make resample predictions for submodels
@@ -146,7 +146,7 @@ ensemble_model_spec <- function(object,
 
     if (rlang::is_missing(model_spec)) rlang::abort("'model_spec' must be provided. Try creating a model_spec using parsnip or modeltime models.")
     if (!inherits(model_spec, "model_spec")) rlang::abort("'model_spec' must be a `model_spec` object. Try creating a model_spec using parsnip or modeltime models.")
-    if (is.null(model_spec$engine)) rlang::abort("'model_spec' does not have an engine set. Try setting an engine using `parsnip::set_engine()`.")
+    if (is.null(model_spec$engine)) cli::cli_abort("'model_spec' does not have an engine set. Try setting an engine using {.fn parsnip::set_engine}.")
 
 
     if (nrow(object) < 2) rlang::abort("An ensemble requires two or more models in the Modeltime Table.")
@@ -213,9 +213,9 @@ print.mdl_time_ensemble_model_spec <- function(x, ...) {
     print(cli::rule("Modeltime Ensemble", width = min(65, cli::console_width())))
 
     desc <- x$fit$fit %>% modeltime::get_model_description()
-    msg  <- glue::glue("Ensemble of {x$n_models} Models ({stringr::str_c(desc, ' STACK')})")
+    msg  <- cli::format_inline("Ensemble of {x$n_models} Models ({stringr::str_c(desc, ' STACK')})")
 
-    print(msg)
+    cat(msg)
 
     cli::cat_line()
 

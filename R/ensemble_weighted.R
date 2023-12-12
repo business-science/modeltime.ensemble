@@ -27,7 +27,7 @@
 #' library(tidymodels)
 #' library(modeltime)
 #' library(modeltime.ensemble)
-#' library(tidyverse)
+#' library(dplyr)
 #' library(timetk)
 #'
 #' # Make an ensemble from a Modeltime Table
@@ -117,9 +117,9 @@ print.mdl_time_ensemble_wt <- function(x, ...) {
 
     print(cli::rule("Modeltime Ensemble", width = min(65, cli::console_width())))
 
-    msg <- glue::glue("Ensemble of {x$n_models} Models (WEIGHTED)")
+    msg <- cli::format_inline("Ensemble of {x$n_models} Models (WEIGHTED)")
 
-    print(msg)
+    cat(msg)
 
     cli::cat_line()
 
