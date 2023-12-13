@@ -4,7 +4,7 @@ Stage 1: Sub-Model's are Trained &amp;amp; Predicted using modeltime.resample::m
 Stage 2: A Meta-learner (model_spec) is trained on Out-of-Sample Sub-Model
 Predictions using ensemble_model_spec().
 
-"><title>Creates a Stacked Ensemble Model from a Model Spec — ensemble_model_spec • modeltime.ensemble</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Roboto-0.4.1/font.css" rel="stylesheet"><link href="../deps/_Montserrat-0.4.1/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet"><meta property="og:title" content="Creates a Stacked Ensemble Model from a Model Spec — ensemble_model_spec"><meta property="og:description" content="A 2-stage stacking regressor that follows:
+"><title>Creates a Stacked Ensemble Model from a Model Spec — ensemble_model_spec • modeltime.ensemble</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.8/font.css" rel="stylesheet"><link href="../deps/Montserrat-0.4.8/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet"><meta property="og:title" content="Creates a Stacked Ensemble Model from a Model Spec — ensemble_model_spec"><meta property="og:description" content="A 2-stage stacking regressor that follows:
 Stage 1: Sub-Model's are Trained &amp;amp; Predicted using modeltime.resample::modeltime_fit_resamples().
 Stage 2: A Meta-learner (model_spec) is trained on Out-of-Sample Sub-Model
 Predictions using ensemble_model_spec().
@@ -26,7 +26,7 @@ Predictions using ensemble_model_spec().
     
     <a class="navbar-brand me-2" href="../index.html">modeltime.ensemble</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,20 +122,22 @@ Predictions using <code>ensemble_model_spec()</code>.</p></li>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ensemble_model_spec</span><span class="op">(</span>
-  <span class="va">object</span>,
-  <span class="va">model_spec</span>,
-  kfolds <span class="op">=</span> <span class="fl">5</span>,
-  param_info <span class="op">=</span> <span class="cn">NULL</span>,
-  grid <span class="op">=</span> <span class="fl">6</span>,
-  control <span class="op">=</span> <span class="fu">control_grid</span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ensemble_model_spec</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  <span class="va">model_spec</span>,</span>
+<span>  kfolds <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  param_info <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  grid <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu">control_grid</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>object</dt>
 <dd><p>A Modeltime Table. Used for ensemble sub-models.</p></dd>
+
+
 <dt>model_spec</dt>
 <dd><p>A <code>model_spec</code> object defining the
 meta-learner stacking model specification to be used.</p>
@@ -143,25 +145,36 @@ meta-learner stacking model specification to be used.</p>
 <li><p><strong>A tunable <code>model_spec</code>:</strong> Contains parameters identified for tuning with
 <code><a href="https://hardhat.tidymodels.org/reference/tune.html" class="external-link">tune::tune()</a></code></p></li>
 </ol></dd>
+
+
 <dt>kfolds</dt>
 <dd><p>K-Fold Cross Validation for tuning the Meta-Learner.
 Controls the number of folds used in the meta-learner's cross-validation.
 Gets passed to <code><a href="https://rsample.tidymodels.org/reference/vfold_cv.html" class="external-link">rsample::vfold_cv()</a></code>.</p></dd>
+
+
 <dt>param_info</dt>
 <dd><p>A <code><a href="https://dials.tidymodels.org/reference/parameters.html" class="external-link">dials::parameters()</a></code> object or <code>NULL</code>. If none is given, a
 parameters set is derived from other arguments. Passing this argument
 can be useful when parameter ranges need to be customized.</p></dd>
+
+
 <dt>grid</dt>
 <dd><p>Grid specification or grid size for tuning the Meta Learner.
 Gets passed to <code><a href="https://tune.tidymodels.org/reference/tune_grid.html" class="external-link">tune::tune_grid()</a></code>.</p></dd>
+
+
 <dt>control</dt>
 <dd><p>An object used to modify the tuning process.
 Uses <code><a href="https://tune.tidymodels.org/reference/control_grid.html" class="external-link">tune::control_grid()</a></code> by default.
 Use <code>control_grid(verbose = TRUE)</code> to follow the training process.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>mdl_time_ensemble</code> object.</p>
+    
+
+<p>A <code>mdl_time_ensemble</code> object.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -197,65 +210,74 @@ up parallelization using <code>tune</code> via one of the backends such as
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org" class="external-link">tidymodels</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/modeltime" class="external-link">modeltime</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/modeltime.ensemble" class="external-link">modeltime.ensemble</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/timetk" class="external-link">timetk</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Step 1: Make resample predictions for submodels</span></span>
-<span class="r-in"><span class="va">resamples_tscv</span> <span class="op">&lt;-</span> <span class="fu">training</span><span class="op">(</span><span class="va">m750_splits</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu"><a href="https://business-science.github.io/timetk/reference/time_series_cv.html" class="external-link">time_series_cv</a></span><span class="op">(</span></span>
-<span class="r-in">        assess  <span class="op">=</span> <span class="st">"2 years"</span>,</span>
-<span class="r-in">        initial <span class="op">=</span> <span class="st">"5 years"</span>,</span>
-<span class="r-in">        skip    <span class="op">=</span> <span class="st">"2 years"</span>,</span>
-<span class="r-in">        slice_limit <span class="op">=</span> <span class="fl">1</span></span>
-<span class="r-in">    <span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org" class="external-link">tidymodels</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/modeltime" class="external-link">modeltime</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://business-science.github.io/modeltime.ensemble/" class="external-link">modeltime.ensemble</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/timetk" class="external-link">timetk</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Step 1: Make resample predictions for submodels</span></span></span>
+<span class="r-in"><span><span class="va">resamples_tscv</span> <span class="op">&lt;-</span> <span class="fu">training</span><span class="op">(</span><span class="va">m750_splits</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/timetk/man/time_series_cv.html" class="external-link">time_series_cv</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        assess  <span class="op">=</span> <span class="st">"2 years"</span>,</span></span>
+<span class="r-in"><span>        initial <span class="op">=</span> <span class="st">"5 years"</span>,</span></span>
+<span class="r-in"><span>        skip    <span class="op">=</span> <span class="st">"2 years"</span>,</span></span>
+<span class="r-in"><span>        slice_limit <span class="op">=</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using date_var: date</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">submodel_predictions</span> <span class="op">&lt;-</span> <span class="va">m750_models</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/pkg/modeltime.resample/man/modeltime_fit_resamples.html" class="external-link">modeltime_fit_resamples</a></span><span class="op">(</span></span>
-<span class="r-in">        resamples <span class="op">=</span> <span class="va">resamples_tscv</span>,</span>
-<span class="r-in">        control   <span class="op">=</span> <span class="fu">control_resamples</span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">    <span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">submodel_predictions</span> <span class="op">&lt;-</span> <span class="va">m750_models</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/modeltime.resample/man/modeltime_fit_resamples.html" class="external-link">modeltime_fit_resamples</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        resamples <span class="op">=</span> <span class="va">resamples_tscv</span>,</span></span>
+<span class="r-in"><span>        control   <span class="op">=</span> <span class="fu">control_resamples</span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ── Fitting Resamples ────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> • Model ID: <span style="color: #0000BB;">1</span> <span style="color: #0000BB;">ARIMA(0,1,1)(0,1,1)[12]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> <span style="color: #BBBB00;">Slice1: preprocessor 1/1: 'keep_original_cols' was added to `step_dummy()` after...</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> <span style="color: #BBBB00;">Slice1: preprocessor 1/1:</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">  'keep_original_cols' was added to `step_dummy()` after this recipe was...</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">  Regenerate your recipe to avoid this warning.</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> frequency = 12 observations per 1 year</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> • Model ID: <span style="color: #0000BB;">2</span> <span style="color: #0000BB;">PROPHET</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> <span style="color: #BBBB00;">Slice1: preprocessor 1/1: 'keep_original_cols' was added to `step_dummy()` after...</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> <span style="color: #BBBB00;">Slice1: preprocessor 1/1:</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">  'keep_original_cols' was added to `step_dummy()` after this recipe was...</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">  Regenerate your recipe to avoid this warning.</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Disabling weekly seasonality. Run prophet with weekly.seasonality=TRUE to override this.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Disabling daily seasonality. Run prophet with daily.seasonality=TRUE to override this.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> • Model ID: <span style="color: #0000BB;">3</span> <span style="color: #0000BB;">GLMNET</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> <span style="color: #BBBB00;">Slice1: preprocessor 1/1: 'keep_original_cols' was added to `step_dummy()` after...</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> <span style="color: #BBBB00;">Slice1: preprocessor 1/1:</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">  'keep_original_cols' was added to `step_dummy()` after this recipe was...</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">  Regenerate your recipe to avoid this warning.</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5.2 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3.281 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Step 2: Metalearner ----</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># * No Metalearner Tuning</span></span>
-<span class="r-in"><span class="va">ensemble_fit_lm</span> <span class="op">&lt;-</span> <span class="va">submodel_predictions</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu">ensemble_model_spec</span><span class="op">(</span></span>
-<span class="r-in">        model_spec <span class="op">=</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">set_engine</span><span class="op">(</span><span class="st">"lm"</span><span class="op">)</span>,</span>
-<span class="r-in">        control    <span class="op">=</span> <span class="fu">control_grid</span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">    <span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Step 2: Metalearner ----</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># * No Metalearner Tuning</span></span></span>
+<span class="r-in"><span><span class="va">ensemble_fit_lm</span> <span class="op">&lt;-</span> <span class="va">submodel_predictions</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu">ensemble_model_spec</span><span class="op">(</span></span></span>
+<span class="r-in"><span>        model_spec <span class="op">=</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">set_engine</span><span class="op">(</span><span class="st">"lm"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        control    <span class="op">=</span> <span class="fu">control_grid</span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ── Fitting Non-Tunable Model Specification ──────────────────────</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Fitting model spec to submodel cross-validation predictions.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -288,12 +310,12 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span>  -2637.1730       0.5754      -0.1920       0.8551  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.28 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.102 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">ensemble_fit_lm</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ensemble_fit_lm</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ── Modeltime Ensemble ───────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ensemble of 3 Models (LM STACK)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ensemble of 3 Models (LM STACK) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> # Modeltime Table</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
@@ -302,18 +324,18 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>         1 <span style="color: #949494;">&lt;workflow&gt;</span> ARIMA(0,1,1)(0,1,1)[12]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>         2 <span style="color: #949494;">&lt;workflow&gt;</span> PROPHET                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>         3 <span style="color: #949494;">&lt;workflow&gt;</span> GLMNET                 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># * With Metalearner Tuning ----</span></span>
-<span class="r-in"><span class="va">ensemble_fit_glmnet</span> <span class="op">&lt;-</span> <span class="va">submodel_predictions</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu">ensemble_model_spec</span><span class="op">(</span></span>
-<span class="r-in">        model_spec <span class="op">=</span> <span class="fu">linear_reg</span><span class="op">(</span></span>
-<span class="r-in">            penalty <span class="op">=</span> <span class="fu">tune</span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in">            mixture <span class="op">=</span> <span class="fu">tune</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">        <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">            <span class="fu">set_engine</span><span class="op">(</span><span class="st">"glmnet"</span><span class="op">)</span>,</span>
-<span class="r-in">        grid       <span class="op">=</span> <span class="fl">2</span>,</span>
-<span class="r-in">        control    <span class="op">=</span> <span class="fu">control_grid</span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">    <span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># * With Metalearner Tuning ----</span></span></span>
+<span class="r-in"><span><span class="va">ensemble_fit_glmnet</span> <span class="op">&lt;-</span> <span class="va">submodel_predictions</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu">ensemble_model_spec</span><span class="op">(</span></span></span>
+<span class="r-in"><span>        model_spec <span class="op">=</span> <span class="fu">linear_reg</span><span class="op">(</span></span></span>
+<span class="r-in"><span>            penalty <span class="op">=</span> <span class="fu">tune</span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>            mixture <span class="op">=</span> <span class="fu">tune</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>        <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>            <span class="fu">set_engine</span><span class="op">(</span><span class="st">"glmnet"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        grid       <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>        control    <span class="op">=</span> <span class="fu">control_grid</span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ── Tuning Model Specification ───────────────────────────────────</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Performing 5-Fold Cross Validation.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -321,49 +343,59 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold1: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 1/2</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 1/2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 1/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 1/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 2/2</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 2/2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 2/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 2/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold2: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold2: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 1/2</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 1/2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 1/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 1/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 2/2</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 2/2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 2/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 2/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold3: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold3: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 1/2</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 1/2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 1/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 1/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 2/2</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 2/2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 2/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 2/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold4: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold4: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 1/2</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 1/2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 1/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 1/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 2/2</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 2/2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 2/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 2/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold5: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold5: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 1/2</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 1/2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 1/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 1/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 2/2</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 2/2</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 2/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 2/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Finished tuning Model Specification.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Model Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      penalty mixture .metric .estimator  mean     n std_err .config             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.000<span style="text-decoration: underline;">006</span>52   0.787 rmse    standard    153.     5    21.0 Preprocessor1_Model2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    penalty mixture .metric .estimator  mean     n std_err .config             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.000<span style="text-decoration: underline;">289</span>   0.734 rmse    standard    147.     5    17.4 Preprocessor1_Model2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Prediction Error Comparison:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
@@ -386,65 +418,65 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ── Model ───────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Call:  glmnet::glmnet(x = maybe_matrix(x), y = y, family = "gaussian",      alpha = ~0.786958173458697) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call:  glmnet::glmnet(x = maybe_matrix(x), y = y, family = "gaussian",      alpha = ~0.73425740316161) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Df  %Dev Lambda</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   0  0.00 703.90</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1 12.39 641.40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   2 23.92 584.40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   2 34.54 532.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   3 43.95 485.20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   3 51.99 442.10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   3 58.78 402.80</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   3 64.52 367.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   3 69.37 334.40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10  3 73.45 304.70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11  3 76.89 277.70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12  3 79.79 253.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13  3 82.23 230.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14  3 84.28 210.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15  3 86.01 191.40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16  3 87.47 174.40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17  3 88.70 158.90</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18  3 89.73 144.80</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19  3 90.60 131.90</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20  3 91.33 120.20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21  3 91.95 109.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22  3 92.47  99.78</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23  3 92.91  90.92</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24  3 93.28  82.84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25  3 93.59  75.48</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26  3 93.85  68.78</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27  3 94.08  62.67</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28  3 94.26  57.10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29  2 94.42  52.03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30  2 94.54  47.40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31  2 94.64  43.19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32  2 94.72  39.36</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33  2 94.79  35.86</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34  2 94.84  32.67</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35  2 94.89  29.77</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36  2 94.93  27.13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37  2 94.96  24.72</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38  2 94.99  22.52</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39  2 95.01  20.52</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40  2 95.03  18.70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41  2 95.05  17.04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42  2 95.06  15.52</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43  2 95.07  14.14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44  2 95.08  12.89</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45  2 95.09  11.74</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46  2 95.09  10.70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   0  0.00 754.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1 11.68 687.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   2 23.15 626.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   3 33.66 570.70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   3 43.07 520.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   3 51.08 473.80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   3 57.88 431.70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   3 63.65 393.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   3 68.54 358.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  3 72.68 326.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11  3 76.18 297.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12  3 79.14 271.10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13  3 81.64 247.10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14  3 83.75 225.10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15  3 85.53 205.10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16  3 87.03 186.90</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17  3 88.30 170.30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18  3 89.37 155.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19  3 90.28 141.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20  3 91.04 128.80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21  3 91.69 117.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22  3 92.24 106.90</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23  3 92.70  97.44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24  3 93.09  88.79</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25  3 93.42  80.90</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26  3 93.70  73.71</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27  3 93.94  67.16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28  3 94.14  61.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29  3 94.32  55.76</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30  3 94.46  50.81</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31  3 94.59  46.29</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32  2 94.68  42.18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33  2 94.76  38.43</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34  2 94.82  35.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35  2 94.87  31.91</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36  2 94.91  29.07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37  2 94.95  26.49</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38  2 94.98  24.14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39  2 95.00  21.99</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40  2 95.02  20.04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41  2 95.04  18.26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42  2 95.05  16.64</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43  2 95.07  15.16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44  2 95.08  13.81</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45  2 95.08  12.59</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46  2 95.09  11.47</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> and 11 more lines.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3.329 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.744 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">ensemble_fit_glmnet</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ensemble_fit_glmnet</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ── Modeltime Ensemble ───────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ensemble of 3 Models (GLMNET STACK)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ensemble of 3 Models (GLMNET STACK) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> # Modeltime Table</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
@@ -453,9 +485,9 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>         1 <span style="color: #949494;">&lt;workflow&gt;</span> ARIMA(0,1,1)(0,1,1)[12]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>         2 <span style="color: #949494;">&lt;workflow&gt;</span> PROPHET                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>         3 <span style="color: #949494;">&lt;workflow&gt;</span> GLMNET                 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -467,7 +499,7 @@ up parallelization using <code>tune</code> via one of the backends such as
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer></div>
