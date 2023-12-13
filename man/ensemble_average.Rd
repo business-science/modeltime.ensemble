@@ -36,7 +36,7 @@ underlying models forecast at each timestamp
 library(tidymodels)
 library(modeltime)
 library(modeltime.ensemble)
-library(tidyverse)
+library(dplyr)
 library(timetk)
 
 # Make an ensemble from a Modeltime Table

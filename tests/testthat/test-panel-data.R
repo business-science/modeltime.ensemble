@@ -59,14 +59,14 @@ test_that("ensemble_average(): Forecast Jumbled", {
         modeltime_calibrate(data_set)
 
     expect_equal(calibration_tbl$.type, c("Test"))
-    expect_true(all(c(".type", ".calibration_data") %in% names(calibration_tbl)))
+    expect_contains(names(calibration_tbl), c(".type", ".calibration_data"))
     expect_equal(nrow(data_set), calibration_tbl %>% pluck(".calibration_data", 1) %>% nrow())
 
     # Accuracy
     accuracy_tbl <- calibration_tbl %>%
         modeltime_accuracy()
 
-    expect_true(all(!is.na(accuracy_tbl$mae)))
+    expect_false(anyNA(accuracy_tbl$mae))
     expect_true(all(is.double(accuracy_tbl$mae)))
 
     expect_true(accuracy_tbl$mae < 500)
@@ -122,14 +122,14 @@ test_that("ensemble_weighted(): Forecast Jumbled", {
         modeltime_calibrate(data_set)
 
     expect_equal(calibration_tbl$.type, c("Test"))
-    expect_true(all(c(".type", ".calibration_data") %in% names(calibration_tbl)))
+    expect_contains(names(calibration_tbl), c(".type", ".calibration_data"))
     expect_equal(nrow(data_set), calibration_tbl %>% pluck(".calibration_data", 1) %>% nrow())
 
     # Accuracy
     accuracy_tbl <- calibration_tbl %>%
         modeltime_accuracy()
 
-    expect_true(all(!is.na(accuracy_tbl$mae)))
+    expect_false(anyNA(accuracy_tbl$mae))
     expect_true(all(is.double(accuracy_tbl$mae)))
     expect_true(accuracy_tbl$mae < 400)
 
@@ -195,14 +195,14 @@ test_that("ensemble_model_spec(): Forecast Jumbled", {
         modeltime_calibrate(data_set, quiet = FALSE)
 
     expect_equal(calibration_tbl$.type, c("Test"))
-    expect_true(all(c(".type", ".calibration_data") %in% names(calibration_tbl)))
+    expect_contains(names(calibration_tbl), c(".type", ".calibration_data"))
     expect_equal(nrow(data_set), calibration_tbl %>% pluck(".calibration_data", 1) %>% nrow())
 
     # Accuracy
     accuracy_tbl <- calibration_tbl %>%
         modeltime_accuracy()
 
-    expect_true(all(!is.na(accuracy_tbl$mae)))
+    expect_false(anyNA(accuracy_tbl$mae))
     expect_true(all(is.double(accuracy_tbl$mae)))
 
     # * Forecast ----

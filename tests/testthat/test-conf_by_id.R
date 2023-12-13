@@ -8,12 +8,10 @@ test_that("Accuracy & CI by ID", {
     library(tidymodels)
     library(timetk)
     library(modeltime)
-    library(tidyverse)
 
     # Data
     data <- walmart_sales_weekly %>%
-        select(id, Date, Weekly_Sales) %>%
-        set_names(c("ID", "date", "value"))
+        dplyr::select(ID = id, date = Date, value = Weekly_Sales)
 
     splits <- data %>% time_series_split(assess = "3 months", cumulative = TRUE)
 

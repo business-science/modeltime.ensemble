@@ -1,11 +1,10 @@
 context("TEST: nested ensembles")
 
 # 1- SEQUENTIAL ----
-testthat::test_that("Nested Ensembles Work - sequential", {
+test_that("Nested Ensembles Work - sequential", {
 
     data_tbl <- walmart_sales_weekly %>%
-        select(id, Date, Weekly_Sales) %>%
-        set_names(c("id", "date", "value")) %>%
+        select(id, date = Date, value = Weekly_Sales) %>%
         filter(id %in% c("1_1", "1_3"))
 
     nested_data_tbl <- data_tbl %>%
@@ -59,7 +58,7 @@ testthat::test_that("Nested Ensembles Work - sequential", {
 
 
     # EXPECT WARNING DUE TO BAD MODEL ----
-    testthat::expect_warning({
+    expect_warning({
         nested_modeltime_tbl <- modeltime_nested_fit(
             # Nested data
             nested_data = nested_data_tbl,
@@ -86,7 +85,7 @@ testthat::test_that("Nested Ensembles Work - sequential", {
     model_table <- nested_ensemble_1_tbl %>%
         extract_nested_modeltime_table()
 
-    testthat::expect_equal(
+    expect_equal(
         model_table$.model_desc[4], "ENSEMBLE (MEAN): 2 MODELS"
     )
 
@@ -94,10 +93,7 @@ testthat::test_that("Nested Ensembles Work - sequential", {
         extract_nested_test_accuracy() %>%
         filter(.model_desc == "ENSEMBLE (MEAN): 2 MODELS")
 
-    testthat::expect_is(
-        model_accuracy %>% pull(mae),
-        "numeric"
-    )
+    expect_type(model_accuracy$mae, "double")
 
     # Weighted Ensemble ----
 
@@ -115,15 +111,8 @@ testthat::test_that("Nested Ensembles Work - sequential", {
         extract_nested_modeltime_table(1) %>%
         pluck(".model", 5, "fit", "loadings_tbl")
 
-    testthat::expect_is(
-        loadings_tbl$.loadings,
-        "numeric"
-    )
-
-    testthat::expect_equal(
-        length(loadings_tbl$.loadings),
-        2
-    )
+    expect_type(loadings_tbl$.loadings, "double")
+    expect_length(loadings_tbl$.loadings, 2)
 
     # * TEST LOADINGS TOO SHORT ----
     nested_ensemble_2_tbl <- nested_ensemble_1_tbl %>%
@@ -139,15 +128,8 @@ testthat::test_that("Nested Ensembles Work - sequential", {
         extract_nested_modeltime_table(1) %>%
         pluck(".model", 5, "fit", "loadings_tbl")
 
-    testthat::expect_is(
-        loadings_tbl$.loadings,
-        "numeric"
-    )
-
-    testthat::expect_equal(
-        length(loadings_tbl$.loadings),
-        1
-    )
+    expect_type(loadings_tbl$.loadings, "double")
+    expect_length(loadings_tbl$.loadings, 1)
 
     # CHECK METRICS
 
@@ -166,7 +148,7 @@ testthat::test_that("Nested Ensembles Work - sequential", {
         mutate(check = max(c_across(model_1:model_2))) %>%
         ungroup()
 
-    testthat::expect_equivalent(metrics_rsq$model_5, metrics_rsq$check)
+    expect_equal(metrics_rsq$model_5, metrics_rsq$check, check.attributes = FALSE)
 
 
 
@@ -196,21 +178,20 @@ testthat::test_that("Nested Ensembles Work - sequential", {
         mutate(check = min(c_across(model_1:model_2))) %>%
         ungroup()
 
-    testthat::expect_equivalent(metrics_rmse$model_5, metrics_rmse$check)
+    expect_equal(metrics_rmse$model_5, metrics_rmse$check, check.attributes = FALSE)
 
 })
 
 # 2. PARALLEL ----
 
-testthat::test_that("Nested Ensembles Work - parallel", {
+test_that("Nested Ensembles Work - parallel", {
 
-    testthat::skip_on_cran()
+    skip_on_cran()
 
     parallel_start(2)
 
     data_tbl <- walmart_sales_weekly %>%
-        select(id, Date, Weekly_Sales) %>%
-        set_names(c("id", "date", "value")) %>%
+        select(id, date = Date, value = Weekly_Sales) %>%
         filter(id %in% c("1_1", "1_3"))
 
     nested_data_tbl <- data_tbl %>%
@@ -264,7 +245,7 @@ testthat::test_that("Nested Ensembles Work - parallel", {
 
 
     # EXPECT WARNING DUE TO BAD MODEL ----
-    testthat::expect_warning({
+    expect_warning({
         nested_modeltime_tbl <- modeltime_nested_fit(
             # Nested data
             nested_data = nested_data_tbl,
@@ -291,7 +272,7 @@ testthat::test_that("Nested Ensembles Work - parallel", {
     model_table <- nested_ensemble_1_tbl %>%
         extract_nested_modeltime_table()
 
-    testthat::expect_equal(
+    expect_equal(
         model_table$.model_desc[4], "ENSEMBLE (MEAN): 2 MODELS"
     )
 
@@ -299,10 +280,7 @@ testthat::test_that("Nested Ensembles Work - parallel", {
         extract_nested_test_accuracy() %>%
         filter(.model_desc == "ENSEMBLE (MEAN): 2 MODELS")
 
-    testthat::expect_is(
-        model_accuracy %>% pull(mae),
-        "numeric"
-    )
+    expect_type(model_accuracy$mae, "double")
 
     # Weighted Ensemble ----
 
@@ -320,15 +298,8 @@ testthat::test_that("Nested Ensembles Work - parallel", {
         extract_nested_modeltime_table(1) %>%
         pluck(".model", 5, "fit", "loadings_tbl")
 
-    testthat::expect_is(
-        loadings_tbl$.loadings,
-        "numeric"
-    )
-
-    testthat::expect_equal(
-        length(loadings_tbl$.loadings),
-        2
-    )
+    expect_type(loadings_tbl$.loadings, "double")
+    expect_length(loadings_tbl$.loadings, 2)
 
     # * TEST LOADINGS TOO SHORT ----
     nested_ensemble_2_tbl <- nested_ensemble_1_tbl %>%
@@ -344,15 +315,8 @@ testthat::test_that("Nested Ensembles Work - parallel", {
         extract_nested_modeltime_table(1) %>%
         pluck(".model", 5, "fit", "loadings_tbl")
 
-    testthat::expect_is(
-        loadings_tbl$.loadings,
-        "numeric"
-    )
-
-    testthat::expect_equal(
-        length(loadings_tbl$.loadings),
-        1
-    )
+    expect_type(loadings_tbl$.loadings, "double")
+    expect_length(loadings_tbl$.loadings, 1)
 
     # CHECK METRICS
 
@@ -371,7 +335,7 @@ testthat::test_that("Nested Ensembles Work - parallel", {
         mutate(check = max(c_across(model_1:model_2))) %>%
         ungroup()
 
-    testthat::expect_equivalent(metrics_rsq$model_5, metrics_rsq$check)
+    expect_equal(metrics_rsq$model_5, metrics_rsq$check, check.attributes = FALSE)
 
 
 
@@ -401,7 +365,7 @@ testthat::test_that("Nested Ensembles Work - parallel", {
         mutate(check = min(c_across(model_1:model_2))) %>%
         ungroup()
 
-    testthat::expect_equivalent(metrics_rmse$model_5, metrics_rmse$check)
+    expect_equal(metrics_rmse$model_5, metrics_rmse$check, check.attributes = FALSE)
 
     parallel_stop()
 

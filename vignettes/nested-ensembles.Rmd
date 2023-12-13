@@ -60,7 +60,7 @@ Load the following libraries.
 library(tidymodels)
 library(modeltime)
 library(modeltime.ensemble)
-library(tidyverse)
+library(dplyr)
 library(timetk)
 library(gt)
 ```
@@ -71,8 +71,7 @@ Read in the Walmart Sales Weekly data (comes with `timetk`).
 
 ```{r}
 data_tbl <- walmart_sales_weekly %>%
-    select(id, Date, Weekly_Sales) %>%
-    set_names(c("id", "date", "value")) %>%
+    select(id, date = Date, value = Weekly_Sales) %>%
     filter(id %in% c("1_1", "1_3"))
 
 data_tbl
@@ -217,8 +216,8 @@ tab_style_by_group <- function(object, ..., style) {
       style = style,
       locations = cells_body(
         rows = .[["_data"]] %>%
-          rowid_to_column("rowid") %>%
-          group_by(!! grp_col) %>%
+          tibble::rowid_to_column("rowid") %>%
+          group_by(!!grp_col) %>%
           filter(...) %>%
           ungroup() %>%
           pull(rowid)

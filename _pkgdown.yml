@@ -77,7 +77,6 @@ reference:
     - "ensemble_average"
     - "ensemble_weighted"
     - "ensemble_model_spec"
-    - "modeltime_fit_resamples"
   - title: Nested Ensemble Forecasting
     desc: Make ensembles with the nested forecasting workflow
     contents:

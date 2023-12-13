@@ -34,7 +34,7 @@ The weighted method uses uses \code{loadings} by applying a
 library(tidymodels)
 library(modeltime)
 library(modeltime.ensemble)
-library(tidyverse)
+library(dplyr)
 library(timetk)
 
 # Make an ensemble from a Modeltime Table

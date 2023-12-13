@@ -4,7 +4,7 @@ context("TEST: RECURSIVE ENSEMBLES")
 # SINGLE / RECIPE / PARSNIP ----
 
 test_that("recursive ensemble 1 - single / recipe / parsnip", {
-
+    skip_if_not_installed("earth")
     FORECAST_HORIZON <- 24
 
     m750_extended <- m750 %>%
@@ -23,10 +23,10 @@ test_that("recursive ensemble 1 - single / recipe / parsnip", {
     m750_lagged <- recipe_lag %>% prep() %>% juice()
 
     train_data <- m750_lagged %>%
-        drop_na()
+        tidyr::drop_na()
 
     future_data <- m750_lagged %>%
-        filter(is.na(value))
+        dplyr::filter(is.na(value))
 
 
     # * Recursive Modeling ----
@@ -75,7 +75,7 @@ test_that("recursive ensemble 1 - single / recipe / parsnip", {
 
     # * Modeltime Refit ----
 
-    retrain_tbl <- m750_lagged %>% dplyr::slice(1:200) %>% drop_na()
+    retrain_tbl <- m750_lagged %>% dplyr::slice(1:200) %>% tidyr::drop_na()
     future_tbl  <- m750_lagged %>% dplyr::slice(201:224)
 
     refit_tbl <- modeltime_table(
@@ -108,7 +108,7 @@ test_that("recursive ensemble 1 - single / recipe / parsnip", {
 # PANEL / FUNCTION / PARSNIP & WORKFLOW ----
 
 test_that("recursive ensemble 2 - panel / function / parsnip + workflow", {
-
+    skip_if_not_installed("earth")
     # Jumble the data to make sure it forecasts properly
     FORECAST_HORIZON <- 24
 
@@ -132,10 +132,10 @@ test_that("recursive ensemble 2 - panel / function / parsnip + workflow", {
         lag_transformer_grouped()
 
     train_data <- m4_lags %>%
-        drop_na()
+        tidyr::drop_na()
 
     future_data <- m4_lags %>%
-        filter(is.na(value))
+        dplyr::filter(is.na(value))
 
     # * Recursive Modeling ----
 
@@ -186,7 +186,7 @@ test_that("recursive ensemble 2 - panel / function / parsnip + workflow", {
     ) %>%
         modeltime_forecast(
             new_data    = future_data,
-            actual_data = m4_lags %>% drop_na(),
+            actual_data = tidyr::drop_na(m4_lags),
             keep_data   = TRUE
         )
 
@@ -214,7 +214,7 @@ test_that("recursive ensemble 2 - panel / function / parsnip + workflow", {
     forecast_refit_tbl <- refit_tbl %>%
         modeltime_forecast(
             new_data    = future_data,
-            actual_data = m4_lags %>% drop_na(),
+            actual_data = tidyr::drop_na(m4_lags),
             keep_data   = TRUE
         )
 

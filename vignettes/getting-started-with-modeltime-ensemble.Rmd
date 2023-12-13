@@ -42,7 +42,7 @@ Note that `modeltime.ensemble` has capabilities for more sophisticated model ens
 
 Load libraries to complete this short tutorial.
 
-```{r setup}
+```r
 # Time Series ML
 library(tidymodels)
 library(modeltime)
@@ -50,6 +50,19 @@ library(modeltime.ensemble)
 
 # Core
 library(tidyverse)
+library(timetk)
+
+interactive <- FALSE
+```
+
+```{r setup, include=FALSE,echo=FALSE}
+# Time Series ML
+library(tidymodels)
+library(modeltime)
+library(modeltime.ensemble)
+
+# Core
+library(dplyr)
 library(timetk)
 
 interactive <- FALSE

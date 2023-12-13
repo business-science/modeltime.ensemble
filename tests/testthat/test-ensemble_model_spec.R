@@ -50,7 +50,7 @@ m750_models_2 <- modeltime_table(
 # SETUP ----
 
 
-testthat::test_that("ensemble_model_spec", {
+test_that("ensemble_model_spec", {
 
     skip_on_cran()
 
