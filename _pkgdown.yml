@@ -12,6 +12,7 @@ template:
     ganalytics: UA-76139189-2
 
 navbar:
+  bg: primary
   title: "modeltime.ensemble"
   left:
     - icon: fa-home
