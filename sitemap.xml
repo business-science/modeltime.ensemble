@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/articles/getting-started-with-modeltime-ensemble.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/articles/getting-started-with-modeltime-ensemble.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/articles/index.html</loc>
   </url>
   <url>
-    <loc>/articles/nested-ensembles.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/articles/nested-ensembles.html</loc>
   </url>
   <url>
-    <loc>/articles/recursive-ensembles.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/articles/recursive-ensembles.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/index.html</loc>
   </url>
   <url>
-    <loc>/news/index.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/ensemble_average.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_average.html</loc>
   </url>
   <url>
-    <loc>/reference/ensemble_model_spec.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_model_spec.html</loc>
   </url>
   <url>
-    <loc>/reference/ensemble_nested_average.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_nested_average.html</loc>
   </url>
   <url>
-    <loc>/reference/ensemble_nested_weighted.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_nested_weighted.html</loc>
   </url>
   <url>
-    <loc>/reference/ensemble_weighted.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_weighted.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/pipe.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>/reference/tidyeval.html</loc>
+    <loc>https://business-science.github.io/modeltime.ensemble/reference/tidyeval.html</loc>
   </url>
 </urlset>
