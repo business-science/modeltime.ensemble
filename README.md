@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# modeltime.ensemble <img src='man/figures/logo-modeltime-ensemble.png' align="right" height="138.5" />
+# modeltime.ensemble <a href="https://business-science.github.io/modeltime.ensemble/"><img src="man/figures/logo.png" align="right" height="138" alt="modeltime.ensemble website" /></a>
 
 <!-- badges: start -->
 
@@ -81,7 +81,7 @@ ensemble_fit <- m750_models %>%
 
 ensemble_fit
 #> ── Modeltime Ensemble ───────────────────────────────────────────
-#> Ensemble of 3 Models (MEAN) 
+#> Ensemble of 3 Models (MEAN)
 #> 
 #> # Modeltime Table
 #> # A tibble: 3 × 3
