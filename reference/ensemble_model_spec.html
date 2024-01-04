@@ -86,6 +86,13 @@ Predictions using ensemble_model_spec().
     <a class="external-link dropdown-item" href="https://business-science.github.io/modeltime.gluonts/">Modeltime GluonTS (Deep Learning)</a>
   </div>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-python">Python</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-python">
+    <h6 class="dropdown-header" data-toc-skip>Forecast</h6>
+    <a class="external-link dropdown-item" href="https://business-science.github.io/pytimetk/">Timetk for Python (Time Series Analysis)</a>
+  </div>
+</li>
 <li class="nav-item">
   <a class="external-link nav-link" href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/">
     <span class="fas fa fas fa-graduation-cap"></span>
@@ -267,7 +274,7 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3.43 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3.573 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Step 2: Metalearner ----</span></span></span>
@@ -310,7 +317,7 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span>  -2637.1730       0.5754      -0.1920       0.8551  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.097 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.099 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">ensemble_fit_lm</span></span></span>
@@ -393,9 +400,9 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Model Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       penalty mixture .metric .estimator  mean     n std_err .config            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.000<span style="text-decoration: underline;">000</span>408   0.114 rmse    standard    153.     5    14.8 Preprocessor1_Mode…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     penalty mixture .metric .estimator  mean     n std_err .config             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.000<span style="text-decoration: underline;">035</span>2   0.200 rmse    standard    176.     5    44.7 Preprocessor1_Model1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Prediction Error Comparison:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
@@ -418,60 +425,60 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ── Model ───────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Call:  glmnet::glmnet(x = maybe_matrix(x), y = y, family = "gaussian",      alpha = ~0.114277034229599) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call:  glmnet::glmnet(x = maybe_matrix(x), y = y, family = "gaussian",      alpha = ~0.200176899542566) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Df  %Dev Lambda</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   0  0.00 4848.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   3  2.93 4417.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3  7.74 4025.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   3 12.59 3667.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   3 17.44 3341.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   3 22.28 3044.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   3 27.06 2774.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   3 31.77 2528.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   3 36.38 2303.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10  3 40.86 2098.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11  3 45.18 1912.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12  3 49.33 1742.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13  3 53.29 1587.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14  3 57.04 1446.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15  3 60.57 1318.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16  3 63.87 1201.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17  3 66.95 1094.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18  3 69.79  996.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19  3 72.41  908.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20  3 74.80  827.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21  3 76.98  754.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22  3 78.96  687.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23  3 80.74  626.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24  3 82.34  570.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25  3 83.77  519.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26  3 85.05  473.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27  3 86.18  431.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28  3 87.19  393.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29  3 88.08  358.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30  3 88.87  326.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31  3 89.56  297.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32  3 90.17  271.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33  3 90.71  246.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34  3 91.19  225.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35  3 91.61  205.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36  3 91.98  186.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37  3 92.31  170.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38  3 92.60  155.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39  3 92.86  141.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40  3 93.09  128.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41  3 93.30  117.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42  3 93.48  106.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43  3 93.64   97.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44  3 93.79   88.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45  3 93.93   80.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46  3 94.05   73.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Df  %Dev  Lambda</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   0  0.00 2767.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2  4.54 2522.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3 11.56 2298.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   3 18.38 2093.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   3 24.92 1907.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   3 31.15 1738.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   3 37.05 1584.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   3 42.60 1443.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   3 47.78 1315.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  3 52.60 1198.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11  3 57.05 1092.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12  3 61.13  994.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13  3 64.87  906.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14  3 68.26  825.70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15  3 71.32  752.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16  3 74.08  685.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17  3 76.55  624.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18  3 78.75  569.10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19  3 80.71  518.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20  3 82.44  472.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21  3 83.97  430.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22  3 85.32  392.30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23  3 86.51  357.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24  3 87.55  325.70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25  3 88.46  296.70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26  3 89.25  270.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27  3 89.95  246.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28  3 90.56  224.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29  3 91.09  204.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30  3 91.56  186.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31  3 91.96  169.80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32  3 92.32  154.70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33  3 92.64  141.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34  3 92.91  128.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35  3 93.16  117.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36  3 93.37  106.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37  3 93.57   97.17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38  3 93.74   88.54</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39  3 93.89   80.67</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40  3 94.03   73.51</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41  3 94.15   66.98</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42  3 94.26   61.03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43  3 94.36   55.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44  3 94.45   50.66</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45  3 94.53   46.16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46  3 94.61   42.06</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> and 44 more lines.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> and 40 more lines.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.774 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.764 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">ensemble_fit_glmnet</span></span></span>
