@@ -1,5 +1,16 @@
 # modeltime.ensemble (development version)
 
+- #31 Fixes issue with metric argument not being specified:
+
+```r 
+Error in `tune::show_best()`:
+! `...` must be empty.
+✖ Problematic argument:
+• ..1 = metric
+ℹ Did you forget to name an argument?
+```
+
+
 # modeltime.ensemble 1.0.3
 
 - Resubmit to CRAN  (following timetk archival)

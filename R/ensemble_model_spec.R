@@ -309,7 +309,7 @@ generate_stacking_results <- function(object,
             )
         )
 
-        best_params_tbl <- tune_results_tbl %>% tune::show_best(metric, n = 1)
+        best_params_tbl <- tune_results_tbl %>% tune::show_best(metric = metric, n = 1)
 
         if (control$verbose) {
             cli::cli_alert_success("Finished tuning Model Specification.")
