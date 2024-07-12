@@ -1,57 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/404.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/articles/getting-started-with-modeltime-ensemble.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/articles/nested-ensembles.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/articles/recursive-ensembles.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/index.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_average.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_model_spec.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_nested_average.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_nested_weighted.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_weighted.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://business-science.github.io/modeltime.ensemble/reference/tidyeval.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://business-science.github.io/modeltime.ensemble/404.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/LICENSE-text.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/LICENSE.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/articles/getting-started-with-modeltime-ensemble.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/articles/index.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/articles/nested-ensembles.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/articles/recursive-ensembles.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/authors.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/index.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/news/index.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_average.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_model_spec.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_nested_average.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_nested_weighted.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/reference/ensemble_weighted.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/reference/index.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/reference/pipe.html</loc></url>
+<url><loc>https://business-science.github.io/modeltime.ensemble/reference/tidyeval.html</loc></url>
 </urlset>
+
