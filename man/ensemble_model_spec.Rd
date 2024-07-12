@@ -105,6 +105,7 @@ library(modeltime)
 library(modeltime.ensemble)
 library(dplyr)
 library(timetk)
+library(glmnet)
 
 # Step 1: Make resample predictions for submodels
 resamples_tscv <- training(m750_splits) \%>\%

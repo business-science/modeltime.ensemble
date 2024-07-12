@@ -1,7 +1,7 @@
 Package: modeltime.ensemble
 Type: Package
 Title: Ensemble Algorithms for Time Series Forecasting with Modeltime
-Version: 1.0.3.9000
+Version: 1.0.4
 Authors@R: c(
     person("Matt", "Dancho", email = "mdancho@business-science.io", role = c("aut", "cre")),
     person("Business Science", role = "cph")
@@ -9,8 +9,7 @@ Authors@R: c(
 Description: 
     A 'modeltime' extension that implements time series ensemble forecasting methods including model averaging, 
     weighted averaging, and stacking. These techniques are popular methods 
-    to improve forecast accuracy and stability. Refer to papers such as 
-    "Machine-Learning Models for Sales Time Series Forecasting" Pavlyshenko, B.M. (2019) <doi:10.3390>.
+    to improve forecast accuracy and stability. 
 URL: https://business-science.github.io/modeltime.ensemble/, https://github.com/business-science/modeltime.ensemble
 BugReports: https://github.com/business-science/modeltime.ensemble/issues
 License: MIT + file LICENSE
@@ -24,7 +23,6 @@ Imports:
     rsample,
     yardstick,
     workflows (>= 0.2.1),
-    parsnip (>= 0.1.6),
     recipes (>= 0.1.15),
     timetk (>= 2.5.0),
     tibble,
@@ -40,10 +38,10 @@ Imports:
     parallel, 
     doParallel,
     foreach,
+    glmnet
 Suggests:
     gt,
     dials,
-    glmnet,
     utils,
     earth,
     testthat,

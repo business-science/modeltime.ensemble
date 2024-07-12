@@ -1,5 +1,7 @@
 # modeltime.ensemble (development version)
 
+# modeltime.ensemble 1.0.4
+
 - #31 Fixes issue with metric argument not being specified:
 
 ```r 
