@@ -47,7 +47,7 @@ A \code{mdl_time_ensemble} object.
 \description{
 A 2-stage stacking regressor that follows:
 \enumerate{
-\item Stage 1: Sub-Model's are Trained & Predicted using \code{\link[modeltime.resample:modeltime_fit_resamples]{modeltime.resample::modeltime_fit_resamples()}}.
+\item Stage 1: Sub-Model's are Trained & Predicted using \code{modeltime.resample::modeltime_fit_resamples()}.
 \item Stage 2: A Meta-learner (\code{model_spec}) is trained on Out-of-Sample Sub-Model
 Predictions using \code{ensemble_model_spec()}.
 }

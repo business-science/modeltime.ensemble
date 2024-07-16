@@ -4,7 +4,7 @@
 #'
 #'
 #' A 2-stage stacking regressor that follows:
-#' 1. Stage 1: Sub-Model's are Trained & Predicted using [modeltime.resample::modeltime_fit_resamples()].
+#' 1. Stage 1: Sub-Model's are Trained & Predicted using `modeltime.resample::modeltime_fit_resamples()`.
 #' 2. Stage 2: A Meta-learner (`model_spec`) is trained on Out-of-Sample Sub-Model
 #'   Predictions using `ensemble_model_spec()`.
 #'

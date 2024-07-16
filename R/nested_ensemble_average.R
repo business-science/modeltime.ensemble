@@ -11,7 +11,7 @@
 #'  nested modeltime table results
 #' @param model_ids A vector of id's (`.model_id`) identifying which submodels to
 #'  use in the ensemble.
-#' @param control Controls various aspects of the ensembling process. See [control_nested_fit()].
+#' @param control Controls various aspects of the ensembling process. See `modeltime::control_nested_fit()`.
 #'
 #' @returns
 #' The nested modeltime table with an ensemble model added.

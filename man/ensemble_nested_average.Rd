@@ -23,7 +23,7 @@ nested modeltime table results}
 \item{model_ids}{A vector of id's (\code{.model_id}) identifying which submodels to
 use in the ensemble.}
 
-\item{control}{Controls various aspects of the ensembling process. See \code{\link[=control_nested_fit]{control_nested_fit()}}.}
+\item{control}{Controls various aspects of the ensembling process. See \code{modeltime::control_nested_fit()}.}
 }
 \value{
 The nested modeltime table with an ensemble model added.
