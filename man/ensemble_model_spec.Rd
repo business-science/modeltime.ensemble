@@ -56,7 +56,7 @@ Predictions using \code{ensemble_model_spec()}.
 \strong{Stacked Ensemble Process}
 \itemize{
 \item Start with a \emph{Modeltime Table} to define your sub-models.
-\item Step 1: Use \code{\link[=modeltime_fit_resamples]{modeltime_fit_resamples()}} to perform the submodel resampling procedure.
+\item Step 1: Use \code{modeltime.resample::modeltime_fit_resamples()} to perform the submodel resampling procedure.
 \item Step 2: Use \code{\link[=ensemble_model_spec]{ensemble_model_spec()}} to define and train the meta-learner.
 }
 
@@ -65,7 +65,7 @@ Predictions using \code{ensemble_model_spec()}.
 The Meta-Learner Ensembling Process uses the following basic steps:
 \enumerate{
 \item \strong{Make Cross-Validation Predictions.}
-Cross validation predictions are made for each sub-model with \code{\link[=modeltime_fit_resamples]{modeltime_fit_resamples()}}.
+Cross validation predictions are made for each sub-model with \code{modeltime.resample::modeltime_fit_resamples()}.
 The out-of-sample sub-model predictions contained in \code{.resample_results}
 are used as the input to the meta-learner.
 \item \strong{Train a Stacked Regressor (Meta-Learner).}

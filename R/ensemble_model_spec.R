@@ -37,7 +37,7 @@
 #'
 #' - Start with a _Modeltime Table_ to define your sub-models.
 #'
-#' - Step 1: Use [modeltime_fit_resamples()] to perform the submodel resampling procedure.
+#' - Step 1: Use `modeltime.resample::modeltime_fit_resamples()` to perform the submodel resampling procedure.
 #'
 #' - Step 2: Use [ensemble_model_spec()] to define and train the meta-learner.
 #'
@@ -46,7 +46,7 @@
 #' The Meta-Learner Ensembling Process uses the following basic steps:
 #'
 #' 1. __Make Cross-Validation Predictions.__
-#'   Cross validation predictions are made for each sub-model with [modeltime_fit_resamples()].
+#'   Cross validation predictions are made for each sub-model with `modeltime.resample::modeltime_fit_resamples()`.
 #'   The out-of-sample sub-model predictions contained in `.resample_results`
 #'   are used as the input to the meta-learner.
 #'
