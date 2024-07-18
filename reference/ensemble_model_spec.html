@@ -150,11 +150,11 @@ Use <code>control_grid(verbose = TRUE)</code> to follow the training process.</p
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><strong>Stacked Ensemble Process</strong></p><ul><li><p>Start with a <em>Modeltime Table</em> to define your sub-models.</p></li>
-<li><p>Step 1: Use <code><a href="https://rdrr.io/pkg/modeltime.resample/man/modeltime_fit_resamples.html" class="external-link">modeltime_fit_resamples()</a></code> to perform the submodel resampling procedure.</p></li>
+<li><p>Step 1: Use <code><a href="https://rdrr.io/pkg/modeltime.resample/man/modeltime_fit_resamples.html" class="external-link">modeltime.resample::modeltime_fit_resamples()</a></code> to perform the submodel resampling procedure.</p></li>
 <li><p>Step 2: Use <code>ensemble_model_spec()</code> to define and train the meta-learner.</p></li>
 </ul><p><strong>What goes on inside the Meta Learner?</strong></p>
 <p>The Meta-Learner Ensembling Process uses the following basic steps:</p><ol><li><p><strong>Make Cross-Validation Predictions.</strong>
-Cross validation predictions are made for each sub-model with <code><a href="https://rdrr.io/pkg/modeltime.resample/man/modeltime_fit_resamples.html" class="external-link">modeltime_fit_resamples()</a></code>.
+Cross validation predictions are made for each sub-model with <code><a href="https://rdrr.io/pkg/modeltime.resample/man/modeltime_fit_resamples.html" class="external-link">modeltime.resample::modeltime_fit_resamples()</a></code>.
 The out-of-sample sub-model predictions contained in <code>.resample_results</code>
 are used as the input to the meta-learner.</p></li>
 <li><p><strong>Train a Stacked Regressor (Meta-Learner).</strong>
@@ -246,7 +246,7 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3.315 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3.143 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Step 2: Metalearner ----</span></span></span>
@@ -289,7 +289,7 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span>  -2637.1730       0.5754      -0.1920       0.8551  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.087 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.079 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">ensemble_fit_lm</span></span></span>
@@ -450,7 +450,7 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> and 12 more lines.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.768 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.682 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">ensemble_fit_glmnet</span></span></span>
