@@ -1,4 +1,8 @@
-# modeltime.ensemble (development version)
+# modeltime.ensemble (1.0.5.9000, development version)
+
+# modeltime.ensemble (1.0.5)
+
+* Updates for the next version of `tune` (@hfrick, #32)
 
 # modeltime.ensemble 1.0.4
 
