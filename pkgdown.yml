@@ -5,7 +5,7 @@ articles:
   getting-started-with-modeltime-ensemble: getting-started-with-modeltime-ensemble.html
   nested-ensembles: nested-ensembles.html
   recursive-ensembles: recursive-ensembles.html
-last_built: 2025-08-28T19:20Z
+last_built: 2025-08-28T19:24Z
 urls:
   reference: https://business-science.github.io/modeltime.ensemble/reference
   article: https://business-science.github.io/modeltime.ensemble/articles
