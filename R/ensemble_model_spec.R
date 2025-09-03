@@ -233,13 +233,12 @@ generate_stacking_results <- function(object,
                                       grid          = 6,
                                       control       = control_grid()) {
 
-    # 1. Fit Resamples ----
-    # - This is now performed separately with modeltime_fit_resamples()
+    if (control$verbose) tictoc::tic()
 
     # 2. Wrangle Predictions ----
     predictions_tbl <- modeltime.resample::unnest_modeltime_resamples(object)
 
-    # Target Variable is the name in the data
+    # Target variable name comes right after .model_desc (new tune) or .row (old tune)
     if (utils::packageVersion("tune") >= "1.3.0.9006") {
         target_text <- predictions_tbl %>%
             modeltime.resample::get_target_text_from_resamples(column_before_target = ".model_desc")
@@ -247,50 +246,53 @@ generate_stacking_results <- function(object,
         target_text <- predictions_tbl %>%
             modeltime.resample::get_target_text_from_resamples(column_before_target = ".row")
     }
-    target_var  <- rlang::sym(target_text)
+    target_var <- rlang::sym(target_text)
 
+    # Keep resample id so keys are unique across slices
     predictions_tbl <- predictions_tbl %>%
-        dplyr::select(.row_id, .model_id, .pred, !! target_var)
+        dplyr::select(.resample_id, .row_id, .model_id, .pred, !!target_var)
 
-    # * Actuals By Row ID ----
+    # Defuse any list-column predictions (can arise when duplicates exist pre-pivot)
+    if (is.list(predictions_tbl$.pred)) {
+        predictions_tbl <- predictions_tbl %>%
+            dplyr::mutate(.pred = purrr::map_dbl(.pred, ~ if (length(.x)) as.numeric(.x)[1] else NA_real_))
+    }
+
+    # * Actuals: one row per resample + row id
     actuals_by_rowid_tbl <- predictions_tbl %>%
-        dplyr::filter(.model_id %in% unique(.model_id)[1]) %>%
-        dplyr::select(.row_id, !! target_var)
+        dplyr::distinct(.resample_id, .row_id, !!target_var)
 
-    # * Get Predictions by Row ID ----
+    # * Predictions wide: id by resample + row id; columns per model
     predictions_by_rowid_tbl <- predictions_tbl %>%
-        dplyr::select(.row_id, .model_id, .pred) %>%
+        dplyr::select(.resample_id, .row_id, .model_id, .pred) %>%
         dplyr::mutate(.model_id = stringr::str_c(".model_id_", .model_id)) %>%
         tidyr::pivot_wider(
-            names_from  = .model_id,
+            id_cols    = c(.resample_id, .row_id),
+            names_from = .model_id,
             values_from = .pred
         )
 
-    # * Join Actuals & Predictions ----
+    # * Join Actuals & Predictions
     data_prepared_tbl <- actuals_by_rowid_tbl %>%
-        dplyr::left_join(predictions_by_rowid_tbl, by = ".row_id")
+        dplyr::left_join(predictions_by_rowid_tbl, by = c(".resample_id", ".row_id"))
 
     # 3. Build Model ----
-
     form <- stats::formula(stringr::str_glue("{target_text} ~ ."))
 
     recipe_spec <- recipes::recipe(
         formula = form,
-        data    = data_prepared_tbl %>% dplyr::select(-.row_id)
+        data    = data_prepared_tbl %>% dplyr::select(-.resample_id, -.row_id)
     )
 
     wflw_spec <- workflows::workflow() %>%
         workflows::add_model(model_spec) %>%
         workflows::add_recipe(recipe_spec)
 
-    # **** Split Paths (Tuned vs Non-Tuned) **** ----
+    # Tuned vs non-tuned paths
+    tune_args_tbl    <- wflw_spec %>% tune::tune_args()
+    tuning_required  <- nrow(tune_args_tbl) > 0
 
-    tune_args_tbl <- wflw_spec %>% tune::tune_args()
-    tuning_required <- nrow(tune_args_tbl) > 0
-
-    # 4A. Tune Model ----
     if (tuning_required) {
-
         if (control$verbose) {
             print(cli::rule("Tuning Model Specification", width = 65))
             cli::cli_alert_info(stringr::str_glue("Performing {kfolds}-Fold Cross Validation."))
@@ -326,19 +328,14 @@ generate_stacking_results <- function(object,
         }
 
         final_model <- wflw_spec %>%
-            tune::finalize_workflow(
-                best_params_tbl
-            ) %>%
+            tune::finalize_workflow(best_params_tbl) %>%
             generics::fit(data_prepared_tbl)
 
-    }
-
-    # 4B. No Tuning -----
-    if (!tuning_required) {
+    } else {
 
         if (control$verbose) {
             print(cli::rule("Fitting Non-Tunable Model Specification", width = 65))
-            cli::cli_alert_info(stringr::str_glue("Fitting model spec to submodel cross-validation predictions."))
+            cli::cli_alert_info("Fitting model spec to submodel cross-validation predictions.")
             cli::cat_line()
         }
 
@@ -346,17 +343,11 @@ generate_stacking_results <- function(object,
 
         final_model <- wflw_spec %>%
             generics::fit(data_prepared_tbl)
-
     }
 
-
-
     # 5. Fit Best Model ----
-
     pred_tbl <- data_prepared_tbl %>%
-        dplyr::bind_cols(
-            stats::predict(final_model, data_prepared_tbl)
-        )
+        dplyr::bind_cols(stats::predict(final_model, data_prepared_tbl))
 
     cv_comparison_tbl <- pred_tbl %>%
         dplyr::rename(.model_id_ensemble = .pred) %>%
@@ -366,7 +357,7 @@ generate_stacking_results <- function(object,
             values_to = ".preds"
         ) %>%
         dplyr::group_by(.model_id) %>%
-        dplyr::summarise(rmse = yardstick::rmse_vec(!! target_var, .preds), .groups = "drop") %>%
+        dplyr::summarise(rmse = yardstick::rmse_vec(!!target_var, .preds), .groups = "drop") %>%
         dplyr::mutate(.model_id = stringr::str_remove(.model_id, ".model_id_")) %>%
         dplyr::left_join(
             object %>%
@@ -374,7 +365,7 @@ generate_stacking_results <- function(object,
                 dplyr::mutate(.model_id = as.character(.model_id)),
             by = ".model_id"
         ) %>%
-        dplyr::mutate(.model_desc = ifelse(is.na(.model_desc), "ENSEMBLE (MODEL SPEC)", .model_desc))
+        dplyr::mutate(.model_desc = dplyr::if_else(is.na(.model_desc), "ENSEMBLE (MODEL SPEC)", .model_desc))
 
     if (control$verbose) {
         cli::cli_alert_info("Prediction Error Comparison:")
@@ -383,26 +374,21 @@ generate_stacking_results <- function(object,
     }
 
     if (control$verbose) print(cli::rule("Final Model", width = 65))
-
     if (control$verbose) {
-
         cli::cat_line()
         cli::cli_alert_info("Model Workflow:")
         print(final_model)
         cli::cat_line()
     }
 
-    # Return ----
-    ret <- list(
+    list(
         fit                  = final_model,
         fit_params           = best_params_tbl,
         prediction_tbl       = pred_tbl,
         prediction_error_tbl = cv_comparison_tbl
     )
-
-    return(ret)
-
 }
+
 
 
 

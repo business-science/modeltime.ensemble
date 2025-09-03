@@ -1,7 +1,7 @@
 Package: modeltime.ensemble
 Type: Package
 Title: Ensemble Algorithms for Time Series Forecasting with Modeltime
-Version: 1.0.5.9000
+Version: 1.1.0
 Authors@R: c(
     person("Matt", "Dancho", email = "mdancho@business-science.io", role = c("aut", "cre")),
     person("Business Science", role = "cph")
@@ -16,10 +16,10 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: 
     modeltime (>= 1.2.3),
-    modeltime.resample (>= 0.2.1),
+    modeltime.resample (>= 0.3.0),
     R (>= 3.5)
 Imports: 
-    tune (>= 0.1.2),
+    tune (>= 2.0.0),
     rsample,
     yardstick,
     workflows (>= 0.2.1),
