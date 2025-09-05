@@ -23,7 +23,7 @@ Predictions using ensemble_model_spec().
 
     <a class="navbar-brand me-2" href="../index.html">modeltime.ensemble</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,7 +86,7 @@ Predictions using ensemble_model_spec().
     </div>
 
     <div class="ref-description section level2">
-    <p>A 2-stage stacking regressor that follows:</p><ol><li><p>Stage 1: Sub-Model's are Trained &amp; Predicted using <code><a href="https://rdrr.io/pkg/modeltime.resample/man/modeltime_fit_resamples.html" class="external-link">modeltime.resample::modeltime_fit_resamples()</a></code>.</p></li>
+    <p>A 2-stage stacking regressor that follows:</p><ol><li><p>Stage 1: Sub-Model's are Trained &amp; Predicted using <code><a href="https://business-science.github.io/modeltime.resample/reference/modeltime_fit_resamples.html" class="external-link">modeltime.resample::modeltime_fit_resamples()</a></code>.</p></li>
 <li><p>Stage 2: A Meta-learner (<code>model_spec</code>) is trained on Out-of-Sample Sub-Model
 Predictions using <code>ensemble_model_spec()</code>.</p></li>
 </ol></div>
@@ -150,11 +150,11 @@ Use <code>control_grid(verbose = TRUE)</code> to follow the training process.</p
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><strong>Stacked Ensemble Process</strong></p><ul><li><p>Start with a <em>Modeltime Table</em> to define your sub-models.</p></li>
-<li><p>Step 1: Use <code><a href="https://rdrr.io/pkg/modeltime.resample/man/modeltime_fit_resamples.html" class="external-link">modeltime.resample::modeltime_fit_resamples()</a></code> to perform the submodel resampling procedure.</p></li>
+<li><p>Step 1: Use <code><a href="https://business-science.github.io/modeltime.resample/reference/modeltime_fit_resamples.html" class="external-link">modeltime.resample::modeltime_fit_resamples()</a></code> to perform the submodel resampling procedure.</p></li>
 <li><p>Step 2: Use <code>ensemble_model_spec()</code> to define and train the meta-learner.</p></li>
 </ul><p><strong>What goes on inside the Meta Learner?</strong></p>
 <p>The Meta-Learner Ensembling Process uses the following basic steps:</p><ol><li><p><strong>Make Cross-Validation Predictions.</strong>
-Cross validation predictions are made for each sub-model with <code><a href="https://rdrr.io/pkg/modeltime.resample/man/modeltime_fit_resamples.html" class="external-link">modeltime.resample::modeltime_fit_resamples()</a></code>.
+Cross validation predictions are made for each sub-model with <code><a href="https://business-science.github.io/modeltime.resample/reference/modeltime_fit_resamples.html" class="external-link">modeltime.resample::modeltime_fit_resamples()</a></code>.
 The out-of-sample sub-model predictions contained in <code>.resample_results</code>
 are used as the input to the meta-learner.</p></li>
 <li><p><strong>Train a Stacked Regressor (Meta-Learner).</strong>
@@ -207,7 +207,7 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using date_var: date</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">submodel_predictions</span> <span class="op">&lt;-</span> <span class="va">m750_models</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/modeltime.resample/man/modeltime_fit_resamples.html" class="external-link">modeltime_fit_resamples</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://business-science.github.io/modeltime.resample/reference/modeltime_fit_resamples.html" class="external-link">modeltime_fit_resamples</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>        resamples <span class="op">=</span> <span class="va">resamples_tscv</span>,</span></span>
 <span class="r-in"><span>        control   <span class="op">=</span> <span class="fu">control_resamples</span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span></span></span>
@@ -215,38 +215,33 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> • Model ID: <span style="color: #0000BB;">1</span> <span style="color: #0000BB;">ARIMA(0,1,1)(0,1,1)[12]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> <span style="color: #BBBB00;">Slice1: preprocessor 1/1:</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">  `keep_original_cols` was added to `step_dummy()` after this r...</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">  </span><span style="color: #00BBBB;">ℹ</span><span style="color: #BBBB00;"> Regenerate your recipe to avoid this warning.</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → <span style="color: #BBBB00; font-weight: bold;">A</span> | <span style="color: #BBBB00;">warning</span>: `keep_original_cols` was added to `step_dummy()` after this recipe was created.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>                <span style="color: #00BBBB;">ℹ</span> Regenerate your recipe to avoid this warning.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> frequency = 12 observations per 1 year</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> • Model ID: <span style="color: #0000BB;">2</span> <span style="color: #0000BB;">PROPHET</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> <span style="color: #BBBB00;">Slice1: preprocessor 1/1:</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">  `keep_original_cols` was added to `step_dummy()` after this r...</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">  </span><span style="color: #00BBBB;">ℹ</span><span style="color: #BBBB00;"> Regenerate your recipe to avoid this warning.</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → <span style="color: #BBBB00; font-weight: bold;">A</span> | <span style="color: #BBBB00;">warning</span>: `keep_original_cols` was added to `step_dummy()` after this recipe was created.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>                <span style="color: #00BBBB;">ℹ</span> Regenerate your recipe to avoid this warning.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Disabling weekly seasonality. Run prophet with weekly.seasonality=TRUE to override this.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Disabling daily seasonality. Run prophet with daily.seasonality=TRUE to override this.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> • Model ID: <span style="color: #0000BB;">3</span> <span style="color: #0000BB;">GLMNET</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> <span style="color: #BBBB00;">Slice1: preprocessor 1/1:</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">  `keep_original_cols` was added to `step_dummy()` after this r...</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">  </span><span style="color: #00BBBB;">ℹ</span><span style="color: #BBBB00;"> Regenerate your recipe to avoid this warning.</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → <span style="color: #BBBB00; font-weight: bold;">A</span> | <span style="color: #BBBB00;">warning</span>: `keep_original_cols` was added to `step_dummy()` after this recipe was created.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>                <span style="color: #00BBBB;">ℹ</span> Regenerate your recipe to avoid this warning.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Slice1: preprocessor 1/1, model 1/1 (predictions)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4.669 sec elapsed</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There were 9 warnings in `dplyr::mutate()`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> The first warning was:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `.resample_results = purrr::pmap(...)`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> `keep_original_cols` was added to `step_dummy()` after this recipe was created.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Regenerate your recipe to avoid this warning.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 8 remaining warnings.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6.313 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Step 2: Metalearner ----</span></span></span>
@@ -289,7 +284,7 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span>  -2637.1730       0.5754      -0.1920       0.8551  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.088 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.092 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">ensemble_fit_lm</span></span></span>
@@ -319,62 +314,37 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Performing 5-Fold Cross Validation.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold1: preprocessor 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold1: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 1/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 1/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 1/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 1/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 2/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 2/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 2/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold1: preprocessor 1/1, model 2/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold2: preprocessor 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold2: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 1/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 1/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 1/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 1/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 2/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 2/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 2/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold2: preprocessor 1/1, model 2/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold3: preprocessor 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold3: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 1/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 1/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 1/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 1/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 2/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 2/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 2/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold3: preprocessor 1/1, model 2/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold4: preprocessor 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold4: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 1/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 1/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 1/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 1/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 2/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 2/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 2/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold4: preprocessor 1/1, model 2/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold5: preprocessor 1/1</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold5: preprocessor 1/1</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 1/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 1/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 1/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 1/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 2/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✓</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 2/2</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 2/2 (extracts)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">i</span> <span style="color: #000000;">Fold5: preprocessor 1/1, model 2/2 (predictions)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Finished tuning Model Specification.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Model Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   penalty mixture .metric .estimator  mean     n std_err .config             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>       1    0.05 rmse    standard    148.     5    16.8 Preprocessor1_Model1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   penalty mixture .metric .estimator  mean     n std_err .config        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>       1    0.05 rmse    standard    139.     5    17.8 pre0_mod2_post0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Prediction Error Comparison:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
@@ -450,7 +420,7 @@ up parallelization using <code>tune</code> via one of the backends such as
 <span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> and 52 more lines.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.103 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.5 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">ensemble_fit_glmnet</span></span></span>

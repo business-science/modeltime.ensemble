@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">modeltime.ensemble</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -144,9 +144,9 @@
 <ul><li>Improvements made to <code><a href="../reference/ensemble_average.html">ensemble_average()</a></code>, <code><a href="../reference/ensemble_weighted.html">ensemble_weighted()</a></code> and <code><a href="../reference/ensemble_model_spec.html">ensemble_model_spec()</a></code> to support <em>Panel Data</em> (i.e. when data sets with multiple time series groups that have possibly overlapping time stamps).</li>
 </ul><p><strong>Changes</strong></p>
 <ul><li>
-<code>modeltime.ensemble</code> now depends on <code>modeltime.resample</code> for the <code><a href="https://rdrr.io/pkg/modeltime.resample/man/modeltime_fit_resamples.html" class="external-link">modeltime_fit_resamples()</a></code> functionality.</li>
+<code>modeltime.ensemble</code> now depends on <code>modeltime.resample</code> for the <code><a href="https://business-science.github.io/modeltime.resample/reference/modeltime_fit_resamples.html" class="external-link">modeltime_fit_resamples()</a></code> functionality.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/modeltime.resample/man/modeltime_fit_resamples.html" class="external-link">modeltime_fit_resamples()</a></code> moved to a new package <code>modeltime.resample</code>.</li>
+<code><a href="https://business-science.github.io/modeltime.resample/reference/modeltime_fit_resamples.html" class="external-link">modeltime_fit_resamples()</a></code> moved to a new package <code>modeltime.resample</code>.</li>
 <li>
 <code><a href="../reference/ensemble_weighted.html">ensemble_weighted()</a></code>: Now removes models that have no weight (e.g. loading = 0). This speeds up refitting.</li>
 </ul></div>
@@ -154,7 +154,7 @@
 <h2 class="pkg-version" data-toc-text="0.2.0" id="modeltimeensemble-020">modeltime.ensemble 0.2.0<a class="anchor" aria-label="anchor" href="#modeltimeensemble-020"></a></h2><p class="text-muted">CRAN release: 2020-10-09</p>
 <p><strong>Stacked Ensembles (Breaking Changes)</strong></p>
 <p>The process for creating stacked ensembles is split into 2 steps:</p>
-<ul><li>Step 1: Use <code><a href="https://rdrr.io/pkg/modeltime.resample/man/modeltime_fit_resamples.html" class="external-link">modeltime_fit_resamples()</a></code> to generate resampled predictions</li>
+<ul><li>Step 1: Use <code><a href="https://business-science.github.io/modeltime.resample/reference/modeltime_fit_resamples.html" class="external-link">modeltime_fit_resamples()</a></code> to generate resampled predictions</li>
 <li>Step 2: Use <code><a href="../reference/ensemble_model_spec.html">ensemble_model_spec()</a></code> to apply stacking using a <code>model_spec</code>
 </li>
 </ul><p>Note - <code>modeltime_refit(stacked_ensemble)</code> is still one step, which is the best way to handle refitting since multiple stacked models may have different submodel compositions. An additional argument, <code>resamples</code> can be provided to train stacked ensembles made with <code><a href="../reference/ensemble_model_spec.html">ensemble_model_spec()</a></code>.</p>
