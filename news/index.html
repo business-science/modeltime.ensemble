@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">modeltime.ensemble</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,6 +74,26 @@
       <small>Source: <a href="https://github.com/business-science/modeltime.ensemble/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.0" id="modeltimeensemble-110">modeltime.ensemble 1.1.0<a class="anchor" aria-label="anchor" href="#modeltimeensemble-110"></a></h2><p class="text-muted">CRAN release: 2025-09-04</p>
+<ul><li>Major update to align with <strong>tune 2.0.0</strong>.
+<ul><li>Updated internal logic for compatibility with the new column naming conventions in resampling results (<code>.model_desc</code> vs <code>.row</code>).<br></li>
+<li>Improved handling of <code>.resample_id</code> and <code>.row_id</code> to ensure keys remain unique across resamples.<br></li>
+<li>Adjusted recipe preparation to exclude <code>.resample_id</code> consistently.<br></li>
+<li>Refined model tuning vs non-tuning workflows for clarity and stability.<br></li>
+<li>Enhanced error reporting and verbose output for improved user feedback.</li>
+</ul></li>
+<li>Dependency updates:
+<ul><li>
+<code>tune (&gt;= 2.0.0)</code><br></li>
+<li><code>modeltime.resample (&gt;= 0.3.0)</code></li>
+</ul></li>
+<li>Version bump to <strong>1.1.0</strong> for CRAN submission.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.5" id="modeltimeensemble-105">modeltime.ensemble 1.0.5<a class="anchor" aria-label="anchor" href="#modeltimeensemble-105"></a></h2><p class="text-muted">CRAN release: 2025-08-28</p>
+<ul><li>Development release with early updates for upcoming <code>tune</code> changes (@hfrick, <a href="https://github.com/business-science/modeltime.ensemble/issues/32" class="external-link">#32</a>).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.4" id="modeltimeensemble-104">modeltime.ensemble 1.0.4<a class="anchor" aria-label="anchor" href="#modeltimeensemble-104"></a></h2><p class="text-muted">CRAN release: 2024-07-19</p>
 <ul><li>#31 Fixes issue with metric argument not being specified:</li>
