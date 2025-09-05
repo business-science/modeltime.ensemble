@@ -1,4 +1,24 @@
-# modeltime.ensemble (1.0.5.9000, development version)
+# modeltime.ensemble (1.1.0.9000, development version)
+
+# modeltime.ensemble 1.1.0
+
+* Major update to align with **tune 2.0.0**.  
+  - Updated internal logic for compatibility with the new column naming conventions in resampling results (`.model_desc` vs `.row`).  
+  - Improved handling of `.resample_id` and `.row_id` to ensure keys remain unique across resamples.  
+  - Adjusted recipe preparation to exclude `.resample_id` consistently.  
+  - Refined model tuning vs non-tuning workflows for clarity and stability.  
+  - Enhanced error reporting and verbose output for improved user feedback.
+
+* Dependency updates:  
+  - `tune (>= 2.0.0)`  
+  - `modeltime.resample (>= 0.3.0)`  
+
+* Version bump to **1.1.0** for CRAN submission.  
+
+# modeltime.ensemble 1.0.5
+
+* Development release with early updates for upcoming `tune` changes (@hfrick, #32).  
+
 
 # modeltime.ensemble (1.0.5)
 
