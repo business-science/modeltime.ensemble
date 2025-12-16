@@ -60,6 +60,26 @@ test_that("ensemble_model_spec", {
     full_resamples_tscv <- m750 %>%
         time_series_cv(assess = "2 years", initial = "5 years", skip = "2 years", slice_limit = 1)
 
+    resamples_tscv$id <- as.character(seq_len(nrow(resamples_tscv)))
+    resamples_tscv$splits <- purrr::map2(
+        resamples_tscv$splits,
+        resamples_tscv$id,
+        function(sp, id) {
+            sp$id$id <- id
+            sp
+        }
+    )
+
+    full_resamples_tscv$id <- as.character(seq_len(nrow(full_resamples_tscv)))
+    full_resamples_tscv$splits <- purrr::map2(
+        full_resamples_tscv$splits,
+        full_resamples_tscv$id,
+        function(sp, id) {
+            sp$id$id <- id
+            sp
+        }
+    )
+
 
     # recipe_spec <- recipe(value ~ date, training(m750_splits)) %>%
     #     step_timeseries_signature(date) %>%
@@ -330,4 +350,3 @@ test_that("ensemble_model_spec", {
     })
 
 })
-

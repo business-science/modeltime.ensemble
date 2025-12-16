@@ -187,5 +187,3 @@ test_that("Checks/Errors: ensemble_average()", {
 
 
 
-
-

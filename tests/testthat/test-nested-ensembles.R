@@ -370,4 +370,3 @@ test_that("Nested Ensembles Work - parallel", {
     parallel_stop()
 
 })
-
